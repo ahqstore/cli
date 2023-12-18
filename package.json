@@ -6,7 +6,7 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ahqsoftwares/ahq-store-cli.git"
+    "url": "git+https://github.com/ahqstore/cli.git"
   },
   "keywords": [
     "cli",
@@ -19,9 +19,9 @@
   "author": "AHQ Store Devs",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ahqsoftwares/ahq-store-cli/issues"
+    "url": "https://github.com/ahqstore/cli/issues"
   },
-  "homepage": "https://github.com/ahqsoftwares/ahq-store-cli#readme",
+  "homepage": "https://github.com/ahqstore/cli#readme",
   "dependencies": {
     "chalk": "^5.2.0",
     "inquirer": "^9.2.7"
