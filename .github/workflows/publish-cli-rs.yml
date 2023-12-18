@@ -33,6 +33,8 @@ jobs:
 
       - name: Build Node
         run: nj-cli build --release
+        env:
+          TSLINK_BUILD: "true"
         working-directory: cli-rs
 
       - name: Finalize
