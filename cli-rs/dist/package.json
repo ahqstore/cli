@@ -1,0 +1,12 @@
+{
+  "name": "@ahqstore/cli-rs",
+  "version": "0.1.0",
+  "files": [
+    "index.node",
+    "lib.js",
+    "lib.d.ts"
+  ],
+  "module": "lib.js",
+  "main": "lib.js",
+  "types": "lib.d.ts"
+}

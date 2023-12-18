@@ -1,17 +1,23 @@
-name: Publish Node.js Package
+name: Publish Node.js CLI
 
 on:
   push:
+    paths:
+      - "cli/**"
     branches:
       - main
+
   workflow_dispatch:
 
 jobs:
-  publish-npm:
+  publish:
+    name: Build & Publish to npm
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -20,8 +26,10 @@ jobs:
 
       - name: Install Deps
         run: npm install
+        working-directory: cli
 
       - name: Publish
         run: npm publish --access public
+        working-directory: cli
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
