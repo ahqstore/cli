@@ -1,5 +1,5 @@
 {
-  "name": "ahq-store-cli",
+  "name": "@ahqstore/cli",
   "version": "1.0.0-rc1",
   "description": "The AHQ Store Cli Tool",
   "type": "module",
