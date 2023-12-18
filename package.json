@@ -1,0 +1,32 @@
+{
+  "name": "ahq-store-cli",
+  "version": "1.0.0-rc1",
+  "description": "The AHQ Store Cli Tool",
+  "type": "module",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahqsoftwares/ahq-store-cli.git"
+  },
+  "keywords": [
+    "cli",
+    "ahq",
+    "store",
+    "open",
+    "sourced",
+    "app"
+  ],
+  "author": "AHQ Store Devs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahqsoftwares/ahq-store-cli/issues"
+  },
+  "homepage": "https://github.com/ahqsoftwares/ahq-store-cli#readme",
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "inquirer": "^9.2.7"
+  },
+  "bin": {
+    "astore": "./src/cli.js"
+  }
+}
