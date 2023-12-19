@@ -11,4 +11,13 @@ if (process.platform == "win32") {
   json.name = "@ahqstore/cli-rs-linux";
 }
 
+json.repository = {
+  type: "git",
+  url: "git+https://github.com/ahqstore/cli.git",
+};
+json.bugs = {
+  url: "https://github.com/ahqstore/cli/issues",
+};
+json.homepage = "https://github.com/ahqstore/cli#readme";
+
 writeFileSync(packageJson, JSON.stringify(json, null, 2));

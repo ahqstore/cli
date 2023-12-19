@@ -2,6 +2,7 @@
 name = "ahqstore_cli_rs"
 version = "1.0.0-rc1"
 edition = "2021"
+description = "Initial binary for AHQ Store CLI"
 
 [lib]
 name = "ahqstore_cli_rs"
