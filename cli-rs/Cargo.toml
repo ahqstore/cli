@@ -1,8 +1,8 @@
 [package]
 name = "ahqstore_cli_rs"
-version = "1.0.0-rc2"
+version = "1.0.0-rc3"
 edition = "2021"
-description = "Initial binary for AHQ Store CLI"
+description = "AHQ Store CLI"
 
 [lib]
 name = "ahqstore_cli_rs"
