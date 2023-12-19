@@ -12,7 +12,10 @@
   "dependencies": {
     "chalk": "^5.3.0"
   },
-  "keywords": [],
+  "keywords": [
+    "Cli",
+    "DeveloperTool"
+  ],
   "author": "AHQ Softwares",
   "license": "MIT",
   "bin": {
