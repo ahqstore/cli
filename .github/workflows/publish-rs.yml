@@ -1,0 +1,73 @@
+name: Publish Rust Binary + CLI
+
+on:
+  push:
+    paths:
+      - "cli-rs/**"
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  publish-npm:
+    name: Build & Publish raw cli to npm
+
+    strategy:
+      matrix:
+        platform: [windows-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install nj cli
+        run: cargo install nj-cli
+        working-directory: cli-rs
+
+      - name: Build Node
+        run: nj-cli build --release
+        env:
+          TSLINK_BUILD: "true"
+        working-directory: cli-rs
+
+      - name: Finalize
+        run: node finalize.js
+        working-directory: cli-rs
+
+      - name: Publish
+        run: npm publish --access public
+        working-directory: cli-rs/dist
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
+
+  publish-cargo:
+    name: Build & Publish cli to cargo
+
+    strategy:
+      matrix:
+        platform: [windows-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Publish
+        run: cargo publish
+        working-directory: cli-rs
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_TOKEN }}
