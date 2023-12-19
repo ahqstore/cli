@@ -1,9 +1,10 @@
 [package]
 name = "ahqstore_cli_rs"
-version = "1.0.0"
+version = "1.0.0-rc1"
 edition = "2021"
 
 [lib]
+name = "ahqstore_cli_rs"
 crate-type = ["cdylib"]
 path = "src/lib.rs"
 
