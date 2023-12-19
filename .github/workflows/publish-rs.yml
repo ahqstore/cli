@@ -46,7 +46,7 @@ jobs:
         working-directory: cli-rs
 
       - name: Publish
-        run: npm publish --access public
+        run: npm publish --scope ahqstore --access public --verbose
         working-directory: cli-rs/dist
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_token }}

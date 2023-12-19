@@ -3,7 +3,7 @@ name: Publish Node.js CLI
 on:
   push:
     paths:
-      - "cli/**"
+      - "cli-js/**"
     branches:
       - main
 
@@ -29,7 +29,7 @@ jobs:
         working-directory: cli
 
       - name: Publish
-        run: npm publish --access public
+        run: npm publish --scope ahqstore --access public --verbose
         working-directory: cli
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
