@@ -1,6 +1,12 @@
 use chalk_rs::Chalk;
 use lazy_static::lazy_static;
 
+use crate::app::help::not_found;
+
+use self::help::main_help;
+
+mod help;
+
 lazy_static! {
   static ref INFO: Chalk = {
     let mut chalk = Chalk::new();
@@ -20,7 +26,13 @@ lazy_static! {
 }
 
 pub fn start(args: Vec<String>) {
-  INFO.println(&"Hello World");
-
-  println!("Hi {}", &args[0]);
+  if args.len() == 1 {
+    if args[0] == "help" {
+      println!("{}", main_help());
+    } else {
+      println!("{}", not_found(&args[0]));
+    }
+  } else {
+    println!("{}", main_help());
+  }
 }
