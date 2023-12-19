@@ -1,7 +1,7 @@
 {
   "name": "@ahqstore/cli",
   "version": "1.0.0-rc4",
-  "description": "The CLI tool for AHQ Store",
+  "description": "The AHQ Store CLI",
   "type": "module",
   "main": "./src/cli.js",
   "repository": {

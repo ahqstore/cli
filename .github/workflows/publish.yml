@@ -26,10 +26,10 @@ jobs:
 
       - name: Install Deps
         run: npm install
-        working-directory: cli
+        working-directory: cli-js
 
       - name: Publish
         run: npm publish --scope ahqstore --access public --verbose
-        working-directory: cli
+        working-directory: cli-js
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
