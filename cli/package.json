@@ -4,6 +4,10 @@
   "description": "The CLI tool for AHQ Store",
   "type": "module",
   "main": "./src/cli.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahqstore/cli.git"
+  },
   "scripts": {},
   "dependencies": {
     "chalk": "^5.3.0"
@@ -13,5 +17,9 @@
   "license": "MIT",
   "bin": {
     "ahqstore": "./src/cli.js"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/ahqstore/cli/issues"
+  },
+  "homepage": "https://github.com/ahqstore/cli#readme"
 }
