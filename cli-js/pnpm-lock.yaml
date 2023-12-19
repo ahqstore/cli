@@ -6,23 +6,23 @@ settings:
 
 dependencies:
   '@ahqstore/cli-rs-linux':
-    specifier: 1.0.0-rc1
-    version: 1.0.0-rc1
+    specifier: 1.0.0-rc2
+    version: 1.0.0-rc2
   '@ahqstore/cli-rs-win32':
-    specifier: 1.0.0-rc1
-    version: 1.0.0-rc1
+    specifier: 1.0.0-rc2
+    version: 1.0.0-rc2
   chalk:
     specifier: ^5.3.0
     version: 5.3.0
 
 packages:
 
-  /@ahqstore/cli-rs-linux@1.0.0-rc1:
-    resolution: {integrity: sha512-QqR6LQurOrO3dwU5RLEwnddb9w6kDdxOkMtVloK1Z1YY8/Lfa43AwO7d73zHiO2/E6OYio8grBxwTkN31Hw29Q==}
+  /@ahqstore/cli-rs-linux@1.0.0-rc2:
+    resolution: {integrity: sha512-TQF5lqWouxaMrDhComoBonB/qZfohtPNy+WKOiPZewyzCYpUY2Dga1o/H8bFQeXePu8uOWYGG9cHJqPCH0tRqg==}
     dev: false
 
-  /@ahqstore/cli-rs-win32@1.0.0-rc1:
-    resolution: {integrity: sha512-jp+X0hIjbjoebsp2kuqSDCPP2r5Im7mY0So1W/qeriPzHx5EBQRbQ2D0T1Tev82PPX2vITXOVFPIjT3EvgMgVw==}
+  /@ahqstore/cli-rs-win32@1.0.0-rc2:
+    resolution: {integrity: sha512-fV5TLGJFcwt5u0XbqJyPTC2Obg7PtXck0f7NXTIDsmfkd3P2gtIyrSuqF3cyEvd4BWSZNBBjXHQkft1UmU4SvA==}
     dev: false
 
   /chalk@5.3.0:
