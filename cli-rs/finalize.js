@@ -1,16 +1,15 @@
 const { writeFileSync, readFileSync } = require("fs");
 const { join } = require("path");
+const arch = process.env.arch || require("process").arch;
 
 const packageJson = join(__dirname, "dist", "package.json");
 
 let json = JSON.parse(readFileSync(packageJson));
 
-if (process.platform == "win32") {
-  json.name = "@ahqstore/cli-rs-win32";
-} else if (process.platform == "linux") {
-  json.name = "@ahqstore/cli-rs-linux";
-} else if (process.platform == "darwin") {
-  json.name = "@ahqstore/cli-rs-darwin";
+json.name = `@ahqstore/cli-rs-${process.platform}`;
+
+if (arch != "x64") {
+  json.name = `@ahqstore/cli-rs-${process.platform}-${arch}`;
 }
 
 json.description = `AHQ Store CLI Binaries for ${process.platform}-${process.arch}`;

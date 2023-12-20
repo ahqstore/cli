@@ -16,6 +16,21 @@ jobs:
     strategy:
       matrix:
         platform: [windows-latest, ubuntu-latest, macos-latest]
+        include:
+          - target: aarch64-pc-windows-msvc
+            platform: windows-latest
+
+          - target: i686-pc-windows-msvc
+            platform: windows-latest
+
+          - target: aarch64-apple-darwin
+            platform: macos-latest
+
+          - target: i686-unknown-linux-gnu
+            platform: ubuntu-latest
+
+          - target: aarch64-unknown-linux-gnu
+            platform: ubuntu-latest
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -37,6 +52,16 @@ jobs:
 
       - name: Build Node
         run: nj-cli build --release
+        env:
+          TSLINK_BUILD: "true"
+        working-directory: cli-rs
+
+      - name: Finalize
+        run: node finalize.js
+        working-directory: cli-rs
+
+      - name: Build Node (2nd Target)
+        run: nj-cli build --target ${{ matrix.target }} --release
         env:
           TSLINK_BUILD: "true"
         working-directory: cli-rs
