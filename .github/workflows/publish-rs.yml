@@ -11,28 +11,14 @@ on:
 
 jobs:
   publish-npm:
-    name: Build & Publish raw cli to npm
-
     strategy:
       matrix:
         platform: [windows-latest, ubuntu-latest, macos-latest]
-        include:
-          - target: aarch64-pc-windows-msvc
-            platform: windows-latest
-
-          - target: i686-pc-windows-msvc
-            platform: windows-latest
-
-          - target: aarch64-apple-darwin
-            platform: macos-latest
-
-          - target: i686-unknown-linux-gnu
-            platform: ubuntu-latest
-
-          - target: aarch64-unknown-linux-gnu
-            platform: ubuntu-latest
 
     runs-on: ${{ matrix.platform }}
+
+    name: Build & Publish raw cli
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -43,8 +29,25 @@ jobs:
           node-version: latest
           registry-url: https://registry.npmjs.com
 
+      - name: Fetch ARM target
+        uses: actions/github-script@v3
+        id: arm
+        with:
+          result-encoding: string
+          script: |
+            const { platform } = require("process");
+            if (platform == "win32") {
+              return "aarch64-pc-windows-msvc"
+            } else if (platform == "darwin") {
+              return "aarch64-apple-darwin"
+            } else {
+              return "aarch64-unknown-linux-gnu"
+            }
+
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ steps.arm.outputs.result }}
 
       - name: Install nj cli
         run: cargo install nj-cli
@@ -60,17 +63,25 @@ jobs:
         run: node finalize.js
         working-directory: cli-rs
 
-      - name: Build Node (2nd Target)
-        run: nj-cli build --target ${{ matrix.target }} --release
+      - name: Publish
+        run: npm publish --scope ahqstore --access public --verbose
+        working-directory: cli-rs/dist
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          token: ${{ secrets.NPM_TOKEN }}
+
+      - name: Build Node (ARM)
+        run: nj-cli build --target ${{ steps.arm.outputs.result }} --release
         env:
           TSLINK_BUILD: "true"
         working-directory: cli-rs
 
-      - name: Finalize
+      - name: Finalize ARM
         run: node finalize.js
         working-directory: cli-rs
 
-      - name: Publish
+      - name: Publish ARM
         run: npm publish --scope ahqstore --access public --verbose
         working-directory: cli-rs/dist
         env:
