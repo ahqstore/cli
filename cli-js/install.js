@@ -17,7 +17,7 @@ const success = chalk.green(chalk.bold("PASS:"));
 console.log(`${warn} Checking Operating System`);
 console.log(`${info} ${platform}`);
 
-if (platform === "win32" || platform === "linux") {
+if (platform === "win32" || platform === "linux" || platform == "darwin") {
   console.log(`${success} OS Valid!`);
 } else {
   console.log(`${errr} OS Invalid!`);
@@ -30,7 +30,7 @@ const arch = process.arch;
 console.log(`${warn} Checking Architecture`);
 console.log(`${info} ${arch}`);
 
-if (arch == "x64") {
+if (arch == "x64" || (platform == "darwin" && arch == "arm64")) {
   console.log(`${success} Arch Validated`);
 } else {
   console.log(`${errr} Arch Invalid`);

@@ -5,6 +5,8 @@ const args = process.argv.slice(2) || [];
 (async () => {
   if (platform == "win32") {
     (await import("@ahqstore/cli-rs-win32")).nodeEntrypoint(args);
+  } else if (platform == "darwin") {
+    (await import("@ahqstore/cli-rs-darwin")).nodeEntrypoint(args);
   } else {
     (await import("@ahqstore/cli-rs-linux")).nodeEntrypoint(args);
   }
