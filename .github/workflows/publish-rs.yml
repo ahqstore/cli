@@ -80,6 +80,8 @@ jobs:
       - name: Finalize ARM
         run: node finalize.js
         working-directory: cli-rs
+        env:
+          arch: arm64
 
       - name: Publish ARM
         run: npm publish --scope ahqstore --access public --verbose
@@ -88,7 +90,6 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           token: ${{ secrets.NPM_TOKEN }}
-          arch: arm64
 
   publish-cargo:
     name: Build & Publish cli to cargo
