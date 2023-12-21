@@ -6,7 +6,6 @@ description = "AHQ Store CLI"
 include = ["**/*.rs", "Cargo.toml"]
 repository = "https://github.com/ahqstore/cli"
 homepage = "https://github.com/ahqstore/cli"
-documentation = "https://github.com/ahqstore/cli"
 license = "MIT"
 
 [lib]
