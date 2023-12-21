@@ -1,6 +1,6 @@
 [package]
 name = "ahqstore_cli_rs"
-version = "1.0.0-rc8"
+version = "1.0.0-rc9"
 edition = "2021"
 description = "AHQ Store CLI"
 
