@@ -54,6 +54,14 @@ jobs:
         with:
           workspaces: "cli-rs -> target"
 
+      - name: Linux Setup ARM
+        run: sudo apt install gcc-aarch64-linux-gnu
+        if: matrix.platform == 'ubuntu-latest'
+  
+      - name: Windows Setup ARM
+        run: choco install visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.ARM64 --includeRecommended"
+        if: matrix.platform == 'windows-latest'
+
       - name: Install nj cli
         run: cargo install nj-cli
         working-directory: cli-rs
@@ -75,14 +83,6 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           token: ${{ secrets.NPM_TOKEN }}
-
-      - name: Linux Setup ARM
-        run: sudo apt install gcc-aarch64-linux-gnu
-        if: matrix.platform == 'ubuntu-latest'
-
-      - name: Windows Setup ARM
-        run: choco install visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.ARM64 --includeRecommended"
-        if: matrix.platform == 'windows-latest'
 
       - name: Build Node (ARM)
         run: nj-cli build --target ${{ steps.arm.outputs.result }} --release

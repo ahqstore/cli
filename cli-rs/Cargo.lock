@@ -48,7 +48,7 @@ dependencies = [
 
 [[package]]
 name = "ahqstore_cli_rs"
-version = "1.0.0-rc2"
+version = "1.0.0-rc3"
 dependencies = [
  "ahqstore-types",
  "chalk_rs",
