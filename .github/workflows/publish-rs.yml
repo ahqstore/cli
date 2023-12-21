@@ -59,8 +59,10 @@ jobs:
         if: matrix.platform == 'ubuntu-latest'
 
       - name: Windows Setup ARM
-        run: choco install visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.ARM64 --includeRecommended"
         if: matrix.platform == 'windows-latest'
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64_arm64
 
       - name: Install nj cli
         run: cargo install nj-cli
