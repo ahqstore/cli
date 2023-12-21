@@ -3,6 +3,7 @@ name = "ahqstore_cli_rs"
 version = "1.0.0-rc9"
 edition = "2021"
 description = "AHQ Store CLI"
+include = ["**/*.rs", "Cargo.toml"]
 
 [lib]
 name = "ahqstore_cli_rs"
