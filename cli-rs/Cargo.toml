@@ -1,12 +1,12 @@
 [package]
 name = "ahqstore_cli_rs"
-version = "1.0.0-rc10"
+version = "1.0.0-rc11"
 edition = "2021"
 description = "AHQ Store CLI"
-include = ["**/*.rs", "Cargo.toml"]
 repository = "https://github.com/ahqstore/cli"
 homepage = "https://github.com/ahqstore/cli"
 license = "MIT"
+exclude = ["dist/**", "finalize.js", "tslink.toml"]
 
 [lib]
 name = "ahqstore_cli_rs"
