@@ -1,11 +1,9 @@
 use chalk_rs::Chalk;
 use lazy_static::lazy_static;
 
-use crate::app::help::not_found;
-
-use self::help::main_help;
-
+mod create;
 mod help;
+pub mod shared;
 
 lazy_static! {
   static ref INFO: Chalk = {
@@ -26,13 +24,13 @@ lazy_static! {
 }
 
 pub fn start(args: Vec<String>) {
-  if args.len() == 1 {
-    if args[0] == "help" {
-      println!("{}", main_help());
-    } else {
-      println!("{}", not_found(&args[0]));
+  if args.len() >= 1 {
+    match args[0].as_str() {
+      "create" => create::create(args.len() > 1 && (&args[1] == "--force" || &args[1] == "-f")),
+      "help" => println!("{}", help::main_help()),
+      a => println!("{}", help::not_found(a)),
     }
   } else {
-    println!("{}", main_help());
+    println!("{}", help::main_help());
   }
 }

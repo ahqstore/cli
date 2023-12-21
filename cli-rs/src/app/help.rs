@@ -12,26 +12,27 @@ pub fn main_help() -> String {
   let create = chalk.cyan().bold().string(&"create");
   let build = chalk.cyan().bold().string(&"build");
 
-  let opt = chalk.green().bold().string(&"Options:");
+  let opt = chalk.yellow().bold().string(&"Options:");
   let force = chalk.cyan().bold().string(&"--force, -f");
 
-  format!(
-    r#"
-  {cli}
-  Ship your apps to the ahq store quickly and efficiently
+  let env = chalk.yellow().bold().string(&"Required ENV:");
 
-  {usage}
-    ahqstore (command) [options]
-  {cmds}
-    {help}
-      Shows the help menu
-    {create}
-      Generates AHQ Store config files required to ship your apps
-    {build}
-      Build the ahqstore config file
-  {opt}
-    {force} Override Existing contents
-    "#
+  format!(
+    r#"{cli}
+Ship your apps to the ahq store quickly and efficiently
+
+{usage}
+  ahqstore (command) [options]
+{cmds}
+  {help}
+    Shows the help menu
+  {create}
+    Generates AHQ Store config files required to ship your apps
+    {opt}
+      {force} Override Existing contents if .ahqstore dir isn't empty
+  {build}
+    Build the ahqstore config file
+    {env}"#
   )
 }
 
@@ -43,9 +44,9 @@ pub fn not_found(name: &str) -> String {
   let astore = chalk.cyan().bold().string(&"ahqstore");
 
   format!(
-    r#"  {cmd} {name}
-  
-  {tip}
-    Write {astore} to view the help menu"#
+    r#"{cmd} {name}
+
+{tip}
+  Write {astore} to view the help menu"#
   )
 }

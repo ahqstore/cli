@@ -1,3 +1,4 @@
 fn main() {
-    node_bindgen::build::configure();
+  #[cfg(feature = "node")]
+  node_bindgen::build::configure();
 }

@@ -1,12 +1,12 @@
 [package]
 name = "ahqstore_cli_rs"
-version = "1.0.0-rc11"
+version = "0.0.1"
 edition = "2021"
 description = "AHQ Store CLI"
 repository = "https://github.com/ahqstore/cli"
 homepage = "https://github.com/ahqstore/cli"
 license = "MIT"
-exclude = ["dist/**", "finalize.js", "tslink.toml"]
+exclude = ["dist/**", ".ahqstore/**", "finalize.js", "tslink.toml"]
 
 [lib]
 name = "ahqstore_cli_rs"
@@ -18,13 +18,19 @@ name = "ahqstore"
 path = "src/main.rs"
 
 [dependencies]
-node-bindgen = "6.0.1"
-tslink = "0.1.0"
-inquire = "0.6.2"
+node-bindgen = { version = "6.0.1", optional = true }
+tslink = { version = "0.1.0", optional = true }
+ahqstore-types = { path = "./types" }
+inquire = { version = "0.6.2", features = ["editor"] }
 chalk_rs = "1.0.1"
 lazy_static = "1.4.0"
+serde = { version = "1.0.193", features = ["derive"] }
+serde_json = "1.0.108"
 
 [build-dependencies]
 node-bindgen = { version = "6.0.1", default-features = false, features = [
   "build",
-] }
+], optional = true }
+
+[features]
+node = ["dep:node-bindgen", "dep:tslink"]

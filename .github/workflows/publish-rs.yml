@@ -63,7 +63,7 @@ jobs:
         working-directory: cli-rs
 
       - name: Build Node
-        run: nj-cli build --release
+        run: nj-cli build -- --features node --release
         env:
           TSLINK_BUILD: "true"
         working-directory: cli-rs
@@ -81,7 +81,7 @@ jobs:
           token: ${{ secrets.NPM_TOKEN }}
 
       - name: Build Node (ARM)
-        run: nj-cli build --target ${{ steps.arm.outputs.result }} --release
+        run: nj-cli build --target ${{ steps.arm.outputs.result }} -- --features node --release
         if: matrix.platform != 'windows-latest'
         env:
           TSLINK_BUILD: "true"
