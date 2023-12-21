@@ -73,6 +73,7 @@ jobs:
 
       - name: Linux Setup Arm
         run: sudo apt install gcc-aarch64-linux-gnu
+        if: ${{ matrix.platform }} == 'ubuntu-latest'
 
       - name: Build Node (ARM)
         run: nj-cli build --target ${{ steps.arm.outputs.result }} --release
