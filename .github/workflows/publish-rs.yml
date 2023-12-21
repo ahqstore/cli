@@ -39,7 +39,7 @@ jobs:
             if (platform == "win32") {
               return "aarch64-pc-windows-msvc"
             } else if (platform == "darwin") {
-              return "aarch64-apple-darwin"
+              return "universal-apple-darwin"
             } else {
               return "aarch64-unknown-linux-gnu"
             }
@@ -70,6 +70,9 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           token: ${{ secrets.NPM_TOKEN }}
+
+      - name: Linux Setup Arm
+        run: sudo apt install gcc-aarch64-linux-gnu
 
       - name: Build Node (ARM)
         run: nj-cli build --target ${{ steps.arm.outputs.result }} --release

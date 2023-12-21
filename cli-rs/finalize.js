@@ -6,11 +6,7 @@ const packageJson = join(__dirname, "dist", "package.json");
 
 let json = JSON.parse(readFileSync(packageJson));
 
-json.name = `@ahqstore/cli-rs-${process.platform}`;
-
-if (arch != "x64") {
-  json.name = `@ahqstore/cli-rs-${process.platform}-${arch}`;
-}
+json.name = `@ahqstore/cli-rs-${process.platform}-${arch}`;
 
 json.description = `AHQ Store CLI Binaries for ${process.platform}-${process.arch}`;
 json.repository = {
