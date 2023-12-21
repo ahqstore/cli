@@ -23,10 +23,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Linux Test
-        run: echo "Linux running"
-        if: matrix.platform == 'ubuntu-latest'
-
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -53,6 +49,11 @@ jobs:
         with:
           targets: ${{ steps.arm.outputs.result }}
 
+      - name: Cache Rust
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "cli-rs -> target"
+
       - name: Install nj cli
         run: cargo install nj-cli
         working-directory: cli-rs
@@ -75,9 +76,13 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           token: ${{ secrets.NPM_TOKEN }}
 
-      - name: Linux Setup Arm
+      - name: Linux Setup ARM
         run: sudo apt install gcc-aarch64-linux-gnu
         if: matrix.platform == 'ubuntu-latest'
+
+      - name: Windows Setup ARM
+        run: choco install visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.ARM64 --includeRecommended"
+        if: matrix.platform == 'windows-latest'
 
       - name: Build Node (ARM)
         run: nj-cli build --target ${{ steps.arm.outputs.result }} --release

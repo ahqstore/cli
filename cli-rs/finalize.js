@@ -8,7 +8,7 @@ let json = JSON.parse(readFileSync(packageJson));
 
 json.name = `@ahqstore/cli-rs-${process.platform}-${arch}`;
 
-json.description = `AHQ Store CLI Binaries for ${process.platform}-${process.arch}`;
+json.description = `AHQ Store CLI Binaries for ${process.platform}-${arch}`;
 json.repository = {
   type: "git",
   url: "git+https://github.com/ahqstore/cli.git",
