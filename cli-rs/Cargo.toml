@@ -16,7 +16,6 @@ path = "src/main.rs"
 [dependencies]
 node-bindgen = "6.0.1"
 tslink = "0.1.0"
-ahqstore-types = { git = "https://github.com/ahqsoftwares/tauri-ahq-store.git" }
 inquire = "0.6.2"
 chalk_rs = "1.0.1"
 lazy_static = "1.4.0"

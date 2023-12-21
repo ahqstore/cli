@@ -57,7 +57,7 @@ jobs:
       - name: Linux Setup ARM
         run: sudo apt install gcc-aarch64-linux-gnu
         if: matrix.platform == 'ubuntu-latest'
-  
+
       - name: Windows Setup ARM
         run: choco install visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.ARM64 --includeRecommended"
         if: matrix.platform == 'windows-latest'
@@ -116,7 +116,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Test Rust Binary
-        run: cargo build
+        run: cargo publish
         working-directory: cli-rs
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_TOKEN }}
