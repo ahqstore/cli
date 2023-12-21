@@ -39,7 +39,7 @@ jobs:
             if (platform == "win32") {
               return "aarch64-pc-windows-msvc"
             } else if (platform == "darwin") {
-              return "universal-apple-darwin"
+              return "aarch64-apple-darwin"
             } else {
               return "aarch64-unknown-linux-gnu"
             }
