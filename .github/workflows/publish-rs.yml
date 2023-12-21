@@ -23,6 +23,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Linux Test
+        run: echo "Linux running"
+        if: matrix.platform == 'ubuntu-latest'
+
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -73,7 +77,7 @@ jobs:
 
       - name: Linux Setup Arm
         run: sudo apt install gcc-aarch64-linux-gnu
-        if: ${{ matrix.platform }} == 'ubuntu-latest'
+        if: matrix.platform == 'ubuntu-latest'
 
       - name: Build Node (ARM)
         run: nj-cli build --target ${{ steps.arm.outputs.result }} --release
