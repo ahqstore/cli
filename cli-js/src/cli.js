@@ -1,8 +1,7 @@
 #! /usr/bin/env node
 import { Chalk } from "chalk";
 
-const platform = process.platform;
-const arch = process.platform;
+const { platform, arch } = process;
 const args = process.argv.slice(2) || [];
 
 (async () => {

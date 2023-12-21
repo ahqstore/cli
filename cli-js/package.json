@@ -1,6 +1,6 @@
 {
   "name": "@ahqstore/cli",
-  "version": "1.0.0-rc8",
+  "version": "1.0.0-rc9",
   "description": "The AHQ Store CLI",
   "type": "module",
   "main": "./src/cli.js",
