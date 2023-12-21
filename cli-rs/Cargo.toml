@@ -1,9 +1,13 @@
 [package]
 name = "ahqstore_cli_rs"
-version = "1.0.0-rc9"
+version = "1.0.0-rc10"
 edition = "2021"
 description = "AHQ Store CLI"
 include = ["**/*.rs", "Cargo.toml"]
+repository = "https://github.com/ahqstore/cli"
+homepage = "https://github.com/ahqstore/cli"
+documentation = "https://github.com/ahqstore/cli"
+license = "MIT"
 
 [lib]
 name = "ahqstore_cli_rs"
