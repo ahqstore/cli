@@ -30,11 +30,12 @@ const arch = process.arch;
 console.log(`${warn} Checking Architecture`);
 console.log(`${info} ${arch}`);
 
-if (arch == "x64" || arch == "arm64") {
+if (arch == "x64" || (platform != "win32" && arch == "arm64")) {
   console.log(`${success} Arch Validated`);
 } else {
   console.log(`${errr} Arch Invalid`);
   console.log("NOT OK");
+  console.log("Install using CARGO\ncargo install ahqstore_cli_rs");
   throw new Error(`Invalid Architecture ${arch}`);
 }
 
