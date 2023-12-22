@@ -20,7 +20,7 @@ pub fn create(force: bool) {
     let icon = include_bytes!("./icon.png");
     fs::write("./.ahqstore/icon.png", icon).ok()?;
 
-    let readme = include_str!("./README.md");
+    let readme = include_str!("./readme.md");
     fs::write("./.ahqstore/README.md", readme).ok()?;
 
     let plt = to_string_pretty(&platforms).ok()?;
