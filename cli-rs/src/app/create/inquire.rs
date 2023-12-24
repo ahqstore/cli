@@ -1,6 +1,6 @@
 use std::process;
 
-use ahqstore_types::AppRepo;
+use ahqstore_types::{AppRepo, InstallerFormat};
 use inquire::{
   list_option::ListOption,
   validator::{ErrorMessage, Validation},
@@ -8,16 +8,24 @@ use inquire::{
 };
 
 use crate::app::{
-  shared::{Config, IMetadata},
+  shared::{Config, IMetadata, IPlatform},
   ERR,
 };
 
-pub fn inquire() -> (Config, Vec<&'static str>) {
+pub fn inquire<'a>() -> (Config, IPlatform<'a>) {
   let Ok(app_id) = Text::new("Application ID:")
     .with_default("8LmFjl3xtm5tAzcdHFvW")
     .prompt()
   else {
     ERR.println(&"Must Enter an ID");
+    process::exit(1);
+  };
+
+  let Ok(app_name) = Text::new("Start menu entry name:")
+    .with_default("Application")
+    .prompt()
+  else {
+    ERR.println(&"Must Enter a name");
     process::exit(1);
   };
 
@@ -63,7 +71,7 @@ pub fn inquire() -> (Config, Vec<&'static str>) {
     panic!("Repo Parsing Failed")
   };
 
-  let validator = |input: &[ListOption<&&str>]| {
+  let validator = |input: &[ListOption<&InstallerFormat>]| {
     if input.len() == 0 {
       return Ok(Validation::Invalid(
         "You must select at least one target".into(),
@@ -94,11 +102,11 @@ pub fn inquire() -> (Config, Vec<&'static str>) {
   let Ok(platforms) = MultiSelect::new(
     "Which platforms do you intend to support?",
     vec![
-      "64-bit Windows (ZIP)",
-      "64-bit Windows Installer (MSI; Not Supported Right Now)",
-      "64-bit Windows Installer (EXE; Not Supported Right Now)",
-      "UWP Windows Installer (Msix; Not Supported Right Now)",
-      "64-bit Linux (AppImage; Under Development )",
+      InstallerFormat::WindowsZip,
+      InstallerFormat::WindowsInstallerMsi,
+      InstallerFormat::WindowsInstallerExe,
+      InstallerFormat::WindowsUWPMsix,
+      InstallerFormat::LinuxAppImage,
     ],
   )
   .with_default(&[0])
@@ -111,6 +119,7 @@ pub fn inquire() -> (Config, Vec<&'static str>) {
   (
     IMetadata::new(
       app_id,
+      app_name,
       display_name,
       user_id,
       desc,
@@ -119,6 +128,6 @@ pub fn inquire() -> (Config, Vec<&'static str>) {
         repo: repo.into(),
       },
     ),
-    platforms,
+    IPlatform::new(platforms),
   )
 }

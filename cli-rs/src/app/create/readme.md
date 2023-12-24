@@ -1,11 +1,20 @@
 # AHQ Store Cli
 
+Edit the following files
+
+- config.json
+- finder.json
+- platforms.json
+
+The schema has been shown below
+
 ## config.json
 
 ```ts
 interface ConfigJSON {
   [key: string]: {
     appId: string; //application id provided by AHQ Store DEVS
+    appInstalledName: string; //App Start Menu Entry + Desktop Shortcut Name
     appDisplayName: string; //App display name
     authorId: string; //Your User ID
     shortDesc: string; //Short Description (max 48words)
@@ -18,19 +27,50 @@ interface ConfigJSON {
 }
 ```
 
-## platforms.json
+## finder.json
 
 ```ts
-// Possible Platform Values
+interface FinderJSON {
+  windowsFinder?: {
+    startsWith?: string;
+    contains?: string;
+    endsWith?: string;
+  };
+  linuxFinder?: {
+    startsWith?: string;
+    contains?: string;
+    endsWith?: string;
+  };
+}
+```
 
-// Windows
-"64-bit Windows (ZIP)";
-"64-bit Windows Installer (MSI; Not Supported Right Now)";
-"64-bit Windows Installer (EXE; Not Supported Right Now)";
-"UWP Windows Installer (Msix; Not Supported Right Now)";
+## platforms.json
 
-// Linux
-"64-bit Linux (AppImage; Under Development )";
+Each Platform Definition
+
+- WindowsZip: 64-bit Windows ZIP
+- WindowsInstallerExe: 64-bit Windows Installer Exe
+- WindowsInstallerMsi: 64-bit Windows Installer Msi
+- WindowsUWPMsix: UWP Windows Msix Package
+- LinuxAppImage: 64-bit Linux AppImage
+
+```ts
+type Platform = "WindowsZip" | "WindowsInstallerExe" | "WindowsInstallerMsi" | "WindowsUWPMsix" | "LinuxAppImage";
+type Win32Deps = "VisualCpp" | "AHQStoreAPI" | "Node21" |"Node18";
+type UnixDeps = "AHQStoreAPI" | "Node21" | "Node18";
+
+interface type PlatformJSON {
+  win32Platform?: Platform;
+  linuxPlatform?: Platform;
+  win32Options?: {
+    deps: Win32Deps[];
+    zip_file_exec?: string;
+    exe_installer_args?: string[];
+  };
+  linuxOptions?: {
+    deps: UnixDeps[];
+  };
+}
 ```
 
 ## icon.png

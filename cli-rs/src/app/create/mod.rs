@@ -4,7 +4,7 @@ use std::{fs, process};
 use inquire::*;
 use serde_json::to_string_pretty;
 
-use super::{ERR, INFO, WARN};
+use super::{shared::FileFinder, ERR, INFO, WARN};
 
 pub fn create(force: bool) {
   let (config, platforms) = inquire();
@@ -24,7 +24,10 @@ pub fn create(force: bool) {
     fs::write("./.ahqstore/README.md", readme).ok()?;
 
     let plt = to_string_pretty(&platforms).ok()?;
-    fs::write("./.ahqstore/platforms.json", plt).ok()
+    fs::write("./.ahqstore/platforms.json", plt).ok()?;
+
+    let finder = to_string_pretty(&FileFinder::new()).ok()?;
+    fs::write("./.ahqstore/finder.json", finder).ok()
   })()
   .is_some();
 
@@ -40,6 +43,7 @@ pub fn create(force: bool) {
 ▀▄▀▄▀▄▄▀▄▄▀▄▄▄▀▀▀▄▄▄▀▀▀▀▄▄▄▀▀▀▀▄▄▄▄▄▀▄▄▄▄▀▄▄▄▄▀▀▄▄▄▀▄▄▄▀▀▄▄▀▄▄▄▄▄▀
 "#
     );
+    INFO.println(&"Do not forget to edit config.json and finder.json\nMore details about all the files is present in README.md");
   }
 }
 

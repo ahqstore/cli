@@ -1,6 +1,7 @@
 use chalk_rs::Chalk;
 use lazy_static::lazy_static;
 
+mod build;
 mod create;
 mod help;
 pub mod shared;
@@ -27,6 +28,7 @@ pub fn start(args: Vec<String>) {
   if args.len() >= 1 {
     match args[0].as_str() {
       "create" => create::create(args.len() > 1 && (&args[1] == "--force" || &args[1] == "-f")),
+      "build" => build::build_config(),
       "help" => println!("{}", help::main_help()),
       a => println!("{}", help::not_found(a)),
     }
