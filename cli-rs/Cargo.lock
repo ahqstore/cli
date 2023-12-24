@@ -38,9 +38,9 @@ dependencies = [
 
 [[package]]
 name = "ahqstore-types"
-version = "1.4.0-rc4"
+version = "1.4.0-rc5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3ee7397f4df5f128aa5abb8090f39af945f3ee213524bb1798739549c7c5c7e3"
+checksum = "6efa75849813c077dab4eb76d888542cf91f02e31569d13866c4481df55313e0"
 dependencies = [
  "lazy_static",
  "reqwest",
@@ -51,7 +51,7 @@ dependencies = [
 
 [[package]]
 name = "ahqstore_cli_rs"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
  "ahqstore-types",
  "base64",
