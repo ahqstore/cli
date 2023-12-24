@@ -1,6 +1,6 @@
 [package]
 name = "ahqstore_cli_rs"
-version = "0.0.2"
+version = "0.0.3"
 edition = "2021"
 description = "AHQ Store CLI"
 repository = "https://github.com/ahqstore/cli"
@@ -30,6 +30,7 @@ reqwest = { version = "0.11.23", features = ["json", "blocking"] }
 sha2 = "0.10.8"
 base64 = "0.21.5"
 image = "0.24.7"
+openssl = { version = "0.10.62", features = ["vendored"] }
 
 [build-dependencies]
 node-bindgen = { version = "6.0.1", default-features = false, features = [
