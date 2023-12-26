@@ -4,7 +4,7 @@ use std::collections::HashMap;
 use ahqstore_types::AppRepo;
 
 pub type Str = String;
-pub type Config = HashMap<String, IMetadata>;
+pub type Config<'a> = HashMap<String, IMetadata<'a>>;
 
 mod file_sorter;
 mod platforms;
@@ -13,16 +13,20 @@ pub use platforms::*;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[allow(non_snake_case)]
-pub struct IMetadata {
+pub struct IMetadata<'a> {
   pub appId: Str,
   pub appShortcutName: Str,
   pub appDisplayName: Str,
   pub authorId: Str,
   pub description: Str,
   pub repo: AppRepo,
+  #[serde[borrow]]
+  pub platform: IPlatform<'a>,
+  #[serde[borrow]]
+  pub finder: FileFinder<'a>,
 }
 
-impl IMetadata {
+impl<'a> IMetadata<'a> {
   #[allow(non_snake_case)]
   pub fn new(
     appId: Str,
@@ -31,6 +35,7 @@ impl IMetadata {
     authorId: Str,
     description: Str,
     repo: AppRepo,
+    platform: IPlatform<'a>,
   ) -> Config {
     let mut config = Config::new();
 
@@ -43,6 +48,8 @@ impl IMetadata {
         authorId,
         description,
         repo,
+        platform,
+        finder: FileFinder::new(),
       },
     );
 

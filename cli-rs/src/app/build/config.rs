@@ -3,43 +3,24 @@ use std::{fs, process};
 use serde_json::from_str;
 
 use crate::app::{
-  shared::{FileFinder, Finder, IMetadata, IPlatform},
+  shared::{Finder, IMetadata},
   ERR,
 };
 
 use super::{GHAsset, GHRelease};
 
-pub fn get_configs<'a>() -> (IMetadata, IPlatform<'a>, FileFinder<'a>) {
+pub fn get_config<'a>() -> IMetadata<'a> {
   let Ok(config) = fs::read_to_string("./.ahqstore/config.json") else {
     ERR.println(&"Unable to read config file!");
     process::exit(1);
   };
-  let Ok(config) = from_str::<IMetadata>(&config) else {
+  let config = config.leak();
+  let Ok(config) = from_str::<'a, IMetadata>(config) else {
     ERR.println(&"Unable to read config file!");
     process::exit(1);
   };
 
-  let Ok(platforms) = fs::read_to_string("./.ahqstore/config.json") else {
-    ERR.println(&"Unable to read platforms file!");
-    process::exit(1);
-  };
-  let platforms = platforms.leak();
-  let Ok(platforms) = from_str::<'a, IPlatform>(platforms) else {
-    ERR.println(&"Unable to read platforms file!");
-    process::exit(1);
-  };
-
-  let Ok(finder) = fs::read_to_string("./.ahqstore/finder.json") else {
-    ERR.println(&"Unable to read finder file!");
-    process::exit(1);
-  };
-  let finder = finder.leak();
-  let Ok(finder) = from_str::<'a, FileFinder>(finder) else {
-    ERR.println(&"Unable to read finder file!");
-    process::exit(1);
-  };
-
-  (config, platforms, finder)
+  config
 }
 
 pub fn find_assets<'a>(gh_r: &'a GHRelease, finder: &'a Finder) -> Vec<&'a GHAsset> {

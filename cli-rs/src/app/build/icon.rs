@@ -4,8 +4,10 @@ use image::{load_from_memory_with_format as load_img, ImageFormat};
 use std::fs;
 use std::process;
 
-pub fn get_icon() -> String {
-  let Ok(icon) = fs::read("./.ahqstore/icon.png") else {
+pub fn get_icon(uid: &str) -> String {
+  let base_img = format!("./.ahqstore/images/{uid}/icon.png");
+
+  let Ok(icon) = fs::read(&base_img) else {
     ERR.println(&"Unable to read icon file!");
     process::exit(1);
   };
@@ -15,28 +17,27 @@ pub fn get_icon() -> String {
   STANDARD.encode(&icon)
 }
 
-pub fn get_images() -> Vec<String> {
-  let Ok(image_dir) = fs::read_dir("./.ahqstore/images") else {
+pub fn get_images(uid: &str) -> Vec<String> {
+  let base_img = format!("./.ahqstore/images/{uid}");
+
+  let Ok(image_dir) = fs::read_dir(&base_img) else {
     ERR.println(&"Unable to read image dir!");
     process::exit(1);
   };
 
   let mut entries = image_dir
-    .map(|res| fs::read(res.unwrap().path()).unwrap())
-    .collect::<Vec<_>>();
-
-  entries.truncate(10);
-
-  let val = entries
-    .iter()
+    .map(|res| res.expect("Unable to unwrap dir entry").path())
+    .filter(|f| !f.ends_with("icon.png"))
+    .map(|res| fs::read(res).expect("Unable to read bytes"))
     .map(|img| {
       validate_png(&img);
-
       return STANDARD.encode(&img);
     })
     .collect::<Vec<_>>();
 
-  val
+  entries.truncate(10);
+
+  entries
 }
 
 pub fn validate_png(data: &Vec<u8>) {

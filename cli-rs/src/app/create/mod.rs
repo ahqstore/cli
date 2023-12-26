@@ -4,10 +4,10 @@ use std::{fs, process};
 use inquire::*;
 use serde_json::to_string_pretty;
 
-use super::{shared::FileFinder, ERR, INFO, WARN};
+use super::{ERR, INFO, WARN};
 
 pub fn create(force: bool) {
-  let (config, platforms) = inquire();
+  let (id, config) = inquire();
 
   create_dir(force);
 
@@ -15,19 +15,15 @@ pub fn create(force: bool) {
     let config_file = to_string_pretty(&config).ok()?;
     fs::write("./.ahqstore/config.json", config_file).ok()?;
 
-    fs::create_dir("./.ahqstore/images").ok()?;
+    let base_img = format!("./.ahqstore/images/{}", &id);
+
+    fs::create_dir_all(&base_img).ok()?;
 
     let icon = include_bytes!("./icon.png");
-    fs::write("./.ahqstore/icon.png", icon).ok()?;
+    fs::write(format!("{}/icon.png", &base_img), icon).ok()?;
 
     let readme = include_str!("./readme.md");
-    fs::write("./.ahqstore/README.md", readme).ok()?;
-
-    let plt = to_string_pretty(&platforms).ok()?;
-    fs::write("./.ahqstore/platforms.json", plt).ok()?;
-
-    let finder = to_string_pretty(&FileFinder::new()).ok()?;
-    fs::write("./.ahqstore/finder.json", finder).ok()
+    fs::write("./.ahqstore/README.md", readme).ok()
   })()
   .is_some();
 

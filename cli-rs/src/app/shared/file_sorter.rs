@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[allow(non_snake_case)]
 pub struct FileFinder<'a> {
   #[serde(borrow)]
@@ -9,7 +9,7 @@ pub struct FileFinder<'a> {
   pub linuxFinder: Option<Finder<'a>>,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[allow(non_snake_case)]
 pub struct Finder<'a> {
   #[serde(borrow)]

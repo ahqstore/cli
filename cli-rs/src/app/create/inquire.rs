@@ -12,7 +12,7 @@ use crate::app::{
   ERR,
 };
 
-pub fn inquire<'a>() -> (Config, IPlatform<'a>) {
+pub fn inquire<'a>() -> (String, Config<'a>) {
   let Ok(app_id) = Text::new("Application ID:")
     .with_default("8LmFjl3xtm5tAzcdHFvW")
     .prompt()
@@ -117,6 +117,7 @@ pub fn inquire<'a>() -> (Config, IPlatform<'a>) {
   };
 
   (
+    app_id.clone(),
     IMetadata::new(
       app_id,
       app_name,
@@ -127,7 +128,7 @@ pub fn inquire<'a>() -> (Config, IPlatform<'a>) {
         author: owner.into(),
         repo: repo.into(),
       },
+      IPlatform::new(platforms),
     ),
-    IPlatform::new(platforms),
   )
 }

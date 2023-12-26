@@ -45,7 +45,7 @@ pub fn build_config() {
   INFO.print(&"INFO ");
   println!("Checking .ahqstore");
 
-  let (config, platforms, finder) = get_configs();
+  let config = get_config();
 
   let Some(repo) = env::var("GITHUB_REPOSITORY").ok() else {
     ERR.println(&"GITHUB_REPOSITORY variable not present");
@@ -64,6 +64,10 @@ pub fn build_config() {
 
   let (version, gh_r) = fetch_release(&repo, &r_id, &gh_token);
 
+  let icon = get_icon(&config.appId);
+  #[allow(non_snake_case)]
+  let displayImages = get_images(&config.appId);
+
   let mut final_config = AHQStoreApplication {
     appDisplayName: config.appDisplayName,
     appId: config.appId,
@@ -71,8 +75,8 @@ pub fn build_config() {
     authorId: config.authorId,
     description: config.description,
     downloadUrls: HashMap::default(),
-    icon: get_icon(),
-    displayImages: get_images(),
+    icon,
+    displayImages,
     install: InstallerOptions {
       linux: None,
       win32: None,
@@ -81,12 +85,12 @@ pub fn build_config() {
     version,
   };
 
-  if let Some(platform) = platforms.win32Platform {
-    let Some(options) = platforms.win32Options else {
+  if let Some(platform) = config.platform.win32Platform {
+    let Some(options) = config.platform.win32Options else {
       ERR.println(&"Win32 Options not found!");
       process::exit(1);
     };
-    let Some(finder) = finder.windowsFinder else {
+    let Some(finder) = config.finder.windowsFinder else {
       ERR.println(&"Win32 Finder Config not found!");
       process::exit(1);
     };
@@ -116,12 +120,12 @@ pub fn build_config() {
     });
   }
 
-  if let Some(platform) = platforms.linuxPlatform {
-    let Some(options) = platforms.linuxOptions else {
+  if let Some(platform) = config.platform.linuxPlatform {
+    let Some(options) = config.platform.linuxOptions else {
       ERR.println(&"Linux Options not found!");
       process::exit(1);
     };
-    let Some(finder) = finder.linuxFinder else {
+    let Some(finder) = config.finder.linuxFinder else {
       ERR.println(&"Linux Finder Config not found!");
       process::exit(1);
     };
