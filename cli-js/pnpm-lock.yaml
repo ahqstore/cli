@@ -5,24 +5,45 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@ahqstore/cli-rs-linux':
-    specifier: 1.0.0-rc2
-    version: 1.0.0-rc2
-  '@ahqstore/cli-rs-win32':
-    specifier: 1.0.0-rc2
-    version: 1.0.0-rc2
+  '@ahqstore/cli-rs-darwin-arm64':
+    specifier: 0.0.5
+    version: 0.0.5
+  '@ahqstore/cli-rs-darwin-x64':
+    specifier: 0.0.5
+    version: 0.0.5
+  '@ahqstore/cli-rs-linux-arm64':
+    specifier: 0.0.5
+    version: 0.0.5
+  '@ahqstore/cli-rs-linux-x64':
+    specifier: 0.0.5
+    version: 0.0.5
+  '@ahqstore/cli-rs-win32-x64':
+    specifier: 0.0.5
+    version: 0.0.5
   chalk:
     specifier: ^5.3.0
     version: 5.3.0
 
 packages:
 
-  /@ahqstore/cli-rs-linux@1.0.0-rc2:
-    resolution: {integrity: sha512-TQF5lqWouxaMrDhComoBonB/qZfohtPNy+WKOiPZewyzCYpUY2Dga1o/H8bFQeXePu8uOWYGG9cHJqPCH0tRqg==}
+  /@ahqstore/cli-rs-darwin-arm64@0.0.5:
+    resolution: {integrity: sha512-9Ol1zYEOXQgM0gVj6AsLAx/LfbXzcM+9xsuhcTKtsedPBdQ1XIU492sgg/pOFYPZIwD9mS6ysygPVqIocUXQFw==}
     dev: false
 
-  /@ahqstore/cli-rs-win32@1.0.0-rc2:
-    resolution: {integrity: sha512-fV5TLGJFcwt5u0XbqJyPTC2Obg7PtXck0f7NXTIDsmfkd3P2gtIyrSuqF3cyEvd4BWSZNBBjXHQkft1UmU4SvA==}
+  /@ahqstore/cli-rs-darwin-x64@0.0.5:
+    resolution: {integrity: sha512-KlH4JjDrCbfvXqciS0wi7KNNHPkdbjF4FUZugMM25Zv0DLN5eZ1Oc/4+/B4TyNxGFt8RREV412l5aLYfd2I7wA==}
+    dev: false
+
+  /@ahqstore/cli-rs-linux-arm64@0.0.5:
+    resolution: {integrity: sha512-3dh3/0DKdETOLzDtuaxZtAVay020s+j1DElDoufJC2z7WdXJIMJMu74lBbGeXHX5SqByvTZWhjxyRNF/Cb0lqQ==}
+    dev: false
+
+  /@ahqstore/cli-rs-linux-x64@0.0.5:
+    resolution: {integrity: sha512-T76JFKSh9RhH0N9QW/XcP+MfCsJZvUelsVxXoXfPL58/rwl/KGyQWDBNjRUCIFV5UxVog8QoZ6QlOfJ+9VfivQ==}
+    dev: false
+
+  /@ahqstore/cli-rs-win32-x64@0.0.5:
+    resolution: {integrity: sha512-IZOWxO5DwK63eBbYp+IM2DY6k1cd1RXCuXfrheIFe5ZVjcWsXCdtaSXMraJjYd5jGs2J8rs1PdP5JOTFf23XfQ==}
     dev: false
 
   /chalk@5.3.0:
