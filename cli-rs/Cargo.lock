@@ -51,7 +51,7 @@ dependencies = [
 
 [[package]]
 name = "ahqstore_cli_rs"
-version = "0.0.5"
+version = "0.1.0"
 dependencies = [
  "ahqstore-types",
  "base64",

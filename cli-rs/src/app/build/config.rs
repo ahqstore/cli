@@ -1,9 +1,9 @@
-use std::{fs, process};
+use std::{env, fs, process};
 
 use serde_json::from_str;
 
 use crate::app::{
-  shared::{Finder, IMetadata},
+  shared::{Config, Finder, IMetadata},
   ERR,
 };
 
@@ -15,12 +15,16 @@ pub fn get_config<'a>() -> IMetadata<'a> {
     process::exit(1);
   };
   let config = config.leak();
-  let Ok(config) = from_str::<'a, IMetadata>(config) else {
+  let Ok(mut config) = from_str::<'a, Config>(config) else {
     ERR.println(&"Unable to read config file!");
     process::exit(1);
   };
 
-  config
+  if let Ok(app_id) = env::var("APP_ID") {
+    config.remove(&app_id).expect("Key not present in JSON")
+  } else {
+    config.into_values().nth(0).expect("No Key present in JSON")
+  }
 }
 
 pub fn find_assets<'a>(gh_r: &'a GHRelease, finder: &'a Finder) -> Vec<&'a GHAsset> {

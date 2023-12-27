@@ -16,9 +16,12 @@ pub fn main_help() -> String {
   let force = chalk.cyan().bold().string(&"--force, -f");
 
   let env = chalk.yellow().bold().string(&"Required ENV:");
+  let app_id = chalk.cyan().bold().string(&"APP_ID");
   let gh_token = chalk.cyan().bold().string(&"GH_TOKEN");
   let gh_repo = chalk.cyan().bold().string(&"GITHUB_REPOSITORY");
   let r_id = chalk.cyan().bold().string(&"RELEASE_ID");
+
+  let optional = chalk.yellow().bold().string(&"(Optional)");
 
   format!(
     r#"{cli}
@@ -36,10 +39,11 @@ Ship your apps to the ahq store quickly and efficiently
   {build}
     Build the ahqstore config file
     {env}
-      {r_id} GitHub Actions Release Id
+      {app_id} {optional} Application Id (required if your config has more than 1 appIds)
+      {r_id} GitHub Release Id
       {gh_token} GitHub Token
       {gh_repo} GitHub owner & repo name, eg ahqstore/app
-                        (Equivalent to GITHUB_REPOSITORY in GitHub actions)"#
+                        (Equivalent to GITHUB_REPOSITORY variable in GitHub actions)"#
   )
 }
 
