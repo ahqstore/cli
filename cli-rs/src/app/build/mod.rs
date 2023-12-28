@@ -68,6 +68,8 @@ pub fn build_config() {
   #[allow(non_snake_case)]
   let displayImages = get_images(&config.appId);
 
+  let app_id = config.appId.clone();
+
   let mut final_config = AHQStoreApplication {
     appDisplayName: config.appDisplayName,
     appId: config.appId,
@@ -160,7 +162,7 @@ pub fn build_config() {
     .post(
       gh_r
         .upload_url
-        .replace("{?name,label}", &format!("?name=ahqstore.json")),
+        .replace("{?name,label}", &format!("?name={app_id}.json")),
     )
     .header("Content-Length", config_file.len())
     .header("Content-Type", "application/json")
