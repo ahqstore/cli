@@ -158,11 +158,15 @@ pub fn build_config() {
   println!("ahqstore.json");
   println!("{}", &config_file);
 
+  let uup = gh_r
+  .upload_url
+  .replace("{?name,label}", &format!("?name={app_id}.json"));
+
+  println!("URL: {}", &uup);
+
   let resp = CLIENT
     .post(
-      gh_r
-        .upload_url
-        .replace("{?name,label}", &format!("?name={app_id}.json")),
+      uup
     )
     .header("Content-Length", config_file.len())
     .header("Content-Type", "application/json")
