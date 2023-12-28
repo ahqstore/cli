@@ -6,44 +6,44 @@ settings:
 
 dependencies:
   '@ahqstore/cli-rs-darwin-arm64':
-    specifier: 0.1.0
-    version: 0.1.0
+    specifier: 0.1.1
+    version: 0.1.1
   '@ahqstore/cli-rs-darwin-x64':
-    specifier: 0.1.0
-    version: 0.1.0
+    specifier: 0.1.1
+    version: 0.1.1
   '@ahqstore/cli-rs-linux-arm64':
-    specifier: 0.1.0
-    version: 0.1.0
+    specifier: 0.1.1
+    version: 0.1.1
   '@ahqstore/cli-rs-linux-x64':
-    specifier: 0.1.0
-    version: 0.1.0
+    specifier: 0.1.1
+    version: 0.1.1
   '@ahqstore/cli-rs-win32-x64':
-    specifier: 0.1.0
-    version: 0.1.0
+    specifier: 0.1.1
+    version: 0.1.1
   chalk:
     specifier: ^5.3.0
     version: 5.3.0
 
 packages:
 
-  /@ahqstore/cli-rs-darwin-arm64@0.1.0:
-    resolution: {integrity: sha512-KUXoaeKg/ntbuQ+kVJ0h6PAv9SeJATFQBiGV7CREG+VaXtrTZfsAVHlxNCmh10RZ1cPVsHvby/ODHfMQJ8+IBw==}
+  /@ahqstore/cli-rs-darwin-arm64@0.1.1:
+    resolution: {integrity: sha512-T2AJQg1K06Cv0ubQ6oqpMIjcl52/jItlomUXU+a1fLGXVEik2q0JwIIhOfjPQe7z3ZZLdxDGnz/CqEMfi07dzA==}
     dev: false
 
-  /@ahqstore/cli-rs-darwin-x64@0.1.0:
-    resolution: {integrity: sha512-WMlvu2aM12MrSI9XU9Wn1RNbvGERKARnbpif1o9b8h0KHIvzugbby9uOi5t7u+fyG5/kxIJc9+66uc297t26SA==}
+  /@ahqstore/cli-rs-darwin-x64@0.1.1:
+    resolution: {integrity: sha512-BjVyC9VJcXNp0e07nlLsEQOn4cVroILVv3xtjyYHNL7gvAXxKZ+M0BB0dMAbN+QrQ85ObGboGG5Wd7QFT725ng==}
     dev: false
 
-  /@ahqstore/cli-rs-linux-arm64@0.1.0:
-    resolution: {integrity: sha512-M91ElxCiLTIjW1YQrlJ3h+G3YvMxJK6RwBxMD9wn8YnTMZIiEWZKRhZSpKtE//3WEQmj8nanomQW90DaI/PDlw==}
+  /@ahqstore/cli-rs-linux-arm64@0.1.1:
+    resolution: {integrity: sha512-ghpiCQNLNRv8DVHjaHEkzj1QRJojvQX/7ltbXrV3wVGKBffRZR8Qbn18UX7RTkhIojaRE/X/mljOF+31vc9/TA==}
     dev: false
 
-  /@ahqstore/cli-rs-linux-x64@0.1.0:
-    resolution: {integrity: sha512-lkfGWcHp0hFqQHDavvVzcb0C899UwNKTusq/+AyIIphEGcOPvkRFoxpQMP24S7cj4a+vDtDFcEHP7GZfymtikg==}
+  /@ahqstore/cli-rs-linux-x64@0.1.1:
+    resolution: {integrity: sha512-i+vQcGIA5d0TCaHVS+HqChJjikucHEtK9zF83gKAyL+W79qPRj351D9xS0xF198whTfC1XksE+MTk9RdcB5i9w==}
     dev: false
 
-  /@ahqstore/cli-rs-win32-x64@0.1.0:
-    resolution: {integrity: sha512-TSrDKNrO81hLzR27zcQhU5zo3Fe/qs1f5M/IIdUxO+ZsXzsKnngo3xQKsxCiYca3gsFqyYXVdb4k4ZA0Eqmuaw==}
+  /@ahqstore/cli-rs-win32-x64@0.1.1:
+    resolution: {integrity: sha512-/LB47OFTyvY0gJD497Zq8jYxh1QU7AuIjip6fLLq/iYC9YTORvjNOckVDOvor9RVqBRplRso8/kl2CsT6KHI9A==}
     dev: false
 
   /chalk@5.3.0:
