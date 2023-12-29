@@ -159,19 +159,16 @@ pub fn build_config() {
   println!("{}", &config_file);
 
   let uup = gh_r
-  .upload_url
-  .replace("{?name,label}", &format!("?name={app_id}.json"));
-
-  println!("URL: {}", &uup);
+    .upload_url
+    .replace("{?name,label}", &format!("?name={app_id}.json"));
 
   let resp = CLIENT
-    .post(
-      uup
-    )
+    .post(uup)
     .header("Content-Length", config_file.len())
     .header("Content-Type", "application/json")
     .header("Accept", "application/json")
     .body(config_file)
+    .bearer_auth(&gh_token)
     .send()
     .unwrap()
     .text()
