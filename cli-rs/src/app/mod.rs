@@ -28,7 +28,8 @@ pub fn start(args: Vec<String>) {
   if args.len() >= 1 {
     match args[0].as_str() {
       "create" => create::create(args.len() > 1 && (&args[1] == "--force" || &args[1] == "-f")),
-      "build" => build::build_config(),
+      "build" => build::build_config(false),
+      "upload" => build::build_config(true),
       "help" => println!("{}", help::main_help()),
       a => println!("{}", help::not_found(a)),
     }
