@@ -55,7 +55,7 @@ jobs:
           workspaces: "cli-rs -> target"
 
       - name: Linux Setup ARM
-        run: sudo apt install gcc-aarch64-linux-gnu
+        run: sudo apt update; sudo apt install gcc-aarch64-linux-gnu --fix-missing
         if: matrix.platform == 'ubuntu-latest'
 
       - name: Install nj cli
