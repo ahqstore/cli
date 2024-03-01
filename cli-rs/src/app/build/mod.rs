@@ -192,7 +192,7 @@ pub fn build_config(check_env: bool) {
     .post(uup)
     .header("Content-Length", config_file.len())
     .header("Content-Type", "text/plain")
-    .header("Accept", "text/plain")
+    .header("Accept", "application/json")
     .body(config_file)
     .bearer_auth(&gh_token)
     .send()
