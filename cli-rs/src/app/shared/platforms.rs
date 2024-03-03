@@ -1,9 +1,10 @@
-use ahqstore_types::{InstallerFormat, UnixDeps, Win32Deps};
+use ahqstore_types::{InstallType, InstallerFormat, UnixDeps, Win32Deps};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 #[allow(non_snake_case)]
 pub struct IPlatform<'a> {
+  pub installType: InstallType,
   pub win32Platform: Option<InstallerFormat>,
   pub linuxPlatform: Option<InstallerFormat>,
   #[serde(borrow)]
@@ -40,6 +41,7 @@ impl<'a> IPlatform<'a> {
     );
 
     Self {
+      installType: InstallType::Computer,
       win32Platform: win32,
       linuxPlatform: linux,
       win32Options: Some(IOWin32 {

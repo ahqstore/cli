@@ -6,7 +6,10 @@ const args = process.argv.slice(2) || [];
 
 (async () => {
   try {
-    (await import(`@ahqstore/cli-rs-${platform}-${arch}`)).nodeEntrypoint(args);
+    (await import(`@ahqstore/cli-rs-${platform}-${arch}`)).nodeEntrypoint(
+      args,
+      process.env["GH_ACTION"] != null
+    );
   } catch (e) {
     const chalk = new Chalk();
     console.log(chalk.red(e));

@@ -5,19 +5,25 @@ use sha2::{Digest, Sha256};
 
 use crate::app::{
   build::{GHRelease, Str},
-  ERR,
+  ERR, WARN,
 };
 
 use super::CLIENT;
 
 pub fn fetch_release(repo: &str, r_id: &str, gh_token: &str) -> (Str, GHRelease) {
-  let Ok(resp) = CLIENT
-    .get(format!(
+  let Ok(resp) = ({
+    let mut resp = CLIENT.get(format!(
       "https://api.github.com/repos/{repo}/releases/{r_id}"
-    ))
-    .bearer_auth(gh_token)
-    .send()
-  else {
+    ));
+
+    if gh_token != "" {
+      resp = resp.bearer_auth(gh_token);
+    } else {
+      WARN.println(&"You may set GH_TOKEN environment variable to load private repos");
+    }
+
+    resp.send()
+  }) else {
     ERR.println(&"Unable to fetch release");
     process::exit(1)
   };

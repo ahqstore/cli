@@ -18,7 +18,7 @@ type Platform =
 
   // Linux Platform + Updater & UnInstaller Support
   | "LinuxAppImage";
-type Win32Deps = "AHQStoreAPI" | "Node21" | "Node18";
+type Win32Deps = "VisualCpp" | "AHQStoreAPI" | "Node21" | "Node18";
 type UnixDeps = "AHQStoreAPI" | "Node21" | "Node18";
 
 interface ConfigJSON {
@@ -31,7 +31,7 @@ interface ConfigJSON {
     description: string; //MultiLine App Description
     repo: {
       author: string; //Your GitHub username
-      repo: string; //Repo URL
+      repo: string; //Repo Name
     };
     finder: {
       windowsFinder?: {
@@ -46,7 +46,6 @@ interface ConfigJSON {
       };
     };
     platform: {
-      installType: "Both" | "PerUser" | "Computer"; // Install Type
       win32Platform?: Platform; // What type of binary does your app provide to AHQ Store
       linuxPlatform?: Platform; // <-- Same as win32Platform -->
       win32Options?: {

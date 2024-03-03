@@ -1,14 +1,14 @@
 use ahqstore_types::{
-  AHQStoreApplication, DownloadUrl, InstallerOptions, InstallerOptionsLinux, InstallerOptionsWin32,
-  Str,
+  AHQStoreApplication, DownloadUrl, InstallType, InstallerFormat, InstallerOptions,
+  InstallerOptionsLinux, InstallerOptionsWin32, Str,
 };
 use lazy_static::lazy_static;
 use reqwest::blocking::{Client, ClientBuilder};
 use serde::{Deserialize, Serialize};
-use serde_json::to_string_pretty;
+use serde_json::{from_str, to_string, to_string_pretty};
 use std::{collections::HashMap, env, fs, process};
 
-use crate::app::ERR;
+use crate::app::{ERR, WARN};
 
 use super::INFO;
 
@@ -37,27 +37,39 @@ struct GHAsset {
   pub name: String,
   pub browser_download_url: String,
 }
-pub fn build_config() {
+pub fn build_config(check_env: bool, gh_action: bool) {
   let Some(_) = fs::read_dir("./.ahqstore").ok() else {
     ERR.println(&".ahqstore dir couldn't be accessed!");
     process::exit(1);
   };
-  INFO.print(&"INFO ");
-  println!("Checking .ahqstore");
+  if !gh_action {
+    INFO.print(&"INFO ");
+    println!("Checking .ahqstore");
+  }
 
   let config = get_config();
 
-  let Some(repo) = env::var("GITHUB_REPOSITORY").ok() else {
-    ERR.println(&"GITHUB_REPOSITORY variable not present");
-    process::exit(1);
-  };
+  let repo = env::var("GITHUB_REPOSITORY").unwrap_or("%NUL".into());
 
-  let Some(r_id) = env::var("RELEASE_ID").ok() else {
+  if &repo == "%NUL" {
+    ERR.println(&"GITHUB_REPOSITORY not set");
+    process::exit(1);
+  }
+
+  let r_id = env::var("RELEASE_ID").unwrap_or("latest".into());
+
+  if &r_id == "latest" && check_env {
     ERR.println(&"RELEASE_ID variable not present");
     process::exit(1);
   };
+  if &r_id == "latest" {
+    INFO.print(&"INFO ");
+    println!("Getting latest release");
+  }
 
-  let Some(gh_token) = env::var("GH_TOKEN").ok() else {
+  let gh_token = env::var("GH_TOKEN").unwrap_or("".into());
+
+  if &gh_token == "" && check_env {
     ERR.println(&"GH_TOKEN variable not present");
     process::exit(1);
   };
@@ -70,7 +82,7 @@ pub fn build_config() {
 
   let app_id = config.appId.clone();
 
-  let mut final_config = AHQStoreApplication {
+  let mut final_config: AHQStoreApplication = AHQStoreApplication {
     appDisplayName: config.appDisplayName,
     appId: config.appId,
     appShortcutName: config.appShortcutName,
@@ -80,6 +92,7 @@ pub fn build_config() {
     icon,
     displayImages,
     install: InstallerOptions {
+      installType: config.platform.installType,
       linux: None,
       win32: None,
     },
@@ -88,6 +101,16 @@ pub fn build_config() {
   };
 
   if let Some(platform) = config.platform.win32Platform {
+    match (&platform, &final_config.install.installType) {
+      (&InstallerFormat::WindowsZip, _) => {}
+      (_, &InstallType::PerUser | &InstallType::Computer) => {
+        WARN.println(
+          &"Setting PerUser or Computer in a non WindowsZip install type does not have any effect",
+        );
+        process::exit(1);
+      }
+      _ => {}
+    };
     let Some(options) = config.platform.win32Options else {
       ERR.println(&"Win32 Options not found!");
       process::exit(1);
@@ -101,6 +124,10 @@ pub fn build_config() {
 
     if assets.len() > 1 {
       ERR.println(&"Multiple assets found");
+      process::exit(1);
+    }
+    if assets.len() == 0 {
+      ERR.println(&"No assets found");
       process::exit(1);
     }
 
@@ -154,18 +181,21 @@ pub fn build_config() {
   }
 
   let config_file = to_string_pretty(&final_config).unwrap();
+  let config_file = to_string(config_file.as_bytes()).unwrap();
 
-  println!("ahqstore.json");
-  println!("{}", &config_file);
+  if !gh_action {
+    println!("Bytes: ahqstore.json");
+    println!("{}", &config_file);
+  }
 
   let uup = gh_r
     .upload_url
-    .replace("{?name,label}", &format!("?name={app_id}.json"));
+    .replace("{?name,label}", &format!("?name={app_id}.txt"));
 
   let resp = CLIENT
     .post(uup)
     .header("Content-Length", config_file.len())
-    .header("Content-Type", "application/json")
+    .header("Content-Type", "text/plain")
     .header("Accept", "application/json")
     .body(config_file)
     .bearer_auth(&gh_token)
@@ -174,6 +204,12 @@ pub fn build_config() {
     .text()
     .unwrap();
 
-  INFO.println(&"GitHub Response");
-  println!("{resp}");
+  if gh_action {
+    let val: GHAsset = from_str(&resp).unwrap();
+
+    println!("AHQ_STORE_FILE_URL={}", &val.browser_download_url);
+  } else {
+    INFO.println(&"GitHub Response");
+    println!("{resp}");
+  }
 }
