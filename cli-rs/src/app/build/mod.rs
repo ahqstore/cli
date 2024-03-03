@@ -5,7 +5,7 @@ use ahqstore_types::{
 use lazy_static::lazy_static;
 use reqwest::blocking::{Client, ClientBuilder};
 use serde::{Deserialize, Serialize};
-use serde_json::{to_string, to_string_pretty};
+use serde_json::{from_str, to_string, to_string_pretty};
 use std::{collections::HashMap, env, fs, process};
 
 use crate::app::{ERR, WARN};
@@ -37,13 +37,15 @@ struct GHAsset {
   pub name: String,
   pub browser_download_url: String,
 }
-pub fn build_config(check_env: bool) {
+pub fn build_config(check_env: bool, gh_action: bool) {
   let Some(_) = fs::read_dir("./.ahqstore").ok() else {
     ERR.println(&".ahqstore dir couldn't be accessed!");
     process::exit(1);
   };
-  INFO.print(&"INFO ");
-  println!("Checking .ahqstore");
+  if !gh_action {
+    INFO.print(&"INFO ");
+    println!("Checking .ahqstore");
+  }
 
   let config = get_config();
 
@@ -181,8 +183,10 @@ pub fn build_config(check_env: bool) {
   let config_file = to_string_pretty(&final_config).unwrap();
   let config_file = to_string(config_file.as_bytes()).unwrap();
 
-  println!("Bytes: ahqstore.json");
-  println!("{}", &config_file);
+  if !gh_action {
+    println!("Bytes: ahqstore.json");
+    println!("{}", &config_file);
+  }
 
   let uup = gh_r
     .upload_url
@@ -200,6 +204,12 @@ pub fn build_config(check_env: bool) {
     .text()
     .unwrap();
 
-  INFO.println(&"GitHub Response");
-  println!("{resp}");
+  if gh_action {
+    let val: GHAsset = from_str(&resp).unwrap();
+
+    println!("AHQ_STORE_FILE_URL={}", &val.browser_download_url);
+  } else {
+    INFO.println(&"GitHub Response");
+    println!("{resp}");
+  }
 }

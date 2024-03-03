@@ -19,6 +19,7 @@ pub fn main_help() -> String {
   let app_id = chalk.cyan().bold().string(&"APP_ID");
   let gh_token = chalk.cyan().bold().string(&"GH_TOKEN");
   let gh_repo = chalk.cyan().bold().string(&"GITHUB_REPOSITORY");
+  let gh_action = chalk.cyan().bold().string(&"GITHUB_ACTION");
   let r_id = chalk.cyan().bold().string(&"RELEASE_ID");
 
   let optional = chalk.yellow().bold().string(&"(Optional)");
@@ -43,7 +44,9 @@ Ship your apps to the ahq store quickly and efficiently
       {r_id} GitHub Release Id
       {gh_token} GitHub Token
       {gh_repo} GitHub owner & repo name, eg ahqstore/app
-                        (Equivalent to GITHUB_REPOSITORY variable in GitHub actions)"#
+                        (Equivalent to GITHUB_REPOSITORY variable in GitHub actions)
+      {gh_action} {optional} Set this env to anything to specify that it is running in an GitHub Action
+                        (Outputs AHQ_STORE_FILE_URL=<url>)"#
   )
 }
 

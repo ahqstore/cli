@@ -8,6 +8,6 @@ use tslink::tslink;
 #[cfg(feature = "node")]
 #[tslink]
 #[node_bindgen]
-pub fn node_entrypoint(args: Vec<String>) {
+pub fn node_entrypoint(args: Vec<String>, gh: bool) {
   app::start(args);
 }
