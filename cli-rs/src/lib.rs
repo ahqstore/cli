@@ -9,5 +9,5 @@ use tslink::tslink;
 #[tslink]
 #[node_bindgen]
 pub fn node_entrypoint(args: Vec<String>, gh: bool) {
-  app::start(args);
+  app::start(args, gh);
 }
