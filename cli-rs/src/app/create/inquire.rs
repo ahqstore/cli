@@ -6,15 +6,23 @@ use inquire::{
   validator::{ErrorMessage, Validation},
   Editor, MultiSelect, Text,
 };
+use serde::{Deserialize, Serialize};
 
 use crate::app::{
+  build::CLIENT,
   shared::{Config, IMetadata, IPlatform},
-  ERR,
+  ERR, INFO,
 };
 
+#[derive(Serialize, Deserialize)]
+struct ServerUserResp {
+  pub linked_acc: Vec<String>,
+}
+
 pub fn inquire<'a>() -> (String, Config<'a>) {
+  INFO.println(&"Generating a random Application ID");
   let Ok(app_id) = Text::new("Application ID:")
-    .with_default("8LmFjl3xtm5tAzcdHFvW")
+    .with_default(&gen_appid())
     .prompt()
   else {
     ERR.println(&"Must Enter an ID");
@@ -37,10 +45,7 @@ pub fn inquire<'a>() -> (String, Config<'a>) {
     process::exit(1);
   };
 
-  let Ok(user_id) = Text::new("Your AHQ Store Author ID:")
-    .with_default("9MXn6dqO0qaUiqYDiaPoV5k3owd2")
-    .prompt()
-  else {
+  let Ok(user_id) = Text::new("Your AHQ Store Author ID:").prompt() else {
     ERR.println(&"Must Enter an ID");
     process::exit(1);
   };
@@ -70,6 +75,36 @@ pub fn inquire<'a>() -> (String, Config<'a>) {
   let [owner, repo] = repo.split("/").collect::<Vec<_>>()[..] else {
     panic!("Repo Parsing Failed")
   };
+
+  INFO.println(&"Validating author id & repo");
+
+  let val: Option<()> = (|| {
+    let data: ServerUserResp = CLIENT
+      .get(format!(
+        "https://ahqstore-server.onrender.com/apps/{}",
+        &user_id
+      ))
+      .send()
+      .ok()?
+      .json()
+      .ok()?;
+
+    if data.linked_acc.contains(&owner.into()) {
+      return Some(());
+    }
+    None
+  })();
+
+  if let None = val {
+    ERR.println(
+      &r#"Could not validate author id with github username. It may be because:
+- The account id provided is not valid
+- The account id has developer mode disabled
+- The GitHub repo owner doesn't seem to be in the list of linked_accounts
+- The GitHub repo is invalid"#,
+    );
+    process::exit(1);
+  }
 
   let validator = |input: &[ListOption<&InstallerFormat>]| {
     if input.len() == 0 {
@@ -131,4 +166,24 @@ pub fn inquire<'a>() -> (String, Config<'a>) {
       IPlatform::new(platforms),
     ),
   )
+}
+
+fn gen_appid() -> String {
+  let mut string = String::new();
+
+  use rand::seq::SliceRandom;
+
+  let val = vec![
+    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
+    "t", "u", "v", "w", "s", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
+    "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "S", "Y", "Z", "0", "1", "2", "3", "4",
+    "5", "6", "7", "8", "9", "!", "@", "#", "$", "%", "^", "&", "*",
+  ];
+
+  for _ in 0..40 {
+    let val = val.choose(&mut rand::thread_rng()).unwrap();
+    string.push_str(val);
+  }
+
+  string
 }

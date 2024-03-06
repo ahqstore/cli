@@ -1,12 +1,6 @@
 name: Publish Node.js CLI
 
 on:
-  push:
-    paths:
-      - "cli-js/**"
-    branches:
-      - main
-
   workflow_dispatch:
 
 jobs:

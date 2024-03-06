@@ -1,10 +1,14 @@
-name: Publish Rust Binary + CLI
+name: Publish CLI on NodeJS & Cargo
 
 on:
+  push:
+    branches:
+      - main
+
   workflow_dispatch:
 
 jobs:
-  publish-npm:
+  publish-raw-npm:
     strategy:
       matrix:
         platform: [windows-latest, ubuntu-latest, macos-latest]
@@ -113,3 +117,30 @@ jobs:
         working-directory: cli-rs
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_TOKEN }}
+
+  publish:
+    needs: [publish-raw-npm]
+    name: Build & Publish CLI to npm
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+          registry-url: https://registry.npmjs.com
+
+      - name: Install Deps
+        run: npm install
+        working-directory: cli-js
+
+      - name: Publish
+        run: npm publish --scope ahqstore --access public --verbose
+        working-directory: cli-js
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          token: ${{ secrets.NPM_TOKEN }}
