@@ -37,7 +37,7 @@ struct GHAsset {
   pub name: String,
   pub browser_download_url: String,
 }
-pub fn build_config(check_env: bool, gh_action: bool) {
+pub fn build_config(upload: bool, gh_action: bool) {
   let Some(_) = fs::read_dir("./.ahqstore").ok() else {
     ERR.println(&".ahqstore dir couldn't be accessed!");
     process::exit(1);
@@ -58,7 +58,7 @@ pub fn build_config(check_env: bool, gh_action: bool) {
 
   let r_id = env::var("RELEASE_ID").unwrap_or("latest".into());
 
-  if &r_id == "latest" && check_env {
+  if &r_id == "latest" && upload {
     ERR.println(&"RELEASE_ID variable not present");
     process::exit(1);
   };
@@ -69,7 +69,7 @@ pub fn build_config(check_env: bool, gh_action: bool) {
 
   let gh_token = env::var("GH_TOKEN").unwrap_or("".into());
 
-  if &gh_token == "" && check_env {
+  if &gh_token == "" && upload {
     ERR.println(&"GH_TOKEN variable not present");
     process::exit(1);
   };
@@ -188,28 +188,30 @@ pub fn build_config(check_env: bool, gh_action: bool) {
     println!("{}", &config_file);
   }
 
-  let uup = gh_r
-    .upload_url
-    .replace("{?name,label}", &format!("?name={app_id}.txt"));
+  if upload {
+    let uup = gh_r
+      .upload_url
+      .replace("{?name,label}", &format!("?name={app_id}.txt"));
 
-  let resp = CLIENT
-    .post(uup)
-    .header("Content-Length", config_file.len())
-    .header("Content-Type", "text/plain")
-    .header("Accept", "application/json")
-    .body(config_file)
-    .bearer_auth(&gh_token)
-    .send()
-    .unwrap()
-    .text()
-    .unwrap();
+    let resp = CLIENT
+      .post(uup)
+      .header("Content-Length", config_file.len())
+      .header("Content-Type", "text/plain")
+      .header("Accept", "application/json")
+      .body(config_file)
+      .bearer_auth(&gh_token)
+      .send()
+      .unwrap()
+      .text()
+      .unwrap();
 
-  if gh_action {
-    let val: GHAsset = from_str(&resp).unwrap();
+    if gh_action {
+      let val: GHAsset = from_str(&resp).unwrap();
 
-    println!("AHQ_STORE_FILE_URL={}", &val.browser_download_url);
-  } else {
-    INFO.println(&"GitHub Response");
-    println!("{resp}");
+      println!("AHQ_STORE_FILE_URL={}", &val.browser_download_url);
+    } else {
+      INFO.println(&"GitHub Response");
+      println!("{resp}");
+    }
   }
 }
