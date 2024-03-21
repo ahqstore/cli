@@ -81,7 +81,7 @@ pub fn inquire<'a>() -> (String, Config<'a>) {
   let val: Option<()> = (|| {
     let data: ServerUserResp = CLIENT
       .get(format!(
-        "https://ahqstore-server.onrender.com/apps/{}",
+        "https://ahqstore-server.onrender.com/users/{}",
         &user_id
       ))
       .send()
