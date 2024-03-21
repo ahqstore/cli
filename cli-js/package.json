@@ -1,6 +1,6 @@
 {
   "name": "@ahqstore/cli",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "The AHQ Store CLI",
   "type": "module",
   "main": "./src/cli.js",
@@ -12,11 +12,11 @@
     "postinstall": "node install.js"
   },
   "dependencies": {
-    "@ahqstore/cli-rs-win32-x64": "0.2.3",
-    "@ahqstore/cli-rs-darwin-x64": "0.2.3",
-    "@ahqstore/cli-rs-darwin-arm64": "0.2.3",
-    "@ahqstore/cli-rs-linux-x64": "0.2.3",
-    "@ahqstore/cli-rs-linux-arm64": "0.2.3",
+    "@ahqstore/cli-rs-win32-x64": "0.2.4",
+    "@ahqstore/cli-rs-darwin-x64": "0.2.4",
+    "@ahqstore/cli-rs-darwin-arm64": "0.2.4",
+    "@ahqstore/cli-rs-linux-x64": "0.2.4",
+    "@ahqstore/cli-rs-linux-arm64": "0.2.4",
     "chalk": "^5.3.0"
   },
   "keywords": [

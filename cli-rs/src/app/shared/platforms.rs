@@ -1,4 +1,4 @@
-use ahqstore_types::{InstallType, InstallerFormat, UnixDeps, Win32Deps};
+use ahqstore_types::{InstallType, InstallerFormat, Win32Deps};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -23,7 +23,7 @@ pub struct IOWin32<'a> {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct IOLinux {
-  pub deps: Vec<UnixDeps>,
+  
 }
 
 impl<'a> IPlatform<'a> {
@@ -49,7 +49,7 @@ impl<'a> IPlatform<'a> {
         exe_installer_args: Some(vec![]),
         zip_file_exec: None,
       }),
-      linuxOptions: Some(IOLinux { deps: vec![] }),
+      linuxOptions: Some(IOLinux {  }),
     }
   }
 }

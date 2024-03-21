@@ -24,6 +24,8 @@ pub struct IMetadata<'a> {
   pub platform: IPlatform<'a>,
   #[serde[borrow]]
   pub finder: FileFinder<'a>,
+  pub site: Option<Str>,
+  pub redistributed: Option<Str>,
 }
 
 impl<'a> IMetadata<'a> {
@@ -50,6 +52,8 @@ impl<'a> IMetadata<'a> {
         repo,
         platform,
         finder: FileFinder::new(),
+        site: None,
+        redistributed: None
       },
     );
 

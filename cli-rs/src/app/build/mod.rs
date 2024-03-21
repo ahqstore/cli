@@ -98,6 +98,8 @@ pub fn build_config(upload: bool, gh_action: bool) {
     },
     repo: config.repo,
     version,
+    site: None,
+    source: None
   };
 
   if let Some(platform) = config.platform.win32Platform {
@@ -150,10 +152,6 @@ pub fn build_config(upload: bool, gh_action: bool) {
   }
 
   if let Some(platform) = config.platform.linuxPlatform {
-    let Some(options) = config.platform.linuxOptions else {
-      ERR.println(&"Linux Options not found!");
-      process::exit(1);
-    };
     let Some(finder) = config.finder.linuxFinder else {
       ERR.println(&"Linux Finder Config not found!");
       process::exit(1);
@@ -175,10 +173,12 @@ pub fn build_config(upload: bool, gh_action: bool) {
     );
 
     final_config.install.linux = Some(InstallerOptionsLinux {
-      assetId: 2,
-      deps: Some(options.deps),
+      assetId: 2
     });
   }
+
+  final_config.site = config.site;
+  final_config.source = config.redistributed;
 
   let config_file = to_string_pretty(&final_config).unwrap();
   let config_file = to_string(config_file.as_bytes()).unwrap();

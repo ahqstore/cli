@@ -10,16 +10,16 @@ The schema has been shown below
 type Platform =
   // Windows Platforms + Updater & UnInstaller Support
   | "WindowsZip"
-
-  // Windows Platforms + No Updater Support
-  | "WindowsInstallerExe"
   | "WindowsInstallerMsi"
+
+  // Not Implemented
+  | "WindowsInstallerExe"
   | "WindowsUWPMsix"
 
   // Linux Platform + Updater & UnInstaller Support
   | "LinuxAppImage";
+
 type Win32Deps = "AHQStoreAPI" | "Node21" | "Node18";
-type UnixDeps = "AHQStoreAPI" | "Node21" | "Node18";
 
 interface ConfigJSON {
   [key: string]: {
@@ -54,10 +54,10 @@ interface ConfigJSON {
         zip_file_exec?: string; // Exe to Link via our installer (WindowsZIP)
         exe_installer_args?: string[]; // Args to run to your custom installer (WindowsInstallerExe)
       };
-      linuxOptions?: {
-        deps: UnixDeps[]; // Linux Custom Deps
-      };
+      linuxOptions?: {};
     };
+    site?: string; // Your app's website
+    redistributed?: string; // Redistributed page (not for public)
   };
 }
 ```
