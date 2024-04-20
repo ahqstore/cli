@@ -1,6 +1,10 @@
 const { writeFileSync, readFileSync } = require("fs");
 const { join } = require("path");
-const arch = process.env.arch || require("process").arch;
+let arch = process.env.arch || require("process").arch;
+
+if (arch == "arm64" && process.platform == "win32") {
+  arch = "ia32";
+}
 
 const packageJson = join(__dirname, "dist", "package.json");
 

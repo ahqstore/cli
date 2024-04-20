@@ -24,7 +24,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: latest
+          node-version: 18
           registry-url: https://registry.npmjs.com
 
       - name: Fetch ARM target
@@ -35,7 +35,7 @@ jobs:
           script: |
             const { platform } = require("process");
             if (platform == "win32") {
-              return "aarch64-pc-windows-msvc"
+              return "i686-pc-windows-msvc"
             } else if (platform == "darwin") {
               return "aarch64-apple-darwin"
             } else {
@@ -78,22 +78,19 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           token: ${{ secrets.NPM_TOKEN }}
 
-      - name: Build Node (ARM)
+      - name: Build Node (ARM/i686)
         run: nj-cli build --target ${{ steps.arm.outputs.result }} --release -- --features node
-        if: matrix.platform != 'windows-latest'
         env:
           TSLINK_BUILD: "true"
         working-directory: cli-rs
 
-      - name: Finalize ARM
-        if: matrix.platform != 'windows-latest'
+      - name: Finalize ARM/i686
         run: node finalize.js
         working-directory: cli-rs
         env:
           arch: arm64
 
-      - name: Publish ARM
-        if: matrix.platform != 'windows-latest'
+      - name: Publish ARM/i686
         run: npm publish --scope ahqstore --access public --verbose
         working-directory: cli-rs/dist
         env:

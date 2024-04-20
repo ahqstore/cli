@@ -11,6 +11,7 @@ pub fn main_help() -> String {
   let help = chalk.cyan().bold().string(&"help");
   let create = chalk.cyan().bold().string(&"create");
   let build = chalk.cyan().bold().string(&"build");
+  let upload = chalk.cyan().bold().string(&"build");
 
   let opt = chalk.yellow().bold().string(&"Options:");
   let force = chalk.cyan().bold().string(&"--force, -f");
@@ -37,6 +38,16 @@ Ship your apps to the ahq store quickly and efficiently
     Generates AHQ Store config files required to ship your apps
     {opt}
       {force} Override Existing contents if .ahqstore dir isn't empty
+  {upload}
+    Build & Upload ahqstore config file
+    {env}
+    {app_id} {optional} Application Id (required if your config has more than 1 appIds)
+    {r_id} GitHub Release Id
+    {gh_token} GitHub Token
+    {gh_repo} GitHub owner & repo name, eg ahqstore/app
+                      (Equivalent to GITHUB_REPOSITORY variable in GitHub actions)
+    {gh_action} {optional} Set this env to anything to specify that it is running in an GitHub Action
+                      (Outputs AHQ_STORE_FILE_URL=<url>)
   {build}
     Build the ahqstore config file
     {env}
