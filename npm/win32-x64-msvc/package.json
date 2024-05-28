@@ -1,6 +1,6 @@
 {
   "name": "@ahqstore/cli-win32-x64-msvc",
-  "version": "0.0.0",
+  "version": "0.3.3",
   "os": [
     "win32"
   ],
@@ -11,6 +11,9 @@
   "files": [
     "cli.win32-x64-msvc.node"
   ],
+  "repository": {
+    "url": "https://github.com/ahqstore/cli"
+  },
   "license": "MIT",
   "engines": {
     "node": ">= 10"

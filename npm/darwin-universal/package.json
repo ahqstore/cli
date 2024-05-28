@@ -1,6 +1,6 @@
 {
   "name": "@ahqstore/cli-darwin-universal",
-  "version": "0.0.0",
+  "version": "0.3.3",
   "os": [
     "darwin"
   ],
@@ -11,5 +11,8 @@
   "license": "MIT",
   "engines": {
     "node": ">= 10"
+  },
+  "repository": {
+    "url": "https://github.com/ahqstore/cli"
   }
 }
