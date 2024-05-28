@@ -151,36 +151,12 @@ switch (platform) {
     }
     break
   case 'freebsd':
-    if (arch !== 'x64') {
-      throw new Error(`Unsupported architecture on FreeBSD: ${arch}`)
-    }
-    localFileExisted = existsSync(join(__dirname, 'cli.freebsd-x64.node'))
-    try {
-      if (localFileExisted) {
-        nativeBinding = require('./cli.freebsd-x64.node')
-      } else {
-        nativeBinding = require('@ahqstore/cli-freebsd-x64')
-      }
-    } catch (e) {
-      loadError = e
-    }
-    break
+    throw new Error("Unsupported OS: FreeBSD");
   case 'linux':
     switch (arch) {
       case 'x64':
         if (isMusl()) {
-          localFileExisted = existsSync(
-            join(__dirname, 'cli.linux-x64-musl.node')
-          )
-          try {
-            if (localFileExisted) {
-              nativeBinding = require('./cli.linux-x64-musl.node')
-            } else {
-              nativeBinding = require('@ahqstore/cli-linux-x64-musl')
-            }
-          } catch (e) {
-            loadError = e
-          }
+          throw new Error("MUSL Bindings are not supported!");
         } else {
           localFileExisted = existsSync(
             join(__dirname, 'cli.linux-x64-gnu.node')
@@ -198,18 +174,7 @@ switch (platform) {
         break
       case 'arm64':
         if (isMusl()) {
-          localFileExisted = existsSync(
-            join(__dirname, 'cli.linux-arm64-musl.node')
-          )
-          try {
-            if (localFileExisted) {
-              nativeBinding = require('./cli.linux-arm64-musl.node')
-            } else {
-              nativeBinding = require('@ahqstore/cli-linux-arm64-musl')
-            }
-          } catch (e) {
-            loadError = e
-          }
+          throw new Error("MUSL Bindings are not supported!");
         } else {
           localFileExisted = existsSync(
             join(__dirname, 'cli.linux-arm64-gnu.node')
@@ -227,18 +192,7 @@ switch (platform) {
         break
       case 'arm':
         if (isMusl()) {
-          localFileExisted = existsSync(
-            join(__dirname, 'cli.linux-arm-musleabihf.node')
-          )
-          try {
-            if (localFileExisted) {
-              nativeBinding = require('./cli.linux-arm-musleabihf.node')
-            } else {
-              nativeBinding = require('@ahqstore/cli-linux-arm-musleabihf')
-            }
-          } catch (e) {
-            loadError = e
-          }
+          throw new Error("MUSL Bindings are not supported!");
         } else {
           localFileExisted = existsSync(
             join(__dirname, 'cli.linux-arm-gnueabihf.node')
@@ -256,18 +210,7 @@ switch (platform) {
         break
       case 'riscv64':
         if (isMusl()) {
-          localFileExisted = existsSync(
-            join(__dirname, 'cli.linux-riscv64-musl.node')
-          )
-          try {
-            if (localFileExisted) {
-              nativeBinding = require('./cli.linux-riscv64-musl.node')
-            } else {
-              nativeBinding = require('@ahqstore/cli-linux-riscv64-musl')
-            }
-          } catch (e) {
-            loadError = e
-          }
+          throw new Error("MUSL Bindings are not supported!");
         } else {
           localFileExisted = existsSync(
             join(__dirname, 'cli.linux-riscv64-gnu.node')
