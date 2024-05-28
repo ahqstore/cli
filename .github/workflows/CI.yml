@@ -99,8 +99,9 @@ jobs:
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
           node-version: 20
-          cache: pnpm
           architecture: x86
+      - name: Setup pnpm
+        run: npm i -g pnpm
       #- name: Build in docker
       #  uses: addnab/docker-run-action@v3
       #  if: ${{ matrix.settings.docker }}
@@ -133,7 +134,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
+      - name: Setup pnpm
+        run: npm i -g pnpm
       - name: Install dependencies
         run: pnpm install
       - name: Download macOS x64 artifact
@@ -166,7 +168,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
+      - name: Setup pnpm
+        run: npm i -g pnpm
       - name: Install dependencies
         run: pnpm install
       - name: Download all artifacts
