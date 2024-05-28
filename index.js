@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /* tslint:disable */
 /* eslint-disable */
 /* prettier-ignore */
@@ -310,6 +312,5 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { sum } = nativeBinding
+const { node_entrypoint } = nativeBinding
 
-module.exports.sum = sum

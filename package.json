@@ -1,8 +1,6 @@
 {
   "name": "@ahqstore/cli",
   "version": "0.0.0",
-  "main": "index.js",
-  "types": "index.d.ts",
   "napi": {
     "name": "cli",
     "triples": {
@@ -34,10 +32,13 @@
   "engines": {
     "node": ">= 10"
   },
+  "bin": {
+    "ahqstore": "./index.js"
+  },
   "scripts": {
     "artifacts": "napi artifacts",
-    "build": "napi build --platform --release",
-    "build:debug": "napi build --platform",
+    "build": "napi build --platform --release --features node",
+    "build:debug": "napi build --platform --features node",
     "prepublishOnly": "napi prepublish -t npm",
     "test": "ava",
     "universal": "napi universal",

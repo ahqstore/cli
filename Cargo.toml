@@ -8,12 +8,29 @@ crate-type = ["cdylib"]
 
 [dependencies]
 # Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
-napi = { version = "2.12.2", default-features = false, features = ["napi4"] }
-napi-derive = "2.12.2"
+napi = { version = "2.12.2", default-features = false, features = ["napi4"], optional = true }
+napi-derive = { version = "2.12.2", optional = true }
+inquire = { version = "0.7.5", features = ["editor"] }
+chalk_rs = "1.0.1"
+lazy_static = "1.4.0"
+serde = { version = "1.0.203", features = ["derive"] }
+serde_json = "1.0.117"
+ahqstore-types = "2.0.0"
+reqwest = { version = "0.12", features = ["json", "blocking"] }
+sha2 = "0.10.8"
+base64 = "0.22.1"
+image = "0.25"
+rand = "0.8.5"
+
+[target.aarch64-unknown-linux-gnu.dependencies]
+openssl = { version = "0.10.64", features = ["vendored"] }
 
 [build-dependencies]
-napi-build = "2.0.1"
+napi-build = {version = "2.0.1", optional = true}
 
 [profile.release]
 lto = true
 strip = "symbols"
+
+[features]
+node = ["dep:napi", "dep:napi-build", "dep:napi-derive"]
