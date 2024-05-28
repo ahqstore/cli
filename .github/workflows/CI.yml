@@ -124,7 +124,7 @@ jobs:
         with:
           perl-version: "5.38"
       - name: Linux Setup
-        if: ${{ matrix.settings.host }} == 'ubuntu-latest'
+        if: matrix.settings.host == 'ubuntu-latest'
         run: sudo apt update -y; sudo apt install -y gcc-aarch64-linux-gnu musl-tools --fix-missing
       - name: Setup node x86
         if: matrix.settings.target == 'i686-pc-windows-msvc'
