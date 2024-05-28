@@ -4,7 +4,13 @@ name = "ahqstore_cli"
 version = "0.0.0"
 
 [lib]
+name = "ahqstore_cli"
 crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[[bin]]
+name = "ahqstore"
+path = "src/main.rs"
 
 [dependencies]
 # Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
