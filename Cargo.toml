@@ -22,7 +22,7 @@ base64 = "0.22.1"
 image = "0.25"
 rand = "0.8.5"
 
-[target.aarch64-unknown-linux-gnu.dependencies]
+[target.'cfg(not(all(windows, target_os="macos")))'.dependencies]
 openssl = { version = "0.10.64", features = ["vendored"] }
 
 [build-dependencies]
