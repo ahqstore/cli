@@ -175,6 +175,7 @@ jobs:
     needs:
       - build
       - universal-macOS
+      - publish-cargo
     steps:
       - uses: actions/checkout@v4
       - name: Setup node
