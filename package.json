@@ -1,6 +1,6 @@
 {
   "name": "@ahqstore/cli",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "napi": {
     "name": "cli",
     "triples": {
@@ -25,6 +25,9 @@
   },
   "engines": {
     "node": ">= 10"
+  },
+  "repository": {
+    "url": "https://github.com/ahqstore/cli"
   },
   "bin": {
     "ahqstore": "./index.js"
