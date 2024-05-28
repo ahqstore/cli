@@ -1,0 +1,15 @@
+{
+  "name": "@ahqstore/cli-darwin-universal",
+  "version": "0.0.0",
+  "os": [
+    "darwin"
+  ],
+  "main": "cli.darwin-universal.node",
+  "files": [
+    "cli.darwin-universal.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  }
+}
