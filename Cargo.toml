@@ -2,6 +2,11 @@
 edition = "2021"
 name = "ahqstore_cli"
 version = "0.3.1"
+description = "AHQ Store CLI"
+repository = "https://github.com/ahqstore/cli"
+homepage = "https://github.com/ahqstore/cli"
+license = "MIT"
+readme = "README.md"
 
 [lib]
 name = "ahqstore_cli"
