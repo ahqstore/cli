@@ -52,7 +52,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag_name: version,
-              name: `AHQ Store CLI v${version}`,
+              name: `CLI Binaries v${version}`,
               body: String(fs.readFileSync("./latest.md")),
               draft: true,
               prerelease: false

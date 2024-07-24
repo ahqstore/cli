@@ -1,3 +1,1 @@
-# AHQ Store CLI v0.4.1
-
-- Test adding cargo b(inary)install support
+- Just a clone of 0.4.2
