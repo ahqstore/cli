@@ -1,69 +1,45 @@
-use ahqstore_types::{InstallType, InstallerFormat, Win32Deps};
+use ahqstore_types::InstallerFormat;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 #[allow(non_snake_case)]
 pub struct IPlatform<'a> {
-  pub installType: InstallType,
-  pub win32Platform: Option<InstallerFormat>,
-  pub linuxPlatform: Option<InstallerFormat>,
+  pub winAmd64Platform: Option<InstallerFormat>,
+  pub winArm64Platform: Option<InstallerFormat>,
+  pub linuxAmd64Platform: Option<InstallerFormat>,
+  pub linuxArm64Platform: Option<InstallerFormat>,
+  pub linuxArm32Platform: Option<InstallerFormat>,
+  pub androidUniversal: Option<InstallerFormat>,
   #[serde(borrow)]
-  pub win32Options: Option<IOWin32<'a>>,
-  pub linuxOptions: Option<IOLinux>,
+  pub winAmd64Options: Option<IOWin<'a>>,
+  #[serde(borrow)]
+  pub winArm64Options: Option<IOWin<'a>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct IOWin32<'a> {
-  pub deps: Vec<Win32Deps>,
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct IOWin<'a> {
   #[serde(borrow)]
   pub zip_file_exec: Option<&'a str>,
   #[serde(borrow)]
   pub exe_installer_args: Option<Vec<&'a str>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct IOLinux {
-  
-}
-
 impl<'a> IPlatform<'a> {
-  pub fn new(platforms: Vec<InstallerFormat>) -> Self {
-    let win32 = own(
-      platforms
-        .iter()
-        .find(|p| !matches!(&p, &&&InstallerFormat::LinuxAppImage)),
-    );
-
-    let linux = own(
-      platforms
-        .iter()
-        .find(|p| matches!(&p, &&&InstallerFormat::LinuxAppImage)),
-    );
+  pub fn new() -> Self {
+    let io_win = IOWin {
+      exe_installer_args: Some(vec![]),
+      zip_file_exec: None,
+    };
 
     Self {
-      installType: InstallType::Computer,
-      win32Platform: win32,
-      linuxPlatform: linux,
-      win32Options: Some(IOWin32 {
-        deps: vec![],
-        exe_installer_args: Some(vec![]),
-        zip_file_exec: None,
-      }),
-      linuxOptions: Some(IOLinux {  }),
+      winAmd64Platform: None,
+      winArm64Platform: None,
+      linuxAmd64Platform: None,
+      linuxArm32Platform: None,
+      linuxArm64Platform: None,
+      androidUniversal: None,
+      winAmd64Options: Some(io_win.clone()),
+      winArm64Options: Some(io_win)
     }
-  }
-}
-
-fn own(val: Option<&InstallerFormat>) -> Option<InstallerFormat> {
-  if let Some(v) = val {
-    Some(match &v {
-      &&InstallerFormat::LinuxAppImage => InstallerFormat::LinuxAppImage,
-      &&InstallerFormat::WindowsInstallerExe => InstallerFormat::WindowsInstallerExe,
-      &&InstallerFormat::WindowsZip => InstallerFormat::WindowsZip,
-      &&InstallerFormat::WindowsInstallerMsi => InstallerFormat::WindowsInstallerMsi,
-      &&InstallerFormat::WindowsUWPMsix => InstallerFormat::WindowsUWPMsix,
-    })
-  } else {
-    None
   }
 }

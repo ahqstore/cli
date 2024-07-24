@@ -8,7 +8,7 @@ The schema has been shown below
 
 ```ts
 type Platform =
-  // Windows Platforms + Updater & UnInstaller Support
+  // Windows Platforms + Updater & Uninstaller Support
   | "WindowsZip"
   | "WindowsInstallerMsi"
 
@@ -16,10 +16,11 @@ type Platform =
   | "WindowsInstallerExe"
   | "WindowsUWPMsix"
 
-  // Linux Platform + Updater & UnInstaller Support
-  | "LinuxAppImage";
+  // Linux Platform + Updater & Uninstaller Support
+  | "LinuxAppImage"
 
-type Win32Deps = "AHQStoreAPI" | "Node21" | "Node18";
+  // Android (Under Development)
+  | "AndroidLinuxZip";
 
 interface ConfigJSON {
   [key: string]: {
@@ -34,35 +35,43 @@ interface ConfigJSON {
       repo: string; //Repo URL
     };
     finder: {
-      windowsFinder?: {
-        startsWith?: string; // The Windows Bundled app should startWith?
-        contains?: string; // The Windows Bundled app should include?
-        endsWith?: string; // The Windows Bundled app should endWith?
-      };
-      linuxFinder?: {
-        startsWith?: string; // The Linux Bundled app should startWith?
-        contains?: string; // The Linux Bundled app should include?
-        endsWith?: string; // The Linux Bundled app should endWith?
+      [platform: ""]: {
+        startsWith?: string; // The Bundled app should startWith?
+        contains?: string; // The Bundled app should include?
+        endsWith?: string; // The Bundled app should endWith?
       };
     };
     platform: {
-      installType: "Both" | "PerUser" | "Computer"; // Install Type
-      win32Platform?: Platform; // What type of binary does your app provide to AHQ Store
-      linuxPlatform?: Platform; // <-- Same as win32Platform -->
-      win32Options?: {
-        deps: Win32Deps[]; // Win32 Custom Deps
+      // Must be "WindowsZip"| "WindowsInstallerMsi" |"WindowsInstallerExe" | "WindowsUWPMsix"
+      winAmd64Platform?: Platform; // What type of binary does your app provide to AHQ Store
+      winArm64Platform?: Platform; // <-- Same as winAmd64Platform -->
+
+      linuxAmd64Platform?: Platform; // Must be LinuxAppImage
+      linuxArm64Platform?: Platform; // Must be LinuxAppImage
+      linuxArm64Platform?: Platform; // Must be LinuxAppImage
+      linuxArm32Platform?: Platform; // Must be LinuxAppImage
+
+      androidUniversalPlatform?: Platform; // Must be AndroidApkZip
+
+      winAmd64Options?: {
         zip_file_exec?: string; // Exe to Link via our installer (WindowsZIP)
         exe_installer_args?: string[]; // Args to run to your custom installer (WindowsInstallerExe)
       };
-      linuxOptions?: {};
+
+      winArm64Options?: {
+        zip_file_exec?: string; // Exe to Link via our installer (WindowsZIP)
+        exe_installer_args?: string[]; // Args to run to your custom installer (WindowsInstallerExe)
+      };
     };
     site?: string; // Your app's website
-    redistributed?: string; // Redistributed page (not for public)
+    source?: string; // Your app's website (that contains source code)
+    redistributed?: string; // You just **cannot** set this
+    license_or_tos?: string; // Name of License or site of TOS
   };
 }
 ```
 
-## icon.png
+## images/<app-id>/icon.png
 
 Your application icon that'll be bundled in the app metadata file
 

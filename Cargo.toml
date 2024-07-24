@@ -1,7 +1,7 @@
 [package]
 edition = "2021"
 name = "ahqstore_cli_rs"
-version = "0.3.5"
+version = "0.4.0"
 description = "AHQ Store CLI"
 repository = "https://github.com/ahqstore/cli"
 homepage = "https://github.com/ahqstore/cli"
@@ -19,31 +19,35 @@ path = "src/main.rs"
 
 [dependencies]
 # Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
-napi = { version = "2.12.2", default-features = false, features = [
+napi = { version = "2", default-features = false, features = [
   "napi4",
 ], optional = true }
-napi-derive = { version = "2.12.2", optional = true }
-inquire = { version = "0.7.5", features = ["editor"] }
-chalk_rs = "1.0.1"
-lazy_static = "1.4.0"
-serde = { version = "1.0.203", features = ["derive"] }
-serde_json = "1.0.117"
-ahqstore-types = "2.0.0"
+napi-derive = { version = "2", optional = true }
+inquire = { version = "0", features = ["editor"] }
+chalk_rs = "1"
+lazy_static = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+ahqstore-types = "2.3.0"
 reqwest = { version = "0.12", features = ["json", "blocking"] }
-sha2 = "0.10.8"
-base64 = "0.22.1"
+sha2 = "0.10"
+base64 = "0.22"
 image = { version = "0.25", default-features = false, features = [
   "rayon",
   "png",
 ] }
-rand = "0.8.5"
+rand = "0.8"
 
 [target.'cfg(unix)'.dependencies]
 openssl-sys = { version = "0.9.102", features = ["vendored"] }
 
+[package.metadata.binstall]
+pkg-url = "{ repo }/releases/download/v{ version }/{ name }-{ target }-v{ version }{ archive-suffix }"
+bin-dir = "{ name }-{ target }-v{ version }/{ bin }{ binary-ext }"
+pkg-fmt = "zip"
 
 [build-dependencies]
-napi-build = { version = "2.0.1", optional = true }
+napi-build = { version = "2", optional = true }
 
 [profile.release]
 lto = true

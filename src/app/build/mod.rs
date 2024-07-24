@@ -1,6 +1,5 @@
 use ahqstore_types::{
-  AHQStoreApplication, DownloadUrl, InstallType, InstallerFormat, InstallerOptions,
-  InstallerOptionsLinux, InstallerOptionsWin32, Str,
+  AHQStoreApplication, DownloadUrl, InstallerFormat, InstallerOptions, InstallerOptionsAndroid, InstallerOptionsLinux, InstallerOptionsWindows, Str
 };
 use lazy_static::lazy_static;
 use reqwest::blocking::{Client, ClientBuilder};
@@ -8,7 +7,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::{from_str, to_string, to_string_pretty};
 use std::{collections::HashMap, env, fs, process};
 
-use crate::app::{ERR, WARN};
+use crate::app::ERR;
 
 use super::INFO;
 
@@ -18,6 +17,9 @@ mod release;
 use config::*;
 use icon::*;
 use release::*;
+
+#[macro_use]
+mod macros;
 
 lazy_static! {
   pub static ref CLIENT: Client = ClientBuilder::new()
@@ -91,94 +93,96 @@ pub fn build_config(upload: bool, gh_action: bool) {
     downloadUrls: HashMap::default(),
     icon,
     displayImages,
+    app_page: config.source,
+    license_or_tos: config.license_or_tos,
     install: InstallerOptions {
-      installType: config.platform.installType,
       linux: None,
+      android: None,
+      linuxArm64: None,
+      linuxArm7: None,
+      winarm: None,
       win32: None,
     },
     repo: config.repo,
     version,
-    site: None,
-    source: None
+    site: config.site,
+    source: config.redistributed,
   };
 
-  if let Some(platform) = config.platform.win32Platform {
-    match (&platform, &final_config.install.installType) {
-      (&InstallerFormat::WindowsZip, _) => {}
-      (_, &InstallType::PerUser | &InstallType::Computer) => {
-        WARN.println(
-          &"Setting PerUser or Computer in a non WindowsZip install type does not have any effect",
-        );
-        process::exit(1);
-      }
-      _ => {}
-    };
-    let Some(options) = config.platform.win32Options else {
-      ERR.println(&"Win32 Options not found!");
-      process::exit(1);
-    };
-    let Some(finder) = config.finder.windowsFinder else {
-      ERR.println(&"Win32 Finder Config not found!");
+  let mut num = 0;
+  // Win x86_64
+  windowsPlatform!(num, win32, config, gh_r, final_config, winAmd64Platform, winAmd64Options, windowsAmd64Finder);
+
+  // Win Arm64
+  windowsPlatform!(num, winarm, config, gh_r, final_config, winArm64Platform, winArm64Options, windowsArm64Finder);
+
+  // Linux x86_64
+  linuxPlatform!(num, linux, config, gh_r, final_config, linuxAmd64Platform, linuxAmd64Finder);
+
+  // Linux Arm64
+  linuxPlatform!(num, linuxArm64, config, gh_r, final_config, linuxArm64Platform, linuxArm64Finder);
+
+  // Linux Armv7
+  linuxPlatform!(num, linuxArm7, config, gh_r, final_config, linuxArm32Platform, linuxArm32Finder);
+
+  num += 1;
+
+  // Android Universal
+  if let Some(platform) = config.platform.androidUniversal {
+    if !matches!(platform, InstallerFormat::AndroidApkZip) {
+      ERR.println(&"Invalid File Format, expected AndroidApkZip");
+    }
+
+    let Some(finder) = config.finder.androidUniversalFinder else {
+      ERR.println(&"Android Finder Config not found!");
       process::exit(1);
     };
 
     let assets = find_assets(&gh_r, &finder);
-
+    
     if assets.len() > 1 {
-      ERR.println(&"Multiple assets found");
-      process::exit(1);
-    }
-    if assets.len() == 0 {
-      ERR.println(&"No assets found");
+      ERR.println(&"Multiple assets found while parsing android");
       process::exit(1);
     }
 
     final_config.downloadUrls.insert(
-      1,
+      num,
       DownloadUrl {
         installerType: platform,
         url: assets[0].browser_download_url.clone(),
       },
     );
 
-    final_config.install.win32 = Some(InstallerOptionsWin32 {
-      assetId: 1,
-      deps: Some(options.deps),
-      exec: options.zip_file_exec.map_or(None, |a| Some(a.to_string())),
-      installerArgs: options
-        .exe_installer_args
-        .map_or(None, |a| Some(a.iter().map(|x| x.to_string()).collect())),
+    final_config.install.android = Some(InstallerOptionsAndroid {
+      assetId: num
     });
   }
 
-  if let Some(platform) = config.platform.linuxPlatform {
-    let Some(finder) = config.finder.linuxFinder else {
-      ERR.println(&"Linux Finder Config not found!");
-      process::exit(1);
-    };
+  // if let Some(platform) = config.platform.linuxArm64Platform {
+  //   let Some(finder) = config.finder.linuxFinder else {
+  //     ERR.println(&"Linux Finder Config not found!");
+  //     process::exit(1);
+  //   };
 
-    let assets = find_assets(&gh_r, &finder);
+  //   let assets = find_assets(&gh_r, &finder);
 
-    if assets.len() > 1 {
-      ERR.println(&"Multiple assets found");
-      process::exit(1);
-    }
+  //   if assets.len() > 1 {
+  //     ERR.println(&"Multiple assets found");
+  //     process::exit(1);
+  //   }
 
-    final_config.downloadUrls.insert(
-      2,
-      DownloadUrl {
-        installerType: platform,
-        url: assets[0].browser_download_url.clone(),
-      },
-    );
+  //   final_config.downloadUrls.insert(
+  //     2,
+  //     DownloadUrl {
+  //       installerType: platform,
+  //       url: assets[0].browser_download_url.clone(),
+  //     },
+  //   );
 
-    final_config.install.linux = Some(InstallerOptionsLinux {
-      assetId: 2
-    });
-  }
-
-  final_config.site = config.site;
-  final_config.source = config.redistributed;
+  //   final_config.install.linux = Some(InstallerOptionsLinux {
+  //     assetId: 2
+  //   });
+  // }
 
   let config_file = to_string_pretty(&final_config).unwrap();
   let config_file = to_string(config_file.as_bytes()).unwrap();

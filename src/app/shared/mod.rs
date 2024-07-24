@@ -25,7 +25,9 @@ pub struct IMetadata<'a> {
   #[serde[borrow]]
   pub finder: FileFinder<'a>,
   pub site: Option<Str>,
+  pub source: Option<Str>,
   pub redistributed: Option<Str>,
+  pub license_or_tos: Option<Str>,
 }
 
 impl<'a> IMetadata<'a> {
@@ -53,7 +55,9 @@ impl<'a> IMetadata<'a> {
         platform,
         finder: FileFinder::new(),
         site: None,
-        redistributed: None
+        source: None,
+        redistributed: None,
+        license_or_tos: None
       },
     );
 

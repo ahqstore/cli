@@ -1,15 +1,13 @@
 use std::process;
 
-use ahqstore_types::{AppRepo, InstallerFormat};
+use ahqstore_types::AppRepo;
 use inquire::{
-  list_option::ListOption,
   validator::{ErrorMessage, Validation},
-  Editor, MultiSelect, Text,
+  Editor, Text,
 };
 use serde::{Deserialize, Serialize};
 
 use crate::app::{
-  build::CLIENT,
   shared::{Config, IMetadata, IPlatform},
   ERR, INFO,
 };
@@ -78,78 +76,33 @@ pub fn inquire<'a>() -> (String, Config<'a>) {
 
   INFO.println(&"Validating author id & repo");
 
-  let val: Option<()> = (|| {
-    let data: ServerUserResp = CLIENT
-      .get(format!(
-        "https://ahqstore-server.onrender.com/users/{}",
-        &user_id
-      ))
-      .send()
-      .ok()?
-      .json()
-      .ok()?;
+//   let val: Option<()> = (|| {
+//     let data: ServerUserResp = CLIENT
+//       .get(format!(
+//         "https://ahqstore-server.onrender.com/users/{}",
+//         &user_id
+//       ))
+//       .send()
+//       .ok()?
+//       .json()
+//       .ok()?;
 
-    if data.linked_acc.contains(&owner.into()) {
-      return Some(());
-    }
-    None
-  })();
+//     if data.linked_acc.contains(&owner.into()) {
+//       return Some(());
+//     }
+//     None
+//   })();
 
-  if let None = val {
-    ERR.println(
-      &r#"Could not validate author id with github username. It may be because:
-- The account id provided is not valid
-- The account id has developer mode disabled
-- The GitHub repo owner doesn't seem to be in the list of linked_accounts
-- The GitHub repo is invalid"#,
-    );
-    process::exit(1);
-  }
-
-  let validator = |input: &[ListOption<&InstallerFormat>]| {
-    if input.len() == 0 {
-      return Ok(Validation::Invalid(
-        "You must select at least one target".into(),
-      ));
-    }
-    if input.len() > 2 {
-      return Ok(Validation::Invalid(
-        "You can only select two targets".into(),
-      ));
-    }
-
-    let flagged = vec![0, 1, 2, 3];
-    if input
-      .iter()
-      .filter(|a| flagged.contains(&a.index))
-      .collect::<Vec<_>>()
-      .len()
-      > 1
-    {
-      return Ok(Validation::Invalid(
-        "You can only select one bundle target for a platform".into(),
-      ));
-    }
-
-    Ok(Validation::Valid)
-  };
-
-  let Ok(platforms) = MultiSelect::new(
-    "Which platforms do you intend to support?",
-    vec![
-      InstallerFormat::WindowsZip,
-      InstallerFormat::WindowsInstallerMsi,
-      InstallerFormat::WindowsInstallerExe,
-      InstallerFormat::WindowsUWPMsix,
-      InstallerFormat::LinuxAppImage,
-    ],
-  )
-  .with_default(&[0])
-  .with_validator(validator)
-  .prompt() else {
-    ERR.println(&"Must Select a platform");
-    process::exit(1);
-  };
+//   if let None = val {
+//     ERR.println(
+//       &r#"Could not validate author id with github username. It may be because:
+// - The account id provided is not valid
+// - The account id has developer mode disabled
+// - The GitHub repo owner doesn't seem to be in the list of linked_accounts
+// - The GitHub repo is invalid"#,
+//     );
+//     process::exit(1);
+//   }
 
   (
     app_id.clone(),
@@ -163,7 +116,7 @@ pub fn inquire<'a>() -> (String, Config<'a>) {
         author: owner.into(),
         repo: repo.into(),
       },
-      IPlatform::new(platforms),
+      IPlatform::new()
     ),
   )
 }

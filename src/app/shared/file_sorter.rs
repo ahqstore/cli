@@ -1,15 +1,23 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Default)]
 #[allow(non_snake_case)]
 pub struct FileFinder<'a> {
   #[serde(borrow)]
-  pub windowsFinder: Option<Finder<'a>>,
+  pub windowsAmd64Finder: Option<Finder<'a>>,
   #[serde(borrow)]
-  pub linuxFinder: Option<Finder<'a>>,
+  pub windowsArm64Finder: Option<Finder<'a>>,
+  #[serde(borrow)]
+  pub linuxAmd64Finder: Option<Finder<'a>>,
+  #[serde(borrow)]
+  pub linuxArm64Finder: Option<Finder<'a>>,
+  #[serde(borrow)]
+  pub linuxArm32Finder: Option<Finder<'a>>,
+  #[serde(borrow)]
+  pub androidUniversalFinder: Option<Finder<'a>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Default)]
 #[allow(non_snake_case)]
 pub struct Finder<'a> {
   #[serde(borrow)]
@@ -23,12 +31,12 @@ pub struct Finder<'a> {
 impl<'a> FileFinder<'a> {
   pub fn new() -> Self {
     Self {
-      windowsFinder: Some(Finder {
+      windowsAmd64Finder: Some(Finder {
         startsWith: Some("This-is"),
         contains: Some("an"),
         endsWith: Some(".example"),
       }),
-      linuxFinder: None,
+      ..Default::default()
     }
   }
 }
