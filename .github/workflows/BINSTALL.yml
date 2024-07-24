@@ -51,11 +51,11 @@ jobs:
             const { data } = await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: !alpha ? version : `alpha-${alphaId}`,
+              tag_name: version,
               name: `AHQ Store CLI v${version}`,
               body: String(fs.readFileSync("./latest.md")),
               draft: true,
-              prerelease: alpha
+              prerelease: false
             });
             return data
 
@@ -159,6 +159,13 @@ jobs:
         run: ./bundle
         env:
           TARGET: ${{ matrix.target }}
+
+      - name: Upload to Releases
+        uses: AButler/upload-release-assets@v3.0
+        with:
+          release-id: ${{ needs.create-release.outputs.release_id }}
+          files: ./ahqstore_cli_rs-${{ matrix.target }}.zip
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
   publish:
     needs: [create-release, build]

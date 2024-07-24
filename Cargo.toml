@@ -17,6 +17,10 @@ path = "src/lib.rs"
 name = "ahqstore"
 path = "src/main.rs"
 
+[package.metadata.binstall]
+pkg-url = "{ repo }/releases/download/{ version }/{ name }-{ target }.zip"
+pkg-fmt = "zip"
+
 [dependencies]
 # Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
 napi = { version = "2", default-features = false, features = [
@@ -40,11 +44,6 @@ rand = "0.8"
 
 [target.'cfg(unix)'.dependencies]
 openssl-sys = { version = "0.9.102", features = ["vendored"] }
-
-[package.metadata.binstall]
-pkg-url = "{ repo }/releases/download/v{ version }/{ name }-{ target }-v{ version }{ archive-suffix }"
-bin-dir = "{ name }-{ target }-v{ version }/{ bin }{ binary-ext }"
-pkg-fmt = "zip"
 
 [build-dependencies]
 napi-build = { version = "2", optional = true }
