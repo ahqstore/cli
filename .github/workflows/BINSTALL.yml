@@ -101,6 +101,7 @@ jobs:
   build:
     needs: [create-release]
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: ubuntu-latest
@@ -150,10 +151,13 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install zip gcc-aarch64-linux-gnu gcc-i686-linux-gnu
-          chmod 777 ./bundle
 
       - name: Build CLI
         run: cargo build --release
+
+      - name: chmod 777
+        if: matrix.os != 'windows-latest'
+        run: chmod 777 ./bundle
 
       - name: Bundle CLI
         run: ./bundle
