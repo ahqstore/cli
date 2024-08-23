@@ -4,6 +4,10 @@ Read more about it [here](https://ahqstore.github.io)
 
 # Changelog
 
+## 0.5.1 23-Aug-2024 10:09PM IST
+
+- Fix NPM Publish error
+
 ## 0.5.0 **(I)** 23-Aug-2024 10:05PM IST
 
 - Update to the new resources scheme (ahqstore-types v3.1.0)
