@@ -1,5 +1,4 @@
 use crate::app::ERR;
-use base64::engine::{general_purpose::STANDARD, Engine};
 use image::{load_from_memory_with_format as load_img, ImageFormat};
 use std::fs;
 use std::process;
