@@ -1,1 +1,1 @@
-- Just a clone of 0.4.2
+Binaries for the release
