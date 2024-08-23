@@ -30,6 +30,7 @@ lazy_static! {
 
 #[derive(Debug, Deserialize, Serialize)]
 struct GHRelease {
+  pub tag_name: String,
   pub upload_url: String,
   pub assets: Vec<GHAsset>,
 }
@@ -79,20 +80,30 @@ pub fn build_config(upload: bool, gh_action: bool) {
   let (version, gh_r) = fetch_release(&repo, &r_id, &gh_token);
 
   let icon = get_icon(&config.appId);
+  let dspl_images = get_images(&config.appId);
+
+  let mut resources = HashMap::new();
+  resources.insert(0, icon);
+
   #[allow(non_snake_case)]
-  let displayImages = get_images(&config.appId);
+  let displayImages = dspl_images.into_iter().enumerate().map(|(uid, icon)| {
+    resources.insert(uid as u8 + 1u8, icon);
+
+    uid as u8
+  }).collect();
 
   let app_id = config.appId.clone();
 
   let mut final_config: AHQStoreApplication = AHQStoreApplication {
+    releaseTagName: gh_r.tag_name.clone(),
     appDisplayName: config.appDisplayName,
     appId: config.appId,
     appShortcutName: config.appShortcutName,
     authorId: config.authorId,
     description: config.description,
     downloadUrls: HashMap::default(),
-    icon,
     displayImages,
+    resources: Some(resources),
     app_page: config.source,
     license_or_tos: config.license_or_tos,
     install: InstallerOptions {
@@ -149,7 +160,8 @@ pub fn build_config(upload: bool, gh_action: bool) {
       num,
       DownloadUrl {
         installerType: platform,
-        url: assets[0].browser_download_url.clone(),
+        asset: assets[0].name.clone(),
+        url: "".into()
       },
     );
 

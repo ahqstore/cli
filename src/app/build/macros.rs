@@ -43,7 +43,8 @@ macro_rules! windowsPlatform {
         $num,
         DownloadUrl {
           installerType: platform,
-          url: assets[0].browser_download_url.clone(),
+          asset: assets[0].name.clone(),
+          url: "".into(),
         },
       );
   
@@ -83,7 +84,8 @@ macro_rules! linuxPlatform {
           $num,
           DownloadUrl {
             installerType: platform,
-            url: assets[0].browser_download_url.clone(),
+            asset: assets[0].name.clone(),
+            url: "".into()
           },
         );
     

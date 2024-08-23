@@ -4,7 +4,7 @@ use image::{load_from_memory_with_format as load_img, ImageFormat};
 use std::fs;
 use std::process;
 
-pub fn get_icon(uid: &str) -> String {
+pub fn get_icon(uid: &str) -> Vec<u8> {
   let base_img = format!("./.ahqstore/images/{uid}/icon.png");
 
   let Ok(icon) = fs::read(&base_img) else {
@@ -14,10 +14,10 @@ pub fn get_icon(uid: &str) -> String {
 
   validate_png(&icon);
 
-  STANDARD.encode(&icon)
+  icon
 }
 
-pub fn get_images(uid: &str) -> Vec<String> {
+pub fn get_images(uid: &str) -> Vec<Vec<u8>> {
   let base_img = format!("./.ahqstore/images/{uid}");
 
   let Ok(image_dir) = fs::read_dir(&base_img) else {
@@ -31,7 +31,7 @@ pub fn get_images(uid: &str) -> Vec<String> {
     .map(|res| fs::read(res).expect("Unable to read bytes"))
     .map(|img| {
       validate_png(&img);
-      return STANDARD.encode(&img);
+      return img;
     })
     .collect::<Vec<_>>();
 
