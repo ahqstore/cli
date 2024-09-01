@@ -197,17 +197,16 @@ pub fn build_config(upload: bool, gh_action: bool) {
   // }
 
   let config_file = to_string_pretty(&final_config).unwrap();
-  let config_file = to_string(config_file.as_bytes()).unwrap();
 
   if !gh_action {
-    println!("Bytes: ahqstore.json");
+    println!("{} {}.json", &*INFO, &app_id);
     println!("{}", &config_file);
   }
 
   if upload {
     let uup = gh_r
       .upload_url
-      .replace("{?name,label}", &format!("?name={app_id}.txt"));
+      .replace("{?name,label}", &format!("?name={app_id}.json"));
 
     let resp = CLIENT
       .post(uup)

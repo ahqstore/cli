@@ -4,6 +4,10 @@ Read more about it [here](https://ahqstore.github.io)
 
 # Changelog
 
+## 0.5.4 01-Sep-2024 10:07PM IST
+
+- **[CRITICAL]** Fixes invalid config files being generated
+
 ## 0.5.1 23-Aug-2024 10:09PM IST
 
 - Fix NPM Publish error
