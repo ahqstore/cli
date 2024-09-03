@@ -4,6 +4,10 @@ Read more about it [here](https://ahqstore.github.io)
 
 # Changelog
 
+## 0.5.5 03-Sep-2024 10:20PM IST
+
+- update ahqstore-types
+
 ## 0.5.4 01-Sep-2024 10:07PM IST
 
 - **[CRITICAL]** Fixes invalid config files being generated
