@@ -4,7 +4,7 @@ use ahqstore_types::{
 use lazy_static::lazy_static;
 use reqwest::blocking::{Client, ClientBuilder};
 use serde::{Deserialize, Serialize};
-use serde_json::{from_str, to_string, to_string_pretty};
+use serde_json::{from_str, to_string};
 use std::{collections::HashMap, env, fs, process};
 
 use crate::app::ERR;
@@ -170,33 +170,20 @@ pub fn build_config(upload: bool, gh_action: bool) {
     });
   }
 
-  // if let Some(platform) = config.platform.linuxArm64Platform {
-  //   let Some(finder) = config.finder.linuxFinder else {
-  //     ERR.println(&"Linux Finder Config not found!");
-  //     process::exit(1);
-  //   };
+  INFO.println(&"Validating config");
+  match final_config.validate() {
+    Ok(x) => {
+      println!("{x}");
+    },
+    Err(x) => {
+      ERR.println(&"An error occured!");
+      println!("{x}");
 
-  //   let assets = find_assets(&gh_r, &finder);
+      panic!("👆🏼 Please fix the above issues!");
+    }
+  }
 
-  //   if assets.len() > 1 {
-  //     ERR.println(&"Multiple assets found");
-  //     process::exit(1);
-  //   }
-
-  //   final_config.downloadUrls.insert(
-  //     2,
-  //     DownloadUrl {
-  //       installerType: platform,
-  //       url: assets[0].browser_download_url.clone(),
-  //     },
-  //   );
-
-  //   final_config.install.linux = Some(InstallerOptionsLinux {
-  //     assetId: 2
-  //   });
-  // }
-
-  let config_file = to_string_pretty(&final_config).unwrap();
+  let config_file = to_string(&final_config).unwrap();
 
   if !gh_action {
     println!("{} {}.json", &*INFO, &app_id);

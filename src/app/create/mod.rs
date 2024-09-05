@@ -23,13 +23,7 @@ pub fn create(force: bool) {
     fs::write(format!("{}/icon.png", &base_img), icon).ok()?;
 
     let readme = include_str!("./readme.md");
-    fs::write("./.ahqstore/README.md", readme).ok()?;
-
-    let readme = include_str!("./readme.es.md");
-    fs::write("./.ahqstore/README.es.md", readme).ok()?;
-
-    let readme = include_str!("./readme.hi.md");
-    fs::write("./.ahqstore/README.hi.md", readme).ok()
+    fs::write("./.ahqstore/README.md", readme).ok()
   })()
   .is_some();
 

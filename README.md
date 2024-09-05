@@ -4,6 +4,12 @@ Read more about it [here](https://ahqstore.github.io)
 
 # Changelog
 
+## 0.6.0 **(m)** 05-Sep-2024 10:37PM IST
+
+- Introduced ahqstore-types apps validation
+- Now you can view schemas in [docs.rs](https://docs.rs/ahqstore_cli_rs)
+- Update Dependencies
+
 ## 0.5.5 03-Sep-2024 10:20PM IST
 
 - update ahqstore-types

@@ -75,35 +75,7 @@ pub fn inquire<'a>() -> (String, Config<'a>) {
   };
 
   INFO.println(&"Validating author id & repo");
-
-//   let val: Option<()> = (|| {
-//     let data: ServerUserResp = CLIENT
-//       .get(format!(
-//         "https://ahqstore-server.onrender.com/users/{}",
-//         &user_id
-//       ))
-//       .send()
-//       .ok()?
-//       .json()
-//       .ok()?;
-
-//     if data.linked_acc.contains(&owner.into()) {
-//       return Some(());
-//     }
-//     None
-//   })();
-
-//   if let None = val {
-//     ERR.println(
-//       &r#"Could not validate author id with github username. It may be because:
-// - The account id provided is not valid
-// - The account id has developer mode disabled
-// - The GitHub repo owner doesn't seem to be in the list of linked_accounts
-// - The GitHub repo is invalid"#,
-//     );
-//     process::exit(1);
-//   }
-
+  
   (
     app_id.clone(),
     IMetadata::new(

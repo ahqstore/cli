@@ -15,8 +15,9 @@ macro_rules! windowsPlatform {
   ($num: ident, $win: ident, $config: ident, $gh_r: ident, $final_config: ident, $platform: ident, $options: ident, $finder: ident) => {
     $num += 1;
     if let Some(platform) = $config.platform.$platform {
-      if !matches!(&platform, &InstallerFormat::LinuxAppImage | &InstallerFormat::AndroidApkZip) {
+      if matches!(&platform, &InstallerFormat::LinuxAppImage | &InstallerFormat::AndroidApkZip) {
         ERR.println(&"Invalid File Format, expected a valid windows format");
+        process::exit(1);
       } 
 
       let Some(options) = $config.platform.$options else {
