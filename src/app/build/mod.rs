@@ -104,7 +104,6 @@ pub fn build_config(upload: bool, gh_action: bool) {
     downloadUrls: HashMap::default(),
     displayImages,
     resources: Some(resources),
-    app_page: config.source,
     license_or_tos: config.license_or_tos,
     install: InstallerOptions {
       linux: None,
@@ -118,6 +117,7 @@ pub fn build_config(upload: bool, gh_action: bool) {
     version,
     site: config.site,
     source: config.redistributed,
+    verified: false
   };
 
   let mut num = 0;
