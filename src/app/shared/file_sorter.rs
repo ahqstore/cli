@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize, Default)]
 #[allow(non_snake_case)]
+/// # Self Explanatory
 pub struct FileFinder<'a> {
   #[serde(borrow)]
   pub windowsAmd64Finder: Option<Finder<'a>>,

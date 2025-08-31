@@ -3,8 +3,7 @@ use std::{env, fs, process};
 use serde_json::from_str;
 
 use crate::app::{
-  shared::{Config, Finder, IMetadata},
-  ERR,
+  ERR, WARN, shared::{Config, ConfigValue, Finder, IMetadata}
 };
 
 use super::{GHAsset, GHRelease};
@@ -21,9 +20,22 @@ pub fn get_config<'a>() -> IMetadata<'a> {
   };
 
   if let Ok(app_id) = env::var("APP_ID") {
-    config.remove(&app_id).expect("Key not present in JSON")
+    if let ConfigValue::Meta(x) = config.remove(&app_id).expect("Key not present in JSON") {
+      x
+    } else {
+      panic!("No key present in JSON");
+    }
   } else {
-    config.into_values().nth(0).expect("No Key present in JSON")
+    WARN.println(&"[WARN] Automatically selecting the 1st key");
+
+    let ConfigValue::Meta(x) = config.into_values().filter(|x| match x {
+      ConfigValue::Meta(_) => true,
+      _ => false
+    }).nth(0).expect("No Key present in JSON") else {
+      unreachable!()
+    };
+
+    x
   }
 }
 

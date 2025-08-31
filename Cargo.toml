@@ -1,7 +1,7 @@
 [package]
 edition = "2021"
 name = "ahqstore_cli_rs"
-version = "0.7.0"
+version = "0.8.0"
 description = "AHQ Store CLI"
 repository = "https://github.com/ahqstore/cli"
 homepage = "https://github.com/ahqstore/cli"
@@ -23,10 +23,10 @@ pkg-fmt = "zip"
 
 [dependencies]
 # Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
-napi = { version = "2", default-features = false, features = [
+napi = { version = "3", default-features = false, features = [
   "napi4",
 ], optional = true }
-napi-derive = { version = "2", optional = true }
+napi-derive = { version = "3", optional = true }
 inquire = { version = "0", features = ["editor"] }
 chalk_rs = "1"
 lazy_static = "1"
@@ -39,7 +39,7 @@ image = { version = "0.25", default-features = false, features = [
   "rayon",
   "png",
 ] }
-rand = "0.8"
+rand = "0.9"
 
 [target.'cfg(unix)'.dependencies]
 openssl-sys = { version = "0.9", features = ["vendored"] }

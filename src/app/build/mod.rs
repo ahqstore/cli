@@ -149,6 +149,11 @@ pub fn build_config(upload: bool, gh_action: bool) {
       process::exit(1);
     };
 
+    let Some(options) = config.platform.androidOptions else {
+      ERR.println(&"Android Options not found!");
+      process::exit(1);
+    };
+
     let assets = find_assets(&gh_r, &finder);
     
     if assets.len() > 1 {
@@ -166,7 +171,9 @@ pub fn build_config(upload: bool, gh_action: bool) {
     );
 
     final_config.install.android = Some(InstallerOptionsAndroid {
-      assetId: num
+      assetId: num,
+      min_sdk: options.minSdk,
+      abi: options.abi
     });
   }
 

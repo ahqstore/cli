@@ -14,6 +14,7 @@ pub fn create(force: bool) {
   let succ = (|| {
     let config_file = to_string_pretty(&config).ok()?;
     fs::write("./.ahqstore/config.json", config_file).ok()?;
+    fs::write("./.ahqstore/spec.schema.json", include_bytes!("./spec.schema.json")).ok()?;
 
     let base_img = format!("./.ahqstore/images/{}", &id);
 

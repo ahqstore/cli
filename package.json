@@ -1,6 +1,6 @@
 {
   "name": "@ahqstore/cli",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "readme": "./README.md",
   "napi": {
     "name": "cli",
@@ -17,7 +17,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@napi-rs/cli": "^2.18.4"
+    "@napi-rs/cli": "^3.1.5"
   },
   "ava": {
     "timeout": "3m"

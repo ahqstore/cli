@@ -2,20 +2,14 @@ use std::process;
 
 use ahqstore_types::AppRepo;
 use inquire::{
-  validator::{ErrorMessage, Validation},
-  Editor, Text,
+  Editor, Text, validator::{ErrorMessage, Validation}
 };
-use serde::{Deserialize, Serialize};
+use rand::seq::IndexedRandom;
 
 use crate::app::{
   shared::{Config, IMetadata, IPlatform},
   ERR, INFO,
 };
-
-#[derive(Serialize, Deserialize)]
-struct ServerUserResp {
-  pub linked_acc: Vec<String>,
-}
 
 pub fn inquire<'a>() -> (String, Config<'a>) {
   INFO.println(&"Generating a random Application ID");
@@ -94,9 +88,7 @@ pub fn inquire<'a>() -> (String, Config<'a>) {
 }
 
 fn gen_appid() -> String {
-  let mut string = String::new();
-
-  use rand::seq::SliceRandom;
+  let mut string = String::with_capacity(40);
 
   let val = vec![
     "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
@@ -106,7 +98,7 @@ fn gen_appid() -> String {
   ];
 
   for _ in 0..40 {
-    let val = val.choose(&mut rand::thread_rng()).unwrap();
+    let val = val.choose(&mut rand::rng()).unwrap();
     string.push_str(val);
   }
 

@@ -55,6 +55,7 @@ macro_rules! windowsPlatform {
         installerArgs: options
           .exe_installer_args
           .map_or(None, |a| Some(a.iter().map(|x| x.to_string()).collect())),
+        scope: options.scope
       });
     }
   };
