@@ -128,13 +128,13 @@ jobs:
             target: aarch64-pc-windows-msvc
             friendlyName: Arm64 Windows
 
-          - os: macos-latest
-            target: x86_64-apple-darwin
-            friendlyName: x86_64 Macos
+          # - os: macos-latest
+          #   target: x86_64-apple-darwin
+          #   friendlyName: x86_64 Macos
 
-          - os: macos-latest
-            target: aarch64-apple-darwin
-            friendlyName: Arm64 Macos
+          # - os: macos-latest
+          #   target: aarch64-apple-darwin
+          #   friendlyName: Arm64 Macos
 
     name: Build CLI for ${{ matrix.friendlyName }} (${{ matrix.os }}-${{ matrix.target }})
     runs-on: ${{ matrix.os }}
