@@ -1,16 +1,13 @@
 {
   "name": "@ahqstore/cli",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "readme": "./README.md",
   "napi": {
     "name": "cli",
     "triples": {
       "additional": [
-        "aarch64-apple-darwin",
         "aarch64-unknown-linux-gnu",
         "aarch64-pc-windows-msvc",
-        "i686-pc-windows-msvc",
-        "universal-apple-darwin",
         "riscv64gc-unknown-linux-gnu"
       ]
     }
