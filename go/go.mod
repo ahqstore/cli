@@ -1,4 +1,4 @@
-module github.com/ahqstore-cli/go
+module github.com/ahqstore
 
 go 1.25.1
 
