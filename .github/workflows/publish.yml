@@ -151,7 +151,11 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Setup Rust Nightly
-        run: rustup toolchain add nightly-${{ matrix.target }} --force-non-host
+        run: |
+          rustup toolchain add nightly
+          rustup default nightly
+
+          rustup target add ${{ matrix.target }}
 
       - name: Linux Cross Platform
         if: matrix.os == 'ubuntu-latest'
