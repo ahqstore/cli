@@ -241,6 +241,8 @@ jobs:
   python:
     runs-on: ubuntu-latest
 
+    name: Publish to PyPi
+
     needs: [build]
 
     permissions:
