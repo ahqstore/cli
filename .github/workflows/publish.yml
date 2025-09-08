@@ -167,7 +167,8 @@ jobs:
         run: cargo build --release --target ${{ matrix.target }}
 
       - name: Bundle CLI
-        run: ./bundle
+        run: |
+          ./bundle.ps1
         shell: pwsh
         env:
           TARGET: ${{ matrix.target }}
