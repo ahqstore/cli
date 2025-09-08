@@ -1,8 +1,8 @@
 #! /usr/bin/env node
 // @ts-check
 
-import { existsSync, mkdirSync, rmSync } from "node:fs";
 import { join } from "node:path";
+import { existsSync, mkdirSync, rmSync } from "node:fs";
 import { argv, env, platform } from "node:process";
 
 import { downloadModuleWithProgress } from "./download.js";
@@ -47,23 +47,48 @@ function getLibraryFilename(name) {
   return `${prefix}${name}${suffix}`;
 }
 
-console.log(import.meta.dirname);
-
 const dylibDir = join(import.meta.dirname, "lib");
+const dylib = join(dylibDir, getLibraryFilename("ahqstore_cli_rs"));
 
-if (!existsSync(dylibDir)) {
+if (!(existsSync(dylibDir) && existsSync(dylib))) {
   console.warn(
     c.red.redBright(
       "Binary not found, downloading AHQ Store CLI Binary for this version",
     ),
   );
 
-  mkdirSync(dylibDir);
+  try {
+    rmSync(dylib);
+  } catch(_) {}
+  try {
+    mkdirSync(dylibDir);
+  } catch (_) {}
+
+  await downloadModuleWithProgress(dylib);
 }
 
-const dylib = join(dylibDir, getLibraryFilename("ahqstore_cli_rs"));
+let dlib;
 
-let dlib = koffi.load(dylib);
+try {
+  dlib = koffi.load(dylib);
+} catch (_) {
+  console.warn(
+    c.red.redBright(
+      "Binary is corrupted, downloading AHQ Store CLI Binary for this version",
+    ),
+  );
+
+    try {
+    rmSync(dylib);
+  } catch(_) {}
+  try {
+    mkdirSync(dylibDir);
+  } catch (_) {}
+
+  await downloadModuleWithProgress(dylib);
+
+  dlib = koffi.load(dylib);
+}
 
 const ver = dlib.func("get_ver", "str", []);
 
@@ -79,10 +104,15 @@ if (output != pkg.version) {
   // Unload current one
   dlib.unload();
 
-  rmSync(dylib);
+  try {
+    rmSync(dylib);
+  } catch(_) {}
+  try {
+    mkdirSync(dylibDir);
+  } catch (_) {}
 
   /// Download
-  // TODO: Load newer
+  await downloadModuleWithProgress(dylib);
 
   // Load newer
   dlib = koffi.load(dylib);
@@ -95,5 +125,8 @@ const pushArg = dlib.func("add_arg", "void", ["str"]);
 argv.slice(2).forEach((a) => {
   pushArg(a);
 });
+
+// Clear the console output
+console.clear();
 
 dlib.func("node_entrypoint", "void", ["bool"])(env["CI"] == "true");
