@@ -240,11 +240,10 @@ jobs:
     name: Publish Release
     runs-on: ubuntu-latest
 
-    if: always()
+    if: success()
 
     steps:
       - name: Undraft Release
-        if: success()
         uses: actions/github-script@v7
         env:
           R_ID: ${{ needs.create-release.outputs.release_id }}
@@ -257,8 +256,16 @@ jobs:
               draft: false
             });
 
+  unpublish:
+    name: Unpublish this release
+    runs-on: ubuntu-latest
+
+    needs: [create-release, build, npm, cargo]
+
+    if: failure()
+
+    steps:
       - name: Delete Release
-        if: failure()
         uses: actions/github-script@v7
         env:
           R_ID: ${{ needs.create-release.outputs.release_id }}
