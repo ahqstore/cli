@@ -1,7 +1,7 @@
 [package]
 edition = "2021"
 name = "ahqstore_cli_rs"
-version = "0.9.5"
+version = "0.10.0"
 description = "AHQ Store CLI"
 repository = "https://github.com/ahqstore/cli"
 homepage = "https://github.com/ahqstore/cli"

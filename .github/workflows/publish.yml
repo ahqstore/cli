@@ -9,6 +9,8 @@ on:
       - package.json
       - Cargo.toml
 
+permissions: write-all
+
 jobs:
   create-release:
     name: Create a new github release
