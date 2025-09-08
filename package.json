@@ -1,39 +1,36 @@
 {
   "name": "@ahqstore/cli",
   "version": "0.9.1",
-  "readme": "./README.md",
-  "napi": {
-    "name": "cli",
-    "triples": {
-      "additional": [
-        "aarch64-unknown-linux-gnu",
-        "aarch64-pc-windows-msvc",
-        "riscv64gc-unknown-linux-gnu"
-      ]
-    }
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "@napi-rs/cli": "^3.1.5"
-  },
-  "ava": {
-    "timeout": "3m"
-  },
-  "engines": {
-    "node": ">= 10"
+  "description": "AHQ Store Official CLI, A port of the rust version to NodeJS",
+  "keywords": [
+    "cli",
+    "ahqstore",
+    "management"
+  ],
+  "homepage": "https://github.com/ahqstore/cli#readme",
+  "bugs": {
+    "url": "https://github.com/ahqstore/cli/issues"
   },
   "repository": {
-    "url": "https://github.com/ahqstore/cli"
+    "type": "git",
+    "url": "git+https://github.com/ahqstore/cli.git"
   },
+  "license": "MIT",
+  "author": "AHQ Softwares <ahqsecret@gmail.com>",
+  "type": "module",
   "bin": {
-    "ahqstore": "./index.js"
+    "ahqstore": "./js/cli.js"
   },
+  "readme": "README.md",
   "scripts": {
-    "artifacts": "napi artifacts",
-    "build": "napi build --platform --release --features node",
-    "build:debug": "napi build --platform --features node",
-    "prepublishOnly": "napi prepublish -t npm",
-    "universal": "napi universal",
-    "version": "napi version"
+    "postinstall": "node js/postinstall.js"
+  },
+  "dependencies": {
+    "ansi-colors": "^4.1.3",
+    "cli-progress": "^3.12.0",
+    "koffi": "^2.14.0"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

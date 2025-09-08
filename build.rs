@@ -1,8 +1,4 @@
-#[cfg(feature = "node")]
-extern crate napi_build;
-
+// Checking for targets
 fn main() {
-  // Ensures that users can download it too
-  #[cfg(feature = "node")]
-  napi_build::setup();
+
 }

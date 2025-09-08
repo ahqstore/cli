@@ -22,11 +22,6 @@ pkg-url = "{ repo }/releases/download/{ version }/{ name }-{ target }.zip"
 pkg-fmt = "zip"
 
 [dependencies]
-# Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
-napi = { version = "3", default-features = false, features = [
-  "napi4",
-], optional = true }
-napi-derive = { version = "3", optional = true }
 inquire = { version = "0", features = ["editor"] }
 chalk_rs = "1"
 lazy_static = "1"
@@ -44,12 +39,6 @@ rand = "0.9"
 [target.'cfg(unix)'.dependencies]
 openssl-sys = { version = "0.9", features = ["vendored"] }
 
-[build-dependencies]
-napi-build = { version = "2", optional = true }
-
 [profile.release]
 lto = true
 strip = "symbols"
-
-[features]
-node = ["dep:napi", "dep:napi-build", "dep:napi-derive"]
