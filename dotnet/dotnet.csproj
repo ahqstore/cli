@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <AssemblyName>ahqstore</AssemblyName>
+
+    <ToolCommandName>ahqstore</ToolCommandName>
+
+    <PackageType>DotnetTool</PackageType>
+
+    <!-- Package Information -->
+    <PackageId>AHQStoreCLI</PackageId>
+    <Version>0.10.1</Version>
+    <Authors>AHQ Softwares</Authors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ShellProgressBar" Version="5.2.0" />
+  </ItemGroup>
+
+
+</Project>

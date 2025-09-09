@@ -13,3 +13,6 @@ __test__
 renovate.json
 r.rs
 src
+python
+go
+dotnet
