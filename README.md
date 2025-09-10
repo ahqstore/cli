@@ -10,7 +10,7 @@ The original CLI has been written in rust lang and we're quite excited to tell y
 - [jsr (Port)](https://jsr.io/@ahqstore/cli)
 - [PyPi (Port)](https://pypi.org/project/ahqstore-cli/)
 - [Nuget (Port)](https://www.nuget.org/packages/AHQStoreCLI)
-- [Golang (Port; Not Tested)](https://github.com/ahqstore/cli/tree/main/go)
+- [Golang (Port; See Installation Guide Below)](#golang)
 
 All the platforms use the same codebase (the rust codebase). We're making use of the C-Abi to
 make the CLI compatible to the following languages/runtimes:
@@ -62,7 +62,7 @@ deno install -g npm:@ahqstore/cli
 ### Using JSR
 
 ```sh
-deno install -A -f -g -n ahqstore https://jsr.io/@ahqstore/cli/0.11.0/js/cli.js
+deno install -A -f -g -n ahqstore https://jsr.io/@ahqstore/cli/0.11.1/js/cli.js
 ```
 
 ## Bun
@@ -79,7 +79,11 @@ pip install ahqstore-cli
 
 ## GoLang
 
-To be yet figured out
+Since GoLang mainly works with repositories. We've set up a mirror repo so that it works as expected. Here's the install command :-
+
+```sh
+go install github.com/ahqstore/cli-go/ahqstore@latest
+```
 
 ## .NET C#
 
