@@ -209,7 +209,8 @@ jobs:
   npm:
     name: Publish to npmjs
 
-    needs: [build]
+    # needs: [build]
+    continue-on-error: true
 
     runs-on: ubuntu-latest
 
@@ -238,13 +239,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Setup node for github
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          registry-url: https://npm.pkg.github.com/
+
       - name: Publish to GH Packages
         run: |
-          echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" > ~/.npmrc
           npm publish --access public
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   python:
     runs-on: ubuntu-latest
