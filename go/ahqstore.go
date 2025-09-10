@@ -12,7 +12,7 @@ import (
 	"github.com/schollz/progressbar/v3"
 )
 
-const version = "0.10.2"
+const version = "0.10.3"
 
 func main() {
 	var bin = getBinary()
