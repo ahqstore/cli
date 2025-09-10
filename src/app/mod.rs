@@ -6,6 +6,8 @@ mod create;
 mod help;
 pub mod shared;
 
+mod update;
+
 lazy_static! {
   static ref INFO: Chalk = {
     let mut chalk = Chalk::new();
@@ -25,6 +27,8 @@ lazy_static! {
 }
 
 pub fn start(args: Vec<String>, gh: bool) {
+  update::check_updates();
+
   if args.len() >= 1 {
     match args[0].as_str() {
       "create" => create::create(args.len() > 1 && (&args[1] == "--force" || &args[1] == "-f")),

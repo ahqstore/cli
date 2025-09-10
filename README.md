@@ -3,7 +3,7 @@
 Read more about it [here](https://ahqstore.github.io)
 
 This is the Official AHQ Store CLI and the CLI with the most number of ports.
-The original CLI has been written in rust lang and we're quite excited to tell you how versatile this tool actually is. This tool is **OFFICIALLY** available and mainted for :
+The original CLI has been written in rust lang and we're quite excited to tell you how versatile this tool actually is. This tool is **OFFICIALLY** available and maintained for :
 
 - [Crates.io (Original)](https://crates.io/crates/ahqstore_cli_rs)
 - [npmjs (Port)](https://www.npmjs.com/package/@ahqstore/cli)
@@ -62,7 +62,7 @@ deno install -g npm:@ahqstore/cli
 ### Using JSR
 
 ```sh
-deno install -A -f -g -n ahqstore https://jsr.io/@ahqstore/cli/0.10.7/js/cli.js
+deno install -A -f -g -n ahqstore https://jsr.io/@ahqstore/cli/0.10.9/js/cli.js
 ```
 
 ## Bun
