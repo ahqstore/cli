@@ -6,6 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
+    <PackAsTool>true</PackAsTool>
+
     <AssemblyName>ahqstore</AssemblyName>
 
     <ToolCommandName>ahqstore</ToolCommandName>
@@ -14,16 +16,23 @@
 
     <!-- Package Information -->
     <PackageId>AHQStoreCLI</PackageId>
-    <Version>0.10.5</Version>
+    <Version>0.10.6</Version>
     <Authors>AHQ Softwares</Authors>
     <Description>AHQ Store Official CLI, A port of the rust version to C#</Description>
-    <PackageProjectUrl>https://github.com/ahqstore/cli</PackageProjectUrl>
+
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <PackageProjectUrl>https://ahqstore.github.io</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ahqstore/cli</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="icon.png" Pack="true" PackagePath="" />
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
     <PackageReference Include="ShellProgressBar" Version="5.2.0" />
   </ItemGroup>
 
