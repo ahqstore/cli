@@ -2,38 +2,87 @@
 
 Read more about it [here](https://ahqstore.github.io)
 
-# Changelog
+This is the Official AHQ Store CLI and the CLI with the most number of ports.
+The original CLI has been written in rust lang and we're quite excited to tell you how versatile this tool actually is. This tool is **OFFICIALLY** available and mainted for :
 
-## 0.6.0 **(m)** 05-Sep-2024 10:37PM IST
+- [Crates.io (Original)](https://crates.io/crates/ahqstore_cli_rs)
+- [npmjs (Port)](https://www.npmjs.com/package/@ahqstore/cli)
+- [jsr (Port)](https://jsr.io/@ahqstore/cli)
+- [PyPi (Port)](https://pypi.org/project/ahqstore-cli/)
+- [Nuget (Port)](https://www.nuget.org/packages/AHQStoreCLI)
+- [Golang (Port; Not Tested)](https://github.com/ahqstore/cli/tree/main/go)
 
-- Introduced ahqstore-types apps validation
-- Now you can view schemas in [docs.rs](https://docs.rs/ahqstore_cli_rs)
-- Update Dependencies
+All the platforms use the same codebase (the rust codebase). We're making use of the C-Abi to
+make the CLI compatible to the following languages/runtimes:
 
-## 0.5.5 03-Sep-2024 10:20PM IST
+- Cargo
+- NodeJS
+- Deno
+- Bun
+- Python
+- .NET C#
+- Golang
 
-- update ahqstore-types
+# Usage
 
-## 0.5.4 01-Sep-2024 10:07PM IST
+Head over to https://ahqstore.github.io/guide/cli/ for usage references!
 
-- **[CRITICAL]** Fixes invalid config files being generated
+# Installation
 
-## 0.5.1 23-Aug-2024 10:09PM IST
+## Rust
 
-- Fix NPM Publish error
+There are two ways to install in Rust Lang, `cargo install` and `cargo binstall`
 
-## 0.5.0 **(I)** 23-Aug-2024 10:05PM IST
+## cargo install (official)
 
-- Update to the new resources scheme (ahqstore-types v3.1.0)
-- Update Dependencies
+```sh
+cargo install ahqstore_cli_rs
+```
 
-## 0.4.x **(m)**
+### cargo binstall
 
-- Update to ahqstore-types 2.3.0
+```sh
+cargo binstall ahqstore_cli_rs
+```
 
-**NOTE:**
+## NodeJS
 
-- **I** Internal Breaking Changes
-- **m** Minor Breaking / Minor Addition Changes
-- **B** Breaking Changes
-- **P** Patch Changes
+```sh
+npm i -g @ahqstore/cli
+```
+
+## Deno
+
+### Using npmjs
+
+```sh
+deno install -g npm:@ahqstore/cli
+```
+
+### Using JSR
+
+```sh
+deno install -A -f -g -n ahqstore https://jsr.io/@ahqstore/cli/0.10.7/js/cli.js
+```
+
+## Bun
+
+```sh
+bun install -g @ahqstore/cli
+```
+
+## Python
+
+```sh
+pip install ahqstore-cli
+```
+
+## GoLang
+
+To be yet figured out
+
+## .NET C#
+
+```sh
+dotnet tool install --global AHQStoreCLI
+```

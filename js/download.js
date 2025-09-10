@@ -16,6 +16,10 @@ const bar = new SingleBar({
   hideCursor: true,
 });
 
+/**
+ * This function is internal and should not be used
+ * @returns {string}
+ */
 function getDownload() {
   const { prefix, suffix } = getPrefixSuffix();
 
@@ -23,14 +27,14 @@ function getDownload() {
 }
 
 /**
- * 
+ * This function is internal and should not be used
  * @param {number} ms 
  * @returns {Promise<undefined>}
  */
 const delay = (ms) => new Promise((resolve) => setTimeout(() => resolve(undefined), ms));
 
 /**
- * 
+ * This function is internal and should not be used
  * @param {string} file 
  * @returns {Promise<undefined>}
  */

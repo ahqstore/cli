@@ -1,0 +1,12 @@
+{
+  "$schema": "https://jsr.io/schema/config-file.v1.json",
+  "name": "@ahqstore/cli",
+  "version": "0.10.7",
+  "license": "MIT",
+  "exports": {
+    ".": "./js/cli.js"
+  },
+  "publish": {
+    "include": ["./js/**/**", "package.json", "README.md"]
+  }
+}

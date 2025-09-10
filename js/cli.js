@@ -1,9 +1,12 @@
 #! /usr/bin/env node
 // @ts-check
 
-import { join } from "node:path";
+/* @ts-self-types="./types.d.ts" */
+
+import { join, dirname } from "node:path";
 import { existsSync, mkdirSync, rmSync } from "node:fs";
 import { argv, env, platform } from "node:process";
+import { fileURLToPath } from 'node:url';
 
 import { downloadModuleWithProgress } from "./download.js";
 
@@ -12,7 +15,12 @@ import c from "ansi-colors";
 import koffi from "koffi";
 
 import pkg from "../package.json" with { type: "json" };
+import { homedir } from "node:os";
 
+/**
+ * This function is internal and should not be used
+ * @returns {{ prefix: string; suffix: string; }}
+ */
 export function getPrefixSuffix() {
   let prefix = "";
   let suffix = "";
@@ -39,7 +47,9 @@ export function getPrefixSuffix() {
 }
 
 /**
+ * This function is internal and should not be used
  * @param {string} name
+ * @returns {string}
  */
 function getLibraryFilename(name) {
   const { prefix, suffix } = getPrefixSuffix();
@@ -47,7 +57,18 @@ function getLibraryFilename(name) {
   return `${prefix}${name}${suffix}`;
 }
 
-const dylibDir = join(import.meta.dirname, "lib");
+let __dirname = `${homedir()}/ahqstore-js`;
+
+try {
+  __dirname = dirname(fileURLToPath(import.meta.url));
+} catch (e) {
+  try {
+    mkdirSync(`${__dirname}`);
+    mkdirSync(`${__dirname}/lib`);
+  } catch (e) {}
+}
+
+const dylibDir = join(__dirname, "lib");
 const dylib = join(dylibDir, getLibraryFilename("ahqstore_cli_rs"));
 
 if (!(existsSync(dylibDir) && existsSync(dylib))) {

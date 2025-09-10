@@ -207,11 +207,15 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
   npm:
-    name: Publish to npmjs
+    name: Publish to npmjs & JSR
 
     needs: [build]
 
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - name: Checkout
@@ -227,6 +231,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: Publish package
+        run: npx jsr publish
 
       - name: Publish to npmjs
         run: |

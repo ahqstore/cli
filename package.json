@@ -1,6 +1,6 @@
 {
   "name": "@ahqstore/cli",
-  "version": "0.10.6",
+  "version": "0.10.7",
   "description": "AHQ Store Official CLI, A port of the rust version to NodeJS",
   "keywords": [
     "cli",
@@ -21,7 +21,7 @@
   "bin": {
     "ahqstore": "./js/cli.js"
   },
-  "readme": "README.md",
+  "readme": "./README.md",
   "scripts": {
     "postinstall": "node js/postinstall.js"
   },
@@ -32,5 +32,8 @@
   },
   "engines": {
     "node": ">=22"
+  },
+  "devDependencies": {
+    "jsr": "^0.13.5"
   }
 }
