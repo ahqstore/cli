@@ -254,6 +254,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Publish to nuget & GH Packages
 
+    needs: [build]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v5
