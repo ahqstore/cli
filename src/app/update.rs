@@ -12,7 +12,6 @@ static URL: &'static str = "https://crates.io/api/v1/crates/ahqstore_cli_rs";
 pub struct Update {
   pub last: u64,
   pub to: String,
-  pub is: bool
 }
 
 #[derive(Deserialize, Debug)]
@@ -48,7 +47,15 @@ pub fn check_updates() {
     if time <= (last_updated.last + 60*60) {
       update_check = false;
 
-      if last_updated.is {
+      let Ok(manifest) = Version::parse(&last_updated.to) else {
+        return;
+      };
+
+      let Ok(current) = Version::parse(env!("CARGO_PKG_VERSION")) else {
+        return;
+      };
+
+      if manifest > current {
         display_update_message(&last_updated.to, env!("CARGO_PKG_VERSION"));
       }
     }
@@ -79,7 +86,6 @@ pub fn check_updates() {
     let mut update = Update::default();
 
     if online_ver > current {
-      update.is = true;
       update.to = format!("{}", &x.default_version);
       display_update_message(&x.default_version, env!("CARGO_PKG_VERSION"));
     }
