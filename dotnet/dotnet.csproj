@@ -14,8 +14,13 @@
 
     <!-- Package Information -->
     <PackageId>AHQStoreCLI</PackageId>
-    <Version>0.10.4</Version>
+    <Version>0.10.5</Version>
     <Authors>AHQ Softwares</Authors>
+    <Description>AHQ Store Official CLI, A port of the rust version to C#</Description>
+    <PackageProjectUrl>https://github.com/ahqstore/cli</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ahqstore/cli</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

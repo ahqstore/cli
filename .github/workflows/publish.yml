@@ -209,8 +209,7 @@ jobs:
   npm:
     name: Publish to npmjs
 
-    # needs: [build]
-    continue-on-error: true
+    needs: [build]
 
     runs-on: ubuntu-latest
 
@@ -250,6 +249,39 @@ jobs:
           npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  dotnet:
+    runs-on: ubuntu-latest
+    name: Publish to nuget & GH Packages
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 9.x
+
+      - name: Restore Dependencies
+        run: dotnet restore
+        working-directory: dotnet
+
+      - name: Build
+        run: dotnet build --configuration Release
+        working-directory: dotnet
+
+      - name: Pack
+        run: dotnet pack --configuration Release --output ./nupkgs
+        working-directory: dotnet
+
+      - name: Push to NuGet.org
+        run: dotnet nuget push ./nupkgs/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_TOKEN }}
+        working-directory: dotnet
+
+      - name: Push to GitHub Packages
+        run: dotnet nuget push ./nupkgs/*.nupkg --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --api-key "${{ secrets.GITHUB_TOKEN }}"
+        working-directory: dotnet
 
   python:
     runs-on: ubuntu-latest
