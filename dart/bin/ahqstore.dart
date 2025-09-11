@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:ffi/ffi.dart';
 import 'package:http/http.dart';
 
-const String version = "0.11.2";
+const String version = "0.11.3";
 
 String getUserHomeDirectory() {
   if (Platform.isLinux || Platform.isMacOS) {

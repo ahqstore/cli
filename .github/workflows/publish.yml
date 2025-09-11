@@ -8,6 +8,7 @@ on:
     paths:
       - package.json
       - Cargo.toml
+      - .github/workflows/publish.yml
 
 permissions: write-all
 
@@ -205,6 +206,47 @@ jobs:
           release-id: ${{ needs.create-release.outputs.release_id }}
           files: ./libahqstore_cli_rs-${{ matrix.target }}.dylib
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+  dart:
+    name: Publish to pub.dev
+
+    runs-on: ubuntu-latest
+
+    permissions: write-all
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@v1
+
+      - name: Install dependencies & Handle Publish Secrets
+        run: |
+          sudo apt-get update
+          curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+
+          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+
+          sudo apt-get update && sudo apt-get install google-cloud-cli
+
+          # Auth
+          "$GCLOUD" > ../cloud.json
+          gcloud auth activate-service-account --key-file=../cloud.json
+
+          gcloud auth print-identity-token \
+            --audiences=https://pub.dev \
+            | dart pub token add https://pub.dev
+
+          dart pub get
+
+        working-directory: dart
+        env:
+          GCLOUD: ${{ secrets.GCLOUD_JSON }}
+
+      - name: Publish to pub.dev
+        run: dart pub publish --force
+        working-directory: dart
 
   npm:
     name: Publish to npmjs & JSR
