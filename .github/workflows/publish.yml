@@ -231,7 +231,8 @@ jobs:
           sudo apt-get update && sudo apt-get install google-cloud-cli
 
           # Auth
-          "$GCLOUD" > ../cloud.json
+          echo "::add-mask::$GCLOUD"
+          printf "%s" "$GCLOUD" | base64 -d > ../cloud.json
           gcloud auth activate-service-account --key-file=../cloud.json
 
           gcloud auth print-identity-token \
