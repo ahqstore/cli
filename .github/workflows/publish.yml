@@ -8,7 +8,6 @@ on:
     paths:
       - package.json
       - Cargo.toml
-      - .github/workflows/publish.yml
 
 permissions: write-all
 
@@ -213,6 +212,8 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions: write-all
+
+    needs: [build]
 
     steps:
       - name: Checkout
