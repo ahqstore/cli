@@ -52,12 +52,7 @@ pub fn build_config(upload: bool, gh_action: bool) {
 
   let config = get_config();
 
-  let repo = env::var("GITHUB_REPOSITORY").unwrap_or("%NUL".into());
-
-  if &repo == "%NUL" {
-    ERR.println(&"GITHUB_REPOSITORY not set");
-    process::exit(1);
-  }
+  let repo = format!("{}/{}", config.repo.author, config.repo.repo);
 
   let r_id = env::var("RELEASE_ID").unwrap_or("latest".into());
 
