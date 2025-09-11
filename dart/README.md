@@ -90,7 +90,7 @@ go install github.com/ahqstore/cli-go/ahqstore@latest
 ## Dart
 
 ```sh
-dart pub global deactivate ahqstore_cli
+dart pub global activate ahqstore_cli
 ```
 
 ## .NET C#
