@@ -1,8 +1,18 @@
 # AHQ Store CLI
 
+[![crates.io](https://img.shields.io/crates/v/ahqstore_cli_rs)](https://crates.io/crates/ahqstore_cli_rs)
+[![npm](https://img.shields.io/npm/v/@ahqstore/cli)](https://www.npmjs.com/package/@ahqstore/cli)
+[![PyPI](https://img.shields.io/pypi/v/ahqstore-cli)](https://pypi.org/project/ahqstore-cli/)
+[![NuGet](https://img.shields.io/nuget/v/AHQStoreCLI)](https://www.nuget.org/packages/AHQStoreCLI)
+[![pub.dev](https://img.shields.io/pub/v/ahqstore_cli)](https://pub.dev/packages/ahqstore_cli)
+
+---
+
 Read more about it [here](https://ahqstore.github.io)
 
-This is the Official AHQ Store CLI and the CLI with the most number of ports.
+The **official cross-platform AHQ Store CLI**, built in Rust and exported everywhere via C ABI.  
+One codebase → many runtimes:
+
 The original CLI has been written in rust lang and we're quite excited to tell you how versatile this tool actually is. This tool is **OFFICIALLY** available and maintained for :
 
 - [Crates.io (Original)](https://crates.io/crates/ahqstore_cli_rs)
@@ -12,6 +22,8 @@ The original CLI has been written in rust lang and we're quite excited to tell y
 - [Nuget (Port)](https://www.nuget.org/packages/AHQStoreCLI)
 - [Pub.dev (Port)](https://pub.dev/packages/ahqstore_cli)
 - [Golang (Port; See Installation Guide Below)](#golang)
+
+Prebuilt binaries available for Linux, macOS, and Windows (x64, arm64, i686, armv7).
 
 All the platforms use the same codebase (the rust codebase). We're making use of the C-Abi to
 make the CLI compatible to the following languages/runtimes:
