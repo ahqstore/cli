@@ -5,6 +5,7 @@
 [![PyPI](https://img.shields.io/pypi/v/ahqstore-cli)](https://pypi.org/project/ahqstore-cli/)
 [![NuGet](https://img.shields.io/nuget/v/AHQStoreCLI)](https://www.nuget.org/packages/AHQStoreCLI)
 [![pub.dev](https://img.shields.io/pub/v/ahqstore_cli)](https://pub.dev/packages/ahqstore_cli)
+[![Build](https://github.com/ahqstore/cli/actions/workflows/publish.yml/badge.svg)](https://github.com/ahqstore/cli/actions/workflows/publish.yml)
 
 ---
 
