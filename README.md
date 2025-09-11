@@ -2,6 +2,7 @@
 
 [![crates.io](https://img.shields.io/crates/v/ahqstore_cli_rs)](https://crates.io/crates/ahqstore_cli_rs)
 [![npm](https://img.shields.io/npm/v/@ahqstore/cli)](https://www.npmjs.com/package/@ahqstore/cli)
+[![JSR Version](https://img.shields.io/jsr/v/@ahqstore/cli)](https://jsr.io/@ahqstore/cli)
 [![PyPI](https://img.shields.io/pypi/v/ahqstore-cli)](https://pypi.org/project/ahqstore-cli/)
 [![NuGet](https://img.shields.io/nuget/v/AHQStoreCLI)](https://www.nuget.org/packages/AHQStoreCLI)
 [![pub.dev](https://img.shields.io/pub/v/ahqstore_cli)](https://pub.dev/packages/ahqstore_cli)
