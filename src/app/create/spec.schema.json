@@ -58,13 +58,14 @@
           "description": "Details about the application's distribution and installation on various platforms.",
           "properties": {
             "winAmd64Platform": {
-              "type": "string",
+              "type": ["string", "null"],
               "description": "The installation method for Windows on AMD64 architecture.",
               "enum": [
                 "WindowsZip",
                 "WindowsInstallerMsi",
                 "WindowsInstallerExe",
-                "WindowsUWPMsix"
+                "WindowsUWPMsix",
+                null
               ]
             },
             "winAmd64Options": {
@@ -72,7 +73,7 @@
               "description": "Additional options for the Windows AMD64 platform.",
               "properties": {
                 "zip_file_exec": {
-                  "type": "string",
+                  "type": ["string", "null"],
                   "description": "The executable file name within a zip archive."
                 },
                 "exe_installer_args": {
@@ -83,20 +84,21 @@
                   }
                 },
                 "scope": {
-                  "type": "string",
+                  "type": ["string", "null"],
                   "description": "The installation scope, either for the current user or the entire machine. Only for WindowsZip or WindowsInstallerExe. We recommend you do not specify it for WindowsZip",
-                  "enum": ["User", "Machine"]
+                  "enum": ["User", "Machine", null]
                 }
               }
             },
             "winArm64Platform": {
-              "type": "string",
+              "type": ["string", "null"],
               "description": "The installation method for Windows on ARM64 architecture.",
               "enum": [
                 "WindowsZip",
                 "WindowsInstallerMsi",
                 "WindowsInstallerExe",
-                "WindowsUWPMsix"
+                "WindowsUWPMsix",
+                null
               ]
             },
             "winArm64Options": {
@@ -104,7 +106,7 @@
               "description": "Additional options for the Windows ARM64 platform.",
               "properties": {
                 "zip_file_exec": {
-                  "type": "string",
+                  "type": ["string", "null"],
                   "description": "The executable file name within a zip archive."
                 },
                 "exe_installer_args": {
@@ -115,31 +117,31 @@
                   }
                 },
                 "scope": {
-                  "type": "string",
+                  "type": ["string", "null"],
                   "description": "The installation scope, either for the current user or the entire machine. Only for WindowsZip or WindowsInstallerExe. We recommend you do not specify it for WindowsZip",
-                  "enum": ["User", "Machine"]
+                  "enum": ["User", "Machine", null]
                 }
               }
             },
             "linuxAmd64Platform": {
-              "type": "string",
+              "type": ["string", "null"],
               "description": "The installation method for Linux on AMD64 architecture.",
-              "enum": ["LinuxAppImage"]
+              "enum": ["LinuxAppImage", null]
             },
             "linuxArm64Platform": {
-              "type": "string",
+              "type": ["string", "null"],
               "description": "The installation method for Linux on ARM64 architecture.",
-              "enum": ["LinuxAppImage"]
+              "enum": ["LinuxAppImage", null]
             },
             "linuxArm32Platform": {
-              "type": "string",
+              "type": ["string", "null"],
               "description": "The installation method for Linux on ARM32 architecture.",
-              "enum": ["LinuxAppImage"]
+              "enum": ["LinuxAppImage", null]
             },
             "androidUniversal": {
-              "type": "string",
+              "type": ["string", "null"],
               "description": "The installation method for all Android architectures.",
-              "enum": ["AndroidApkZip"]
+              "enum": ["AndroidApkZip", null]
             },
             "androidOptions": {
               "type": "object",
@@ -150,9 +152,12 @@
                   "description": "The minimum Android SDK version required."
                 },
                 "abi": {
-                  "type": "string",
+                  "type": "array",
                   "description": "The Application Binary Interface (ABI) for the Android build.",
-                  "enum": ["Aarch64", "Armv7", "X86", "X64"]
+                  "items": {
+                    "type": "string",
+                    "enum": ["Aarch64", "Armv7", "X86", "X64"]
+                  }
                 }
               }
             }

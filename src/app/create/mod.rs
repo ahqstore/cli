@@ -40,7 +40,7 @@ pub fn create(force: bool) {
 ▀▄▀▄▀▄▄▀▄▄▀▄▄▄▀▀▀▄▄▄▀▀▀▀▄▄▄▀▀▀▀▄▄▄▄▄▀▄▄▄▄▀▄▄▄▄▀▀▄▄▄▀▄▄▄▀▀▄▄▀▄▄▄▄▄▀
 "#
     );
-    INFO.println(&"Do not forget to edit config.json and finder.json\nMore details about all the files is present in README.md");
+    INFO.println(&"Do not forget to edit config.json\nMore details about all the files is present in README.md");
   }
 }
 
