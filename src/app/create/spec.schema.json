@@ -64,6 +64,7 @@
                 "WindowsZip",
                 "WindowsInstallerMsi",
                 "WindowsInstallerExe",
+                "WindowsAHQDB",
                 "WindowsUWPMsix",
                 null
               ]
@@ -97,6 +98,7 @@
                 "WindowsZip",
                 "WindowsInstallerMsi",
                 "WindowsInstallerExe",
+                "WindowsAHQDB",
                 "WindowsUWPMsix",
                 null
               ]

@@ -17,6 +17,7 @@ use serde::{Deserialize, Serialize};
 /// - "WindowsInstallerMsi"
 /// - "WindowsInstallerExe"
 /// - "WindowsUWPMsix"
+/// - "WindowsAHQDB"
 /// - "LinuxAppImage"
 /// - "AndroidApkZip"
 pub struct IPlatform<'a> {
@@ -69,7 +70,7 @@ pub struct IOAndroid {
 /// - Scope of the Windows Installer
 /// - For **WindowsInstallerExe** or **WindowsZip** apps only
 /// - Is required for **WindowsInstallerExe**
-/// - For **WindowsZip**, keeping it empty means that it can be installed both as user or system application
+/// - For **WindowsZip** or **WindowsInstallerExe**, keeping it empty means that it can be installed both as user or system application
 /// 
 /// One of the two values:
 /// - "User"
