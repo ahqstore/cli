@@ -109,7 +109,8 @@ pub fn build_config(upload: bool, gh_action: bool) {
       win32: None,
     },
     repo: config.repo,
-    version,
+    usrVersion: Some(version),
+    version: 0,
     site: config.site,
     source: config.redistributed,
     verified: false

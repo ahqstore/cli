@@ -64,7 +64,7 @@ deno install -g npm:@ahqstore/cli
 ### Using JSR
 
 ```sh
-deno install -A -f -g -n ahqstore https://jsr.io/@ahqstore/cli/0.12.1/js/cli.js
+deno install -A -f -g -n ahqstore https://jsr.io/@ahqstore/cli/0.15.0/js/cli.js
 ```
 
 ## Bun
