@@ -1,4 +1,0 @@
-mkdir dist
-cp ./target/release/ahqstore ./dist/ahqstore
-cp ./target/release/ahqstore ./dist/ahqstore_cli_rs
-zip -r ahqstore_cli_rs-$TARGET ./dist 

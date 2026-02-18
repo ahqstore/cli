@@ -1,27 +1,25 @@
-use chalk_rs::Chalk;
+use console::style;
 
 pub fn main_help() -> String {
-  let mut chalk = Chalk::new();
+  let cli = style("AHQ Store CLI").blue().bold();
 
-  let cli = chalk.blue().bold().string(&"AHQ Store CLI");
+  let usage = style("Usage:").green().bold();
 
-  let usage = chalk.green().bold().string(&"Usage:");
+  let cmds = style(&"Commands:").green().bold();
+  let help = style("help").cyan().bold();
+  let create = style("create").cyan().bold();
+  let build = style("build").cyan().bold();
+  let upload = style("upload").cyan().bold();
 
-  let cmds = chalk.green().bold().string(&"Commands:");
-  let help = chalk.cyan().bold().string(&"help");
-  let create = chalk.cyan().bold().string(&"create");
-  let build = chalk.cyan().bold().string(&"build");
-  let upload = chalk.cyan().bold().string(&"upload");
+  let opt = style("Options:").yellow().bold();
+  let force = style("--force, -f").cyan().bold();
 
-  let opt = chalk.yellow().bold().string(&"Options:");
-  let force = chalk.cyan().bold().string(&"--force, -f");
+  let env = style("Required ENV:").yellow().bold();
+  let app_id = style("APP_ID").cyan().bold();
+  let gh_token = style("GH_TOKEN").cyan().bold();
+  let r_id = style("RELEASE_ID").cyan().bold();
 
-  let env = chalk.yellow().bold().string(&"Required ENV:");
-  let app_id = chalk.cyan().bold().string(&"APP_ID");
-  let gh_token = chalk.cyan().bold().string(&"GH_TOKEN");
-  let r_id = chalk.cyan().bold().string(&"RELEASE_ID");
-
-  let optional = chalk.yellow().bold().string(&"(Optional)");
+  let optional = style("(Optional)").yellow().bold();
 
   format!(
     r#"{cli}
@@ -54,11 +52,9 @@ Ship your apps to the ahq store quickly and efficiently
 }
 
 pub fn not_found(name: &str) -> String {
-  let mut chalk = Chalk::new();
-
-  let cmd = chalk.red().bold().string(&"Command not found:");
-  let tip = chalk.green().bold().string(&"Tip:");
-  let astore = chalk.cyan().bold().string(&"ahqstore");
+  let cmd = style("Command not found:").red().bold();
+  let tip = style(&"Tip:").green().bold();
+  let astore = style("ahqstore").cyan().bold();
 
   format!(
     r#"{cmd} {name}
@@ -67,4 +63,3 @@ pub fn not_found(name: &str) -> String {
   Write {astore} to view the help menu"#
   )
 }
-

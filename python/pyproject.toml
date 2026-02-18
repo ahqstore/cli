@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ahqstore-cli"
-version = "0.15.0"
+version = "0.16.0"
 authors = [{ name = "AHQ Softwares", email = "ahqsecret@gmail.com" }]
 description = "A modern Python wrapper for the ahqstore CLI"
 readme = "../README.md"
@@ -17,7 +17,7 @@ classifiers = [
 dependencies = [
   # List your Python dependencies here, e.g.,
   "requests>=2.25.1",
-  "cffi>=1.17.0",
+  "cffi>=2.0.0",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -25,3 +25,8 @@ packages = ["."]
 
 [project.scripts]
 ahqstore = "cli:main"
+
+
+
+
+

@@ -131,6 +131,18 @@ jobs:
           - os: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf
 
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+
+          - os: ubuntu-latest
+            target: i686-unknown-linux-musl
+
+          - os: ubuntu-latest
+            target: aarch64-unknown-linux-musl
+
+          - os: ubuntu-latest
+            target: armv7-unknown-linux-musleabihf
+
           - os: windows-latest
             target: x86_64-pc-windows-msvc
 
@@ -164,9 +176,20 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install zip gcc-aarch64-linux-gnu gcc-i686-linux-gnu gcc-arm-linux-gnueabihf
+          sudo apt-get install musl-tools lld clang
 
       - name: Build
+        if: contains(matrix.target, 'musl') == false
         run: cargo build --release --target ${{ matrix.target }}
+        env:
+          CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: aarch64-linux-gnu-gcc
+          CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABIHF_LINKER: arm-linux-gnueabihf-gcc
+
+      - name: Build (musl)
+        if: contains(matrix.target, 'musl')
+        run: |
+          cargo install cross --git https://github.com/cross-rs/cross
+          cross build --release --target ${{ matrix.target }}
 
       - name: Bundle CLI
         run: |
@@ -247,8 +270,11 @@ jobs:
           GCLOUD: ${{ secrets.GCLOUD_JSON }}
 
       - name: Publish to pub.dev
-        run: dart pub publish --force
-        working-directory: dart
+        shell: pwsh
+        run: |
+          ./patchVersion.ps1
+          cd dart
+          dart pub publish --force
 
   npm:
     name: Publish to npmjs & JSR
@@ -272,7 +298,10 @@ jobs:
         run: npm i -g pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        shell: pwsh
+        run: |
+          ./patchVersion.ps1
+          pnpm install
 
       - name: Publish package
         run: npx jsr publish
@@ -313,6 +342,10 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 9.x
+
+      - name: Patch csproj
+        shell: pwsh
+        run: ./patchVersion.ps1
 
       - name: Restore Dependencies
         run: dotnet restore
@@ -358,6 +391,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install build
+
+      - name: Patch toml
+        shell: pwsh
+        run: ./patchVersion.ps1
 
       - name: Build package
         run: python -m build

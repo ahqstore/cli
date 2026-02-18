@@ -1,10 +1,20 @@
-use std::{env::home_dir, fs, time::{SystemTime, UNIX_EPOCH}};
+use std::{
+  env::home_dir,
+  fs,
+  sync::LazyLock,
+  time::{SystemTime, UNIX_EPOCH},
+};
 
+use reqwest::{Client, ClientBuilder};
 use semver::Version;
 use serde::{Deserialize, Serialize};
 use serde_json::{from_str, to_string};
 
-use crate::app::build::CLIENT;
+static CLIENT: LazyLock<Client> = LazyLock::new(|| {
+  ClientBuilder::new()
+    .build()
+    .expect("Unable to build client")
+});
 
 static URL: &'static str = "https://crates.io/api/v1/crates/ahqstore_cli_rs";
 
@@ -17,16 +27,18 @@ pub struct Update {
 #[derive(Deserialize, Debug)]
 pub struct Dependency {
   #[serde(rename = "crate")]
-  pub pkg: Crate
+  pub pkg: Crate,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct Crate {
-  default_version: String
+  default_version: String,
 }
 
-pub fn check_updates() {
-  let time = SystemTime::now().duration_since(UNIX_EPOCH).expect("Impossible")
+pub async fn check_updates() {
+  let time = SystemTime::now()
+    .duration_since(UNIX_EPOCH)
+    .expect("Impossible")
     .as_secs();
 
   let mut last_updated_file = None;
@@ -41,10 +53,11 @@ pub fn check_updates() {
 
     x.push("last_updated");
 
-    let last_updated: Update = from_str(&fs::read_to_string(&x).unwrap_or("0".to_string())).unwrap_or_default();
+    let last_updated: Update =
+      from_str(&fs::read_to_string(&x).unwrap_or("0".to_string())).unwrap_or_default();
 
     // If there has been a gap of 1hr since last check, check again
-    if time <= (last_updated.last + 60*60) {
+    if time <= (last_updated.last + 60 * 60) {
       update_check = false;
 
       let Ok(manifest) = Version::parse(&last_updated.to) else {
@@ -64,12 +77,11 @@ pub fn check_updates() {
   }
 
   if update_check {
-    let Ok(x) = CLIENT.get(URL)
-      .send() else {
-        return;
+    let Ok(x) = CLIENT.get(URL).send().await else {
+      return;
     };
 
-    let Ok(x) = x.json::<Dependency>() else {
+    let Ok(x) = x.json::<Dependency>().await else {
       return;
     };
 
@@ -112,10 +124,40 @@ fn display_update_message(new_version: &str, old: &str) {
   let message_2_part2 = "compatibility with future AHQ Store schema changes";
 
   println!("{}", top_bar);
-  println!("{} {:<width$}{}", vertical_line, message_1, vertical_line, width = message_width + 1);
-  println!("{} {:<width$}{}", vertical_line, message_2_part1, vertical_line, width = message_width + 1);
-  println!("{} {:<width$}{}", vertical_line, message_2_part2, vertical_line, width = message_width + 1);
-  println!("{} {:<width$}{}", vertical_line, "", vertical_line, width = message_width + 1);
-  println!("{} ✅ Recommended update: {:<width$}{}", vertical_line, format!("{old} -> {new_version}"), vertical_line, width = message_width - 22);
+  println!(
+    "{} {:<width$}{}",
+    vertical_line,
+    message_1,
+    vertical_line,
+    width = message_width + 1
+  );
+  println!(
+    "{} {:<width$}{}",
+    vertical_line,
+    message_2_part1,
+    vertical_line,
+    width = message_width + 1
+  );
+  println!(
+    "{} {:<width$}{}",
+    vertical_line,
+    message_2_part2,
+    vertical_line,
+    width = message_width + 1
+  );
+  println!(
+    "{} {:<width$}{}",
+    vertical_line,
+    "",
+    vertical_line,
+    width = message_width + 1
+  );
+  println!(
+    "{} ✅ Recommended update: {:<width$}{}",
+    vertical_line,
+    format!("{old} -> {new_version}"),
+    vertical_line,
+    width = message_width - 22
+  );
   println!("{}", bottom_bar);
 }

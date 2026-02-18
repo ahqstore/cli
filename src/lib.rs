@@ -1,8 +1,9 @@
 mod app;
 
-use std::{ffi::{CStr, CString, c_char}, sync::Mutex};
-
-pub use app::shared;
+use std::{
+  ffi::{c_char, CStr, CString},
+  sync::Mutex,
+};
 
 static ARGS: Mutex<Option<Vec<String>>> = Mutex::new(None);
 
@@ -10,9 +11,7 @@ static ARGS: Mutex<Option<Vec<String>>> = Mutex::new(None);
 /// Since the leak is not too big, we're not caring about it
 #[no_mangle]
 pub extern "C" fn get_ver() -> *mut c_char {
-  CString::new(env!("CARGO_PKG_VERSION"))
-    .unwrap()
-    .into_raw()
+  CString::new(env!("CARGO_PKG_VERSION")).unwrap().into_raw()
 }
 
 #[no_mangle]
@@ -24,11 +23,7 @@ pub extern "C" fn init_args() {
 
 #[no_mangle]
 pub extern "C" fn add_arg(arg: *const c_char) {
-  let string = unsafe {
-    CStr::from_ptr(arg)
-      .to_str()
-      .unwrap()
-  };
+  let string = unsafe { CStr::from_ptr(arg).to_str().unwrap() };
 
   let string = string.to_string();
 

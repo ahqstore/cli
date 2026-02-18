@@ -1,8 +1,8 @@
 [package]
 edition = "2021"
 name = "ahqstore_cli_rs"
-version = "0.15.0"
-description = "AHQ Store CLI"
+version = "0.16.0-alpha.1"
+description = "AHQ Store Developers' CLI"
 repository = "https://github.com/ahqstore/cli"
 homepage = "https://github.com/ahqstore/cli"
 license = "MIT"
@@ -22,24 +22,31 @@ pkg-url = "{ repo }/releases/download/{ version }/{ name }-{ target }.zip"
 pkg-fmt = "zip"
 
 [dependencies]
-inquire = { version = "0", features = ["editor"] }
-chalk_rs = "1"
-lazy_static = "1"
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-ahqstore-types = { version = "3", features = ["apps_repo"] }
-reqwest = { version = "0.12", features = ["json", "blocking"] }
-sha2 = "0.10"
-image = { version = "0.25", default-features = false, features = [
-  "rayon",
-  "png",
+serde = { version = "^1", features = ["derive"] }
+serde_json = "^1"
+ahqstore-types = { version = "^4", features = ["apps_repo"] }
+image = { version = "^0.25", default-features = false, features = ["png"] }
+rand = "^0.10"
+semver = "^1"
+sigstore = { version = "^0.13", default-features = false, features = [
+  "rekor",
+  "fulcio",
+  "rustls-tls",
+  "bundle",
 ] }
-rand = "0.9"
-semver = "1.0.26"
+aws-lc-rs = { version = "^1", features = ["prebuilt-nasm"] }
+dialoguer = "^0.12"
+indicatif = "^0.18"
+console = "^0.16"
+rustls = { version = "^0.23", default-features = false, features = ["aws_lc_rs"] }
+reqwest = "^0.13"
+tokio = { version = "^1", features = ["rt", "time", "macros"] }
 
-[target.'cfg(unix)'.dependencies]
-openssl-sys = { version = "0.9", features = ["vendored"] }
+[target.'cfg(target_env="musl")'.dependencies]
+mimalloc = "^0.1"
 
 [profile.release]
-lto = true
-strip = "symbols"
+lto = "fat"
+strip = true
+opt-level = "z"
+codegen-units = 1

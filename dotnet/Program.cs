@@ -38,20 +38,27 @@ public class Program
     {
         var arch = GetArch();
 
-        switch (Environment.OSVersion.Platform)
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            case PlatformID.Win32NT:
-                return $"{arch}-pc-windows-msvc";
-            case PlatformID.Unix:
-                if (arch == "armv7")
-                {
-                    return "armv7-unknown-linux-gnueabihf";
-                }
-
-                return $"{arch}-unknown-linux-gnu";
-            default:
-                throw new Exception("We do not support this operating system.");
+            return $"{arch}-pc-windows-msvc";
         }
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            if (arch == "armv7")
+            {
+                return "armv7-unknown-linux-gnueabihf";
+            }
+
+            return $"{arch}-unknown-linux-gnu";
+        }
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            return $"{arch}-apple-darwin";
+        }
+
+        throw new Exception("We do not support this operating system.");
     }
 
     static void Download(string path)
@@ -106,15 +113,18 @@ public class Program
 
     private static PrefixSuffix GetPrefixSuffix()
     {
-        switch (Environment.OSVersion.Platform)
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            case PlatformID.Win32NT:
-                return new PrefixSuffix("", ".dll");
-            case PlatformID.Unix:
-                return new PrefixSuffix("lib", ".so");
-            default:
-                return new PrefixSuffix("lib", ".so");
+            return new PrefixSuffix("", ".dll");
         }
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            return new PrefixSuffix("lib", ".dylib");
+        }
+
+        return new PrefixSuffix("lib", ".so");
     }
 
     public static string GetDylibInfo()
