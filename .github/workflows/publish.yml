@@ -293,9 +293,12 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: 22
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Setup pnpm
-        run: npm i -g pnpm
+        run: |
+          npm i -g npm@latest
+          npm i -g pnpm
 
       - name: Install dependencies
         shell: pwsh
@@ -309,12 +312,9 @@ jobs:
       - name: Publish to npmjs
         run: |
           npm config set provenance true
-
-          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
           npm publish --access public
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Setup node for github
         uses: actions/setup-node@v5
