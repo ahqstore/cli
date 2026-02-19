@@ -122,7 +122,7 @@ jobs:
           # Add to summary
           echo "## ✅ Verified Commit Created" >> $env:GITHUB_STEP_SUMMARY
           echo "" >> $env:GITHUB_STEP_SUMMARY
-          echo "**Commit SHA:** \`$newCommitSha\`" >> $env:GITHUB_STEP_SUMMARY
+          echo "**Commit SHA:** \`$newCommitSha\`"" >> $env:GITHUB_STEP_SUMMARY
 
       - name: Create Release
         id: create-release
