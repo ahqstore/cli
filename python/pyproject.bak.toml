@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ahqstore-cli"
-version = "0.16.0-alpha.1"
+version = "0.16.0"
 authors = [{ name = "AHQ Softwares", email = "ahqsecret@gmail.com" }]
 description = "A modern Python wrapper for the ahqstore CLI"
 readme = "../README.md"
