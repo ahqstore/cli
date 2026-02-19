@@ -71,8 +71,7 @@ jobs:
 
           Write-Host "Base tree: $treeSha"
 
-          # Read patched file content (example)
-          $content = Get-Content -Raw "./version.txt"
+          $build = Get-Content -Raw "./.build"
 
           Write-Host "🌳 Creating new tree..."
 
@@ -80,10 +79,52 @@ jobs:
             base_tree = $treeSha
             tree = @(
               @{
-                path    = "version.txt"
+                path    = ".build"
                 mode    = "100644"
                 type    = "blob"
-                content = $content
+                content = $build
+              },
+              @{
+                path    = "package.json"
+                mode    = "100644"
+                type    = "blob"
+                content = (Get-Content "package.json")
+              },
+              @{
+                path    = "jsr.json"
+                mode    = "100644"
+                type    = "blob"
+                content = (Get-Content "jsr.json")
+              },
+              @{
+                path    = "dart/pubspec.yaml"
+                mode    = "100644"
+                type    = "blob"
+                content = (Get-Content "./dart/pubspec.yaml")
+              },
+              @{
+                path    = "dart/bin/ahqstore.dart"
+                mode    = "100644"
+                type    = "blob"
+                content = (Get-Content "./dart/bin/ahqstore.dart")
+              },
+              @{
+                path    = "go/ahqstore.go"
+                mode    = "100644"
+                type    = "blob"
+                content = (Get-Content "./go/ahqstore.go")
+              },
+              @{
+                path    = "dotnet/dotnet.csproj"
+                mode    = "100644"
+                type    = "blob"
+                content = (Get-Content "./dotnet/dotnet.csproj")
+              },
+              @{
+                path    = "python/pyproject.toml"
+                mode    = "100644"
+                type    = "blob"
+                content = (Get-Content "./python/pyproject.toml")
               }
             )
           } | ConvertTo-Json -Depth 10
