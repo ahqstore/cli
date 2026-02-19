@@ -8,6 +8,7 @@ on:
     paths:
       - package.json
       - Cargo.toml
+      - .github/workflows/publish.yml
 
 permissions: write-all
 
@@ -194,7 +195,6 @@ jobs:
         run: |
           cargo install cross --git https://github.com/cross-rs/cross
           cargo update
-          cargo metadata
           cross build -v --release --target ${{ matrix.target }}
 
       - name: Bundle CLI
