@@ -6,7 +6,6 @@ on:
       - main
 
     paths:
-      - package.json
       - Cargo.toml
       - .github/workflows/publish.yml
 
