@@ -22,7 +22,9 @@ pkg-url = "{ repo }/releases/download/{ version }/{ name }-{ target }.zip"
 pkg-fmt = "zip"
 
 [workspace.metadata.cross.build]
-pre-build = ["apt-get update && apt-get --assume-yes install nasm musl-tools"]
+pre-build = [
+  "apt-get update && apt-get --assume-yes install nasm musl-tools clang",
+]
 
 [dependencies]
 serde = { version = "^1", features = ["derive"] }
