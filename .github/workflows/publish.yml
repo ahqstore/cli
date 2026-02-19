@@ -24,15 +24,46 @@ jobs:
     outputs:
       upload_url: ${{ steps.get-u-url.outputs.result }}
       release_id: ${{ steps.get-id.outputs.result }}
+      sha: ${{ steps.commit.outputs.sha }}
 
     steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: 2897553
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Checkout Repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      - name: Patch
+        shell: pwsh
+        run: |
+          ./patchVersion.ps1
+
+      - name: Commit changes
+        id: commit
+        run: |
+          git config user.name "cli-journal[bot]"
+          git config user.email "cli-journal[bot]@users.noreply.github.com"
+
+          git add .
+          git commit -m "Automated update"
+
+          SHA=$(git rev-parse HEAD)
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+
+          git push origin HEAD:main
+
+          echo "## ✅ Verified Commit Created" >> $GITHUB_STEP_SUMMARY
 
       - name: Create Release
         id: create-release
@@ -168,6 +199,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.create-release.outputs.sha }}
 
       - name: Setup Rust Nightly
         run: |
@@ -195,7 +228,7 @@ jobs:
         run: |
           cargo install cross --git https://github.com/cross-rs/cross
           cargo update
-          cross build -v --release --target ${{ matrix.target }} --bin ahqstore
+          cross build --release --target ${{ matrix.target }} --bin ahqstore
 
       - name: Bundle CLI
         run: |
@@ -213,7 +246,7 @@ jobs:
 
       - name: Upload to Releases (UNIX based)
         uses: AButler/upload-release-assets@v3.0
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-latest' && contains(matrix.target, 'gnu')
         with:
           release-id: ${{ needs.create-release.outputs.release_id }}
           files: ./libahqstore_cli_rs-${{ matrix.target }}.so
@@ -242,11 +275,13 @@ jobs:
 
     permissions: write-all
 
-    needs: [build]
+    needs: [create-release, build]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.create-release.outputs.sha }}
 
       - name: Setup Dart
         uses: dart-lang/setup-dart@v1
@@ -278,14 +313,13 @@ jobs:
       - name: Publish to pub.dev
         shell: pwsh
         run: |
-          ./patchVersion.ps1
           cd dart
           dart pub publish --force
 
   npm:
     name: Publish to npmjs & JSR
 
-    needs: [build]
+    needs: [create-release, build]
 
     runs-on: ubuntu-latest
 
@@ -294,6 +328,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.create-release.outputs.sha }}
 
       - name: Setup node
         uses: actions/setup-node@v5
@@ -309,7 +345,6 @@ jobs:
       - name: Install dependencies
         shell: pwsh
         run: |
-          ./patchVersion.ps1
           pnpm install
 
       - name: Publish package
@@ -338,20 +373,18 @@ jobs:
     runs-on: ubuntu-latest
     name: Publish to nuget & GH Packages
 
-    needs: [build]
+    needs: [build, create-release]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.create-release.outputs.sha }}
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 9.x
-
-      - name: Patch csproj
-        shell: pwsh
-        run: ./patchVersion.ps1
 
       - name: Restore Dependencies
         run: dotnet restore
@@ -365,8 +398,14 @@ jobs:
         run: dotnet pack --configuration Release --output ./nupkgs
         working-directory: dotnet
 
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ahqsoftwares
+
       - name: Push to NuGet.org
-        run: dotnet nuget push ./nupkgs/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_TOKEN }}
+        run: dotnet nuget push ./nupkgs/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
         working-directory: dotnet
 
       - name: Push to GitHub Packages
@@ -378,7 +417,7 @@ jobs:
 
     name: Publish to PyPi
 
-    needs: [build]
+    needs: [build, create-release]
 
     permissions:
       id-token: write # Required for OIDC
@@ -386,6 +425,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.create-release.outputs.sha }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -397,10 +438,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install build
-
-      - name: Patch toml
-        shell: pwsh
-        run: ./patchVersion.ps1
 
       - name: Build package
         run: python -m build

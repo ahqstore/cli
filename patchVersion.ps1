@@ -13,3 +13,5 @@ pwsh "./zscripts/updateJs.ps1"
 pwsh "./zscripts/updatePyPi.ps1"
 pwsh "./zscripts/updateDart.ps1"
 pwsh "./zscripts/updateNuget.ps1"
+
+(Get-Date).ToString('yyyy-MM-dd HH:mm:ss') > ".build"
