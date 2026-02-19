@@ -5,7 +5,7 @@ import 'package:ffi/ffi.dart';
 import 'package:http/http.dart';
 
 // IMP
-const String version = "0.16.0-alpha.2";
+const String version = "0.16.0-alpha.3";
 // ENDIMP
 
 String getUserHomeDirectory() {
@@ -166,12 +166,3 @@ Future<void> main(List<String> arguments) async {
 
   start(String.fromEnvironment("CI", defaultValue: "false") == "true");
 }
-
-
-
-
-
-
-
-
-
