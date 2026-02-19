@@ -13,7 +13,7 @@ import (
 )
 
 // IMP
-const version = "0.16.0-alpha.1"
+const version = "0.16.0-alpha.2"
 // ENDIMP
 
 func main() {
@@ -166,6 +166,7 @@ func getBinary() string {
 
 	return file
 }
+
 
 
 
