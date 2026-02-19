@@ -48,21 +48,81 @@ jobs:
         run: |
           ./patchVersion.ps1
 
-      - name: Commit changes
-        id: commit
+      - name: Create signed commit via GitHub API
+        id: signed-commit
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          git config user.name "cli-journal[bot]"
-          git config user.email "cli-journal[bot]@users.noreply.github.com"
+          $repo   = "${{ github.repository }}"
+          $branch = "main"
 
-          git add .
-          git commit -m "Automated update"
+          Write-Host "🔍 Fetching latest commit SHA on $branch..."
 
-          SHA=$(git rev-parse HEAD)
-          echo "sha=$SHA" >> $GITHUB_OUTPUT
+          # Get latest commit SHA
+          $ref = gh api repos/$repo/git/ref/heads/$branch | ConvertFrom-Json
+          $baseSha = $ref.object.sha
 
-          git push origin HEAD:main
+          Write-Host "Base commit: $baseSha"
 
-          echo "## ✅ Verified Commit Created" >> $GITHUB_STEP_SUMMARY
+          # Get base tree SHA
+          $commit = gh api repos/$repo/git/commits/$baseSha | ConvertFrom-Json
+          $treeSha = $commit.tree.sha
+
+          Write-Host "Base tree: $treeSha"
+
+          # Read patched file content (example)
+          $content = Get-Content -Raw "./version.txt"
+
+          Write-Host "🌳 Creating new tree..."
+
+          $treeBody = @{
+            base_tree = $treeSha
+            tree = @(
+              @{
+                path    = "version.txt"
+                mode    = "100644"
+                type    = "blob"
+                content = $content
+              }
+            )
+          } | ConvertTo-Json -Depth 10
+
+          $newTree = gh api repos/$repo/git/trees -X POST -f "$treeBody" | ConvertFrom-Json
+          $newTreeSha = $newTree.sha
+
+          Write-Host "New tree: $newTreeSha"
+
+          Write-Host "✍️ Creating signed commit..."
+
+          # Create commit
+          $commitBody = @{
+            message = "Automated update"
+            parents = @($baseSha)
+            tree    = $newTreeSha
+          } | ConvertTo-Json -Depth 10
+
+          $newCommit = gh api repos/$repo/git/commits -X POST -f "$commitBody" | ConvertFrom-Json
+          $newCommitSha = $newCommit.sha
+
+          Write-Host "New commit: $newCommitSha"
+
+          Write-Host "📌 Updating branch reference..."
+
+          # Update ref
+          gh api repos/$repo/git/refs/heads/$branch `
+            -X PATCH `
+            -f sha=$newCommitSha | Out-Null
+
+          Write-Host "✅ Verified commit created: $newCommitSha"
+
+          # Export SHA as workflow output
+          echo "sha=$newCommitSha" >> $env:GITHUB_OUTPUT
+
+          # Add to summary
+          echo "## ✅ Verified Commit Created" >> $env:GITHUB_STEP_SUMMARY
+          echo "" >> $env:GITHUB_STEP_SUMMARY
+          echo "**Commit SHA:** \`$newCommitSha\`" >> $env:GITHUB_STEP_SUMMARY
 
       - name: Create Release
         id: create-release
