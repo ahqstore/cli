@@ -1,6 +1,6 @@
 {
   "name": "@ahqstore/cli",
-  "version": "0.16.0-alpha.2",
+  "version": "0.16.0-alpha.3",
   "description": "AHQ Store Official CLI, A port of the rust version to NodeJS",
   "keywords": [
     "cli",
@@ -37,10 +37,3 @@
     "jsr": "^0.14.3"
   }
 }
-
-
-
-
-
-
-

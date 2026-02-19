@@ -1,6 +1,6 @@
 name: ahqstore_cli
 description: An Official port of the original AHQ Store Rust CLI
-version: 0.16.0-alpha.2
+version: 0.16.0-alpha.3
 repository: https://github.com/ahqstore/cli
 executables:
   ahqstore:
@@ -19,11 +19,3 @@ environment:
 dependencies:
   ffi: ^2.2.0
   http: ^1.6.0
-
-
-
-
-
-
-
-
