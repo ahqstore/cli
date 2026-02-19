@@ -458,10 +458,13 @@ jobs:
         run: |
           npm config set provenance true
 
-          try {
-            npm publish --access public
-          } catch {
+          $version = node -p "require('./package.json').version"
+          if ($version -match "-") {
+            Write-Host "Detected prerelease version $version. Publishing with --tag next..."
             npm publish --access public --tag next
+          } else {
+            Write-Host "Detected stable version $version. Publishing to latest..."
+            npm publish --access public
           }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -475,10 +478,13 @@ jobs:
       - name: Publish to GH Packages
         shell: pwsh
         run: |
-          try {
-            npm publish --access public
-          } catch {
+          $version = node -p "require('./package.json').version"
+          if ($version -match "-") {
+            Write-Host "Detected prerelease version $version. Publishing with --tag next..."
             npm publish --access public --tag next
+          } else {
+            Write-Host "Detected stable version $version. Publishing to latest..."
+            npm publish --access public
           }
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
