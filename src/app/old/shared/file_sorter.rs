@@ -22,11 +22,11 @@ pub struct FileFinder<'a> {
 #[allow(non_snake_case)]
 pub struct Finder<'a> {
   #[serde(borrow)]
-  pub startsWith: Option<&'a str>,
+  pub startsWith: &'a [&'a str],
   #[serde(borrow)]
-  pub contains: Option<&'a str>,
+  pub contains: &'a [&'a str],
   #[serde(borrow)]
-  pub endsWith: Option<&'a str>,
+  pub endsWith: &'a [&'a str],
 }
 
 impl<'a> FileFinder<'a> {
