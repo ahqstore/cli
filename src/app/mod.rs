@@ -1,6 +1,6 @@
-use std::{collections::HashSet, panic};
+use std::{collections::HashSet, panic, sync::LazyLock};
 
-use console::style;
+use console::{style, Term};
 use strsim::levenshtein;
 use tokio::runtime::Builder;
 
@@ -10,7 +10,10 @@ pub mod structs;
 mod update;
 
 // Commands
+mod keygen;
 mod new;
+
+pub static TERMINAL: LazyLock<Term> = LazyLock::new(Term::stdout);
 
 #[cfg(target_env = "musl")]
 #[global_allocator]
@@ -46,6 +49,15 @@ pub fn start(args: Vec<String>, _gh: bool) {
 
       match args.get(0) {
         Some(cmd) => match cmd as &str {
+          "keygen" => {
+            let cmd = ArgParser { flags: [] };
+
+            let Some(_) = cmd.parse(args.get(1..).unwrap_or_default()) else {
+              return;
+            };
+
+            keygen::keygen();
+          }
           "new" => {
             let cmd = ArgParser {
               flags: [Flag {

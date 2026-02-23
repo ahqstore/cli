@@ -2,8 +2,7 @@
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize, Default)]
-#[cfg_attr(feature = "schemars", schemars::JsonSchema)]
+#[derive(Debug, Serialize, Deserialize, Default, schemars::JsonSchema)]
 #[allow(non_snake_case)]
 /// All the elements of the Finder are case sensitive
 ///
@@ -29,14 +28,12 @@ pub struct Finder<'a> {
   pub endsWith: OrBlock<&'a str>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Default)]
-#[cfg_attr(feature = "schemars", schemars::JsonSchema)]
+#[derive(Debug, Serialize, Deserialize, Default, schemars::JsonSchema)]
 #[allow(non_snake_case)]
 #[repr(transparent)]
 pub struct AndBlock<T>(Vec<T>);
 
-#[derive(Debug, Serialize, Deserialize, Default)]
-#[cfg_attr(feature = "schemars", schemars::JsonSchema)]
+#[derive(Debug, Serialize, Deserialize, Default, schemars::JsonSchema)]
 #[allow(non_snake_case)]
 #[repr(transparent)]
 pub struct OrBlock<T>(Vec<T>);

@@ -1,0 +1,23 @@
+{
+  "$schema": "../schemas/schema_0.16.0-alpha.21.schema.json",
+  "appId": "GgmaZgKptDCkor122cPUO15WzPrPgSnjkySBbrGCuty3uj9DvmBN8ssnfl5o7aMQ",
+  "appShortcutName": "Watercooler",
+  "appDisplayName": "Cool - Watercooler",
+  "shortdesc": "A simple water cooling application",
+  "authorId": "0001",
+  "install": {
+    "win32": null,
+    "winArm": null,
+    "linuxX64": null,
+    "linuxArm64": null,
+    "android": null
+  },
+  "repo": {
+    "source": "GitHub",
+    "author": "ahqstore",
+    "repository": "watercooler"
+  },
+  "usrVersion": null,
+  "site": null,
+  "licenseOrTos": null
+}

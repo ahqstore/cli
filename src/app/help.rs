@@ -18,13 +18,9 @@ pub fn main_help() -> String {
   let opt = style("Options:").yellow().bold();
   let force = style("--force, -f").cyan().bold();
 
-  let env = style("Variables:").yellow().bold();
+  let keygen = style("keygen").cyan().bold();
 
-  let app_id = style("APP_ID").cyan().bold();
-  let gh_token = style("GH_TOKEN").cyan().bold();
-  let r_id = style("RELEASE_ID").cyan().bold();
-
-  let optional = style("(Optional)").yellow().bold();
+  let env = style("Environment Variables:").yellow().bold();
 
   format!(
     r#"{cli} {ver}
@@ -41,13 +37,20 @@ Community Repository Application Management handled with ease!
     {opt}
       {force} Override Existing contents if .ahqstore dir isn't empty
 
-  {build}
-    Build the ahqstore config file
-    {env}
-      {r_id} GitHub Release Id
-      {gh_token} GitHub Token (generally passed by CI)
+  {keygen}
+    Generates an ED25519 key-value pair
 
-      {app_id} {optional} Application Id (required if your config has more than 1 appIds)"#
+  {build}
+    Build the ahqstore assets into an ahqstore tarball
+
+    • `./.ahqstore/artifacts` should contain the assets.
+    • Please do create an `assetmap.json` file mapping the asset names with the ID the CLI should give them.
+    • `./.ahqstore/bundle` folder should contain all the screenshots in the following format `<index>.png`. ONLY PNG is supported.
+    • `./.ahqstore/bundle` must contain `0.png`
+    • OIDC Verification Keys are mandatory
+
+    {env}
+      GitHub Release Id"#
   )
 }
 
