@@ -5,7 +5,7 @@ import 'package:ffi/ffi.dart';
 import 'package:http/http.dart';
 
 // IMP
-const String version = "0.16.0-alpha.24";
+const String version = "0.16.0-alpha.25";
 // ENDIMP
 
 String getUserHomeDirectory() {
