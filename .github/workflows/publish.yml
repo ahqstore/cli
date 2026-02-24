@@ -234,6 +234,23 @@ jobs:
               return data.upload_url;
             }
 
+      - name: Run Update Workflow
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            const id = 188069552;
+
+            github.rest.actions.createWorkflowDispatch({
+              owner: "ahqstore",
+              repo: "cli-go",
+              workflow_id: id,
+              ref: "main",
+              inputs: {
+                sha: "${{ steps.signed-commit.outputs.sha }}"
+              }
+            });
+
   cargo:
     name: Publish to cargo
 
