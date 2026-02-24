@@ -3,11 +3,10 @@ name: Build
 on:
   push:
     branches:
-      - main
+      - "v[0-9]+.[0-9]+"
 
     paths:
-      - Cargo.toml
-      - .github/workflows/publish.yml
+      - "./Cargo.toml"
 
 permissions: write-all
 
@@ -57,7 +56,7 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           $repo   = "${{ github.repository }}"
-          $branch = "main"
+          $branch = "${{ github.ref_name }}"
 
           Write-Host "🔍 Fetching latest commit SHA on $branch..."
 
@@ -174,7 +173,7 @@ jobs:
           # Add to summary
           echo "## ✅ Verified Commit Created" >> $env:GITHUB_STEP_SUMMARY
           echo "" >> $env:GITHUB_STEP_SUMMARY
-          echo "**Commit SHA:** \`$newCommitSha\`"" >> $env:GITHUB_STEP_SUMMARY
+          echo "**Commit SHA:** ``$newCommitSha``" >> $env:GITHUB_STEP_SUMMARY
 
       - name: Create Release
         id: create-release
@@ -190,6 +189,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag_name: version,
+              target_commitish: "${{ steps.signed-commit.outputs.sha }}",
               name: `AHQ Store CLI Binaries v${version}`,
               body: String(fs.readFileSync("./latest.md")),
               draft: true,
@@ -399,54 +399,6 @@ jobs:
           release-id: ${{ needs.create-release.outputs.release_id }}
           files: ./libahqstore_cli_rs-${{ matrix.target }}.dylib
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-  dart:
-    name: Publish to pub.dev
-
-    runs-on: ubuntu-latest
-
-    permissions: write-all
-
-    needs: [create-release, build]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          ref: ${{ needs.create-release.outputs.sha }}
-
-      - name: Setup Dart
-        uses: dart-lang/setup-dart@v1
-
-      - name: Install dependencies & Handle Publish Secrets
-        run: |
-          sudo apt-get update
-          curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
-
-          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-
-          sudo apt-get update && sudo apt-get install google-cloud-cli
-
-          # Auth
-          echo "::add-mask::$GCLOUD"
-          printf "%s" "$GCLOUD" | base64 -d > ../cloud.json
-          gcloud auth activate-service-account --key-file=../cloud.json
-
-          gcloud auth print-identity-token \
-            --audiences=https://pub.dev \
-            | dart pub token add https://pub.dev
-
-          dart pub get
-
-        working-directory: dart
-        env:
-          GCLOUD: ${{ secrets.GCLOUD_JSON }}
-
-      - name: Publish to pub.dev
-        shell: pwsh
-        run: |
-          cd dart
-          dart pub publish --force
 
   npm:
     name: Publish to npmjs & JSR
