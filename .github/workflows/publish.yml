@@ -1,6 +1,8 @@
 name: Build
 
 on:
+  create:
+
   push:
     branches:
       - "v[0-9]+.[0-9]+"
@@ -12,6 +14,8 @@ permissions: write-all
 
 jobs:
   create-release:
+    if: startsWith(github.ref_name, 'v')
+
     name: Create a new github release
 
     permissions:
