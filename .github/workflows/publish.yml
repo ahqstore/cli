@@ -3,12 +3,19 @@ name: Build
 on:
   create:
 
-  push:
-    branches:
-      - "v[0-9]+.[0-9]+"
+  # Remove `push`,
+  # Reason:
+  # This helps us to foster a way of branching in the following way:
+  # - v1 (stores the tree v1 + initially auto published v1.0.0)
+  # Once, minor feat 1.1 is complete, we create a new branch: `v1.1`
+  # Now, `v1.1` can have development of patches for each of which we create a new branch
+  #
+  # push:
+  #   branches:
+  #     - "v[0-9]+.[0-9]+"
 
-    paths:
-      - "./Cargo.toml"
+  #   paths:
+  #     - "./Cargo.toml"
 
 permissions: write-all
 
@@ -270,6 +277,7 @@ jobs:
           github-token: ${{ steps.app-token.outputs.token }}
           script: |
             const id = 188069552;
+            const version = require('./package.json').version;
 
             await github.rest.actions.createWorkflowDispatch({
               owner: "ahqstore",
@@ -277,7 +285,8 @@ jobs:
               workflow_id: id,
               ref: "main",
               inputs: {
-                sha: "${{ steps.signed-commit.outputs.sha }}"
+                sha: "${{ steps.signed-commit.outputs.sha }}",
+                version
               }
             });
 
