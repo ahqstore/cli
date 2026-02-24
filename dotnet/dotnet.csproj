@@ -16,7 +16,7 @@
 
     <!-- Package Information -->
     <PackageId>AHQStoreCLI</PackageId>
-    <Version>0.16.0-alpha.24</Version>
+    <Version>0.16.0-alpha.28</Version>
     <Authors>AHQ Softwares</Authors>
     <Description>AHQ Store Official CLI, A port of the rust version to C#</Description>
 
