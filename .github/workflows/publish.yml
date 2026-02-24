@@ -160,6 +160,24 @@ jobs:
 
           Write-Host "📌 Updating branch reference..."
 
+          # Create the tag object via API
+          $version = cargo metadata --no-deps --format-version 1 |
+            ConvertFrom-Json |
+            Select-Object -ExpandProperty packages |
+            Select-Object -First 1 -ExpandProperty version
+
+          $tagBody = @{
+            tag = $version
+            message = "Release v$version"
+            object = $newCommitSha
+            type = "commit"
+          } | ConvertTo-Json
+
+          gh api repos/$repo/git/tags -X POST --input ($tagBody | Out-String)
+
+          # Create the ref (this is what triggers "on: push")
+          gh api repos/$repo/git/refs -X POST -f ref="refs/tags/$version" -f sha=$newCommitSha
+
           # Update ref
           gh api repos/$repo/git/refs/heads/$branch `
             -X PATCH `
