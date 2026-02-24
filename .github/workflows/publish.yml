@@ -108,6 +108,12 @@ jobs:
                 content = (Get-Content "./dart/pubspec.yaml" -Raw).Trim()
               },
               @{
+                path    = "dart/CHANGELOG.md"
+                mode    = "100644"
+                type    = "blob"
+                content = (Get-Content "./dart/CHANGELOG.md" -Raw).Trim()
+              },
+              @{
                 path    = "dart/bin/ahqstore.dart"
                 mode    = "100644"
                 type    = "blob"
