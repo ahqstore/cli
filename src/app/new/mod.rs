@@ -126,6 +126,7 @@ pub async fn generate(force: bool) {
     .expect("This is required!")
   {
     0 => GitProvider::GitHub,
+    1 => GitProvider::GitLab,
     _ => unreachable!(),
   };
 

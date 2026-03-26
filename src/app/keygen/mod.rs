@@ -60,6 +60,12 @@ pub fn keygen() {
     TERMINAL
       .clear_screen()
       .expect("SECURITY ERROR : The Terminal Screen does not support clearing");
+  } else {
+    println!(
+      "{}",
+      style("Operation cancelled on request").yellow().bold()
+    );
+    return;
   }
 
   println!("{}", style("AHQ Store CLI").underlined());

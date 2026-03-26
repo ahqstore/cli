@@ -22,6 +22,9 @@ pub fn main_help() -> String {
 
   let env = style("Environment Variables:").yellow().bold();
 
+  let env_token = style("GH_TOKEN").green();
+  let env_auth = style("STORE_PRIVKEY").green();
+
   format!(
     r#"{cli} {ver}
 Community Repository Application Management handled with ease!
@@ -44,18 +47,19 @@ Community Repository Application Management handled with ease!
     Build the ahqstore assets into an ahqstore tarball
 
     • `./.ahqstore/artifacts` should contain the assets.
-    • Please do create an `assetmap.json` file mapping the asset names with the ID the CLI should give them.
+    • Please do update the `assetmap.json` in `./.ahqstore/` to map the asset names with the ID the CLI should give them.
     • `./.ahqstore/bundle` folder should contain all the screenshots in the following format `<index>.png`. ONLY PNG is supported.
     • `./.ahqstore/bundle` must contain `0.png`
     • OIDC Verification Keys are mandatory
 
     {env}
-      GitHub Release Id"#
+      {env_token} GitHub Token
+      {env_auth} AHQ Store ED25519 private key"#
   )
 }
 
 pub fn not_found(name: &str) -> String {
-  let commands = vec!["help", "new", "build"];
+  let commands = vec!["help", "new", "build", "keygen"];
 
   // Find the closest match
   let best_match = commands

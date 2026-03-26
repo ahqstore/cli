@@ -10,6 +10,7 @@ pub mod structs;
 mod update;
 
 // Commands
+mod build;
 mod keygen;
 mod new;
 

@@ -1,13 +1,13 @@
 {
-  "$schema": "../schemas/schema_0.16.0-alpha.21.schema.json",
-  "appId": "GgmaZgKptDCkor122cPUO15WzPrPgSnjkySBbrGCuty3uj9DvmBN8ssnfl5o7aMQ",
+  "$schema": "../schemas/schema_0.16.0-alpha.28.schema.json",
+  "appId": "i6xff9HwbxQFXkcyvgghHZub3mLgTLrI8Ocg5r6fhvSlQpxKra5lhid4VWkPiQ8t",
   "appShortcutName": "Watercooler",
-  "appDisplayName": "Cool - Watercooler",
-  "shortdesc": "A simple water cooling application",
+  "appDisplayName": "Cool your life - AHQ Watercooler",
+  "shortdesc": "A simple water cooling application. Cool with CPU",
   "authorId": "0001",
   "install": {
-    "win32": null,
-    "winArm": null,
+    "winX64": null,
+    "winArm64": null,
     "linuxX64": null,
     "linuxArm64": null,
     "android": null
